@@ -114,6 +114,184 @@
     }
     .nav-cta:hover { opacity: 0.85; color: #fff !important; }
 
+    /* ── JOBS PAGE ── */
+    .jobs-section { padding: 120px 0; }
+    .jobs-header { text-align: center; margin-bottom: 72px; }
+    .jobs-header .section-label { justify-content: center; }
+    .jobs-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+    .job-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 40px;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .job-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .job-card:hover {
+      border-color: rgba(255,255,255,0.12);
+      transform: translateY(-6px);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.4);
+    }
+    .job-card:hover::before { opacity: 1; }
+    .job-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 20px;
+    }
+    .job-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .job-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0,255,157,0.12);
+      border: 1px solid rgba(0,255,157,0.25);
+      color: var(--accent3);
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .job-meta {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .job-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .job-meta-icon { font-size: 1.2rem; }
+    .job-description {
+      margin-bottom: 24px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .job-requirements {
+      margin-bottom: 24px;
+    }
+    .job-requirements h4 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 14px;
+      color: var(--text);
+    }
+    .job-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .job-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .job-list li::before {
+      content: '✓';
+      color: var(--accent3);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .job-perks {
+      background: rgba(0,255,157,0.06);
+      border: 1px solid rgba(0,255,157,0.12);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+    .job-perks h4 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--accent3);
+    }
+    .job-perks ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .job-perks li {
+      font-size: 0.85rem;
+      color: var(--muted);
+      display: flex;
+      gap: 8px;
+    }
+    .job-perks li::before {
+      content: '•';
+      color: var(--accent3);
+      flex-shrink: 0;
+    }
+    .job-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .job-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: all 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+    .job-btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      box-shadow: 0 0 30px rgba(0,198,255,0.25);
+    }
+    .job-btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 50px rgba(0,198,255,0.4);
+    }
+    .job-btn-secondary {
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .job-btn-secondary:hover {
+      border-color: rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.07);
+    }
+
     /* ── HERO ── */
     .hero {
       min-height: 100vh;
@@ -755,6 +933,7 @@
       <li><a href="#about">About</a></li>
       <li><a href="#technology">Technology</a></li>
       <li><a href="#how">How It Works</a></li>
+      <li><a href="#jobs">Careers</a></li>
       <li><a href="#contact" class="nav-cta">Get Started →</a></li>
     </ul>
   </div>
@@ -1019,6 +1198,86 @@
         <div class="step-num"><span>04</span></div>
         <h3>Execution</h3>
         <p>Approved trades route to market via ultra-low latency infrastructure. Signal to fill in under 2.3 milliseconds.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JOBS -->
+<section class="jobs-section" id="jobs">
+  <div class="container">
+    <div class="jobs-header">
+      <div class="section-label reveal">Join Our Team</div>
+      <h2 class="section-title reveal reveal-d1">We're Hiring. Shape the Future of AI Investing.</h2>
+      <p class="section-sub reveal reveal-d2">Help us build the next generation of investment intelligence. Work with cutting-edge AI, real-time market data, and the brightest minds in fintech.</p>
+    </div>
+    <div class="jobs-grid">
+      <!-- AI Intern Job -->
+      <div class="job-card reveal reveal-d1">
+        <div class="job-header">
+          <div>
+            <h3 class="job-title">AI Intern</h3>
+          </div>
+          <span class="job-badge"><span class="dot" style="width:6px;height:6px;background:var(--accent3);border-radius:50%"></span>Unpaid</span>
+        </div>
+        <div class="job-meta">
+          <div class="job-meta-item">
+            <span class="job-meta-icon">📍</span>
+            <span>Gurgaon, India (On-site)</span>
+          </div>
+          <div class="job-meta-item">
+            <span class="job-meta-icon">⏱️</span>
+            <span>Full-time</span>
+          </div>
+          <div class="job-meta-item">
+            <span class="job-meta-icon">🎓</span>
+            <span>Entry-level</span>
+          </div>
+        </div>
+        <p class="job-description">
+          Join CAS Capitals as an AI Intern and work directly with our core team on proprietary machine learning models powering institutional-grade investment intelligence. You'll gain hands-on experience with neural networks, time-series analysis, and real-time market data processing — all while contributing to live trading systems processing millions of data points per second.
+        </p>
+        <div class="job-requirements">
+          <h4>What You'll Do</h4>
+          <ul class="job-list">
+            <li>Develop and optimize machine learning models for market prediction and signal generation</li>
+            <li>Work with real-time market feeds, alternative datasets, and complex financial data pipelines</li>
+            <li>Contribute to research and experimentation on cutting-edge AI architectures</li>
+            <li>Collaborate with quant researchers and engineers on production systems</li>
+            <li>Help debug and improve model performance in live trading environments</li>
+            <li>Participate in code reviews and contribute to our internal ML framework</li>
+          </ul>
+        </div>
+        <div class="job-requirements">
+          <h4>What We're Looking For</h4>
+          <ul class="job-list">
+            <li>Strong foundation in machine learning, deep learning, and Python programming</li>
+            <li>Experience with TensorFlow, PyTorch, or similar deep learning frameworks</li>
+            <li>Understanding of financial markets, trading concepts, and quantitative analysis (or willingness to learn fast)</li>
+            <li>Comfortable with Linux, Git, and command-line tools</li>
+            <li>Ability to work with large datasets and optimize for performance</li>
+            <li>Problem-solving mindset and passion for AI applications in finance</li>
+            <li>Self-motivated, quick learner, and collaborative team player</li>
+          </ul>
+        </div>
+        <div class="job-perks">
+          <h4>Why Join CAS Capitals</h4>
+          <ul>
+            <li>Work on real AI systems deployed in live markets</li>
+            <li>Mentorship from experienced quant researchers and ML engineers</li>
+            <li>Exposure to institutional-grade trading infrastructure</li>
+            <li>Portfolio-building opportunity with cutting-edge AI work</li>
+            <li>Flexible working environment and collaborative culture</li>
+            <li>Potential for conversion to paid role based on performance</li>
+          </ul>
+        </div>
+        <div class="job-actions">
+          <a href="mailto:cascapitals26@gmail.com?subject=AI%20Intern%20Application" class="job-btn job-btn-primary">
+            Apply Now
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="#contact" class="job-btn job-btn-secondary">Learn More</a>
+        </div>
       </div>
     </div>
   </div>
