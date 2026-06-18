@@ -33,19 +33,45 @@ function initMobileNav() {
   const navLinks = document.querySelector('.nav-links');
   if (!toggle || !navLinks) return;
 
+  const closeMenu = () => {
+    navLinks.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-label', 'Open navigation menu');
+    toggle.innerHTML = getMenuIcon();
+  };
+
+  const openMenu = () => {
+    navLinks.classList.add('open');
+    toggle.setAttribute('aria-expanded', 'true');
+    toggle.setAttribute('aria-label', 'Close navigation menu');
+    toggle.innerHTML = getCloseIcon();
+  };
+
+  toggle.setAttribute('aria-expanded', 'false');
+  if (!toggle.hasAttribute('aria-label')) {
+    toggle.setAttribute('aria-label', 'Open navigation menu');
+  }
+  toggle.innerHTML = getMenuIcon();
+
   toggle.addEventListener('click', () => {
-    const isOpen = navLinks.classList.toggle('open');
-    toggle.setAttribute('aria-expanded', String(isOpen));
-    toggle.innerHTML = isOpen ? getCloseIcon() : getMenuIcon();
+    if (navLinks.classList.contains('open')) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
   });
 
   // Close menu when a link is clicked
   navLinks.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', () => {
-      navLinks.classList.remove('open');
-      toggle.setAttribute('aria-expanded', 'false');
-      toggle.innerHTML = getMenuIcon();
-    });
+    link.addEventListener('click', closeMenu);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMenu();
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 900) closeMenu();
   });
 }
 
@@ -92,7 +118,7 @@ function initContactForm() {
   const successMsg = document.getElementById('formSuccess');
   const submitBtn = document.getElementById('submitBtn');
 
-  if (!form) return;
+  if (!form || !submitBtn) return;
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -174,9 +200,13 @@ function initApplyForm() {
     uploadArea.addEventListener('drop', (e) => {
       e.preventDefault();
       uploadArea.classList.remove('dragover');
-      const files = e.dataTransfer.files;
-      if (files.length && fileInput) {
-        fileInput.files = files;
+      const files = e.dataTransfer && e.dataTransfer.files;
+      if (files && files.length && fileInput) {
+        try {
+          fileInput.files = files;
+        } catch (err) {
+          return;
+        }
         fileInput.dispatchEvent(new Event('change'));
       }
     });
@@ -185,6 +215,8 @@ function initApplyForm() {
   // Form submit
   const successMsg = document.getElementById('formSuccess');
   const submitBtn = document.getElementById('submitBtn');
+
+  if (!submitBtn) return;
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();

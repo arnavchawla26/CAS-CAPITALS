@@ -349,13 +349,15 @@ select {
     box-shadow: var(--shadow-lg);
     transform: translateY(-10px);
     opacity: 0;
+    visibility: hidden;
     pointer-events: none;
-    transition: var(--transition-base);
+    transition: transform var(--transition-base), opacity var(--transition-base), visibility var(--transition-base);
   }
 
   .nav-links.open {
     transform: translateY(0);
     opacity: 1;
+    visibility: visible;
     pointer-events: auto;
   }
 
@@ -690,6 +692,7 @@ select {
   margin-bottom: var(--space-4);
 }
 
+.form-success h3,
 .form-success h4 {
   font-family: var(--font-display);
   font-size: var(--text-xl);
