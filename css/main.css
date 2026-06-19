@@ -74,8 +74,8 @@
   --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.05), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
   --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.07), 0 4px 6px -4px rgba(15, 23, 42, 0.05);
   --shadow-xl: 0 20px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
-  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.04), 0 4px 16px rgba(15, 23, 42, 0.06);
-  --shadow-card-hover: 0 4px 8px rgba(15, 23, 42, 0.04), 0 16px 32px rgba(15, 23, 42, 0.08);
+  --shadow-card: 0 1px 3px rgba(15, 23, 42, 0.04), 0 4px 20px rgba(15, 23, 42, 0.07);
+  --shadow-card-hover: 0 4px 8px rgba(15, 23, 42, 0.04), 0 20px 40px rgba(15, 23, 42, 0.09);
   --shadow-button: 0 2px 8px rgba(37, 99, 235, 0.2), 0 0 0 0 rgba(37, 99, 235, 0);
   --shadow-button-hover: 0 4px 16px rgba(37, 99, 235, 0.3), 0 0 0 0 rgba(37, 99, 235, 0);
 
@@ -165,7 +165,7 @@ select {
 }
 
 .section-alt {
-  background-color: var(--color-bg-alt);
+  background-color: #f5f7fa;
 }
 
 .section-header {
@@ -736,7 +736,9 @@ select:focus-visible {
   position: relative;
   padding-top: calc(76px + clamp(4rem, 8vw, 7rem));
   padding-bottom: clamp(4rem, 8vw, 7rem);
-  background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg-alt) 100%);
+  background-image:
+    radial-gradient(ellipse at 70% 50%, rgba(37, 99, 235, 0.03) 0%, transparent 60%),
+    linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg-alt) 100%);
   overflow: hidden;
 }
 
@@ -809,7 +811,7 @@ select:focus-visible {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-3xl);
   padding: var(--space-8);
-  box-shadow: var(--shadow-xl);
+  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.04), 0 8px 32px rgba(15, 23, 42, 0.08);
 }
 
 .hero-card-header {
@@ -922,9 +924,11 @@ select:focus-visible {
 
 .marquee-track {
   display: flex;
+  width: max-content;
+  min-width: 200%;
   gap: var(--space-16);
-  animation: marquee 30s linear infinite;
-  white-space: nowrap;
+  animation: marquee-scroll 30s linear infinite;
+  will-change: transform;
 }
 
 .marquee-track:hover {
@@ -932,6 +936,7 @@ select:focus-visible {
 }
 
 .marquee-item {
+  flex: 0 0 auto;
   display: inline-flex;
   align-items: center;
   gap: var(--space-3);
@@ -946,7 +951,7 @@ select:focus-visible {
   color: var(--color-accent);
 }
 
-@keyframes marquee {
+@keyframes marquee-scroll {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
@@ -1191,6 +1196,18 @@ select:focus-visible {
   text-align: center;
   position: relative;
   overflow: hidden;
+}
+
+.cta-inner::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 200px;
+  background: radial-gradient(ellipse, rgba(37, 99, 235, 0.06) 0%, transparent 70%);
+  pointer-events: none;
 }
 
 .cta-inner h2 {
