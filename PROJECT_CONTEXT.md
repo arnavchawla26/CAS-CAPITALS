@@ -258,7 +258,7 @@ Create a professional, maintainable, production-ready website for CAS Capitals t
 
 # CURRENT PROJECT STATUS
 
-Last Updated: After Premium UI/UX Polish Pass
+Last Updated: After Premium Motion Layer
 
 ## Completed
 
@@ -387,6 +387,77 @@ Extracted 182-line inline `<style>` block from apply.html to css/apply.css:
 - Added `<link rel="stylesheet" href="css/apply.css">` to apply.html
 
 Result: 0 inline `<style>` blocks remain in the repository.
+
+#### Premium Motion Layer (June 2026)
+
+Implemented minimal premium motion layer with the following animations:
+
+**Hero Entrance:**
+- Keyframe: hero-fade-in (opacity 0→1, translateY(16px)→0)
+- Stagger delays:
+  - .hero-badge: 0s
+  - .hero-title: 0.08s
+  - .hero-sub: 0.16s
+  - .hero-actions: 0.24s
+  - .hero-visual: 0.16s
+- Duration: 0.6s (badge), 0.7s (others)
+- Easing: cubic-bezier(0.16, 1, 0.3, 1)
+- Uses only opacity + transform
+
+**Scroll Reveal:**
+- Opacity fade: 0 → 1
+- Transform: translateY(20px) → translateY(0)
+- Duration: 0.7s
+- Easing: cubic-bezier(0.16, 1, 0.3, 1)
+- Stagger delays: 0.08s increments (d1 through d5)
+- JS: IntersectionObserver with threshold: 0.1
+
+**Badge Pulse:**
+- Opacity animation only (no scale)
+- 0%, 100%: opacity: 1
+- 50%: opacity: 0.4
+- Duration: 2s infinite
+
+**Card Hover:**
+- Transform: translateY(-2px) max
+- Shadow transition: var(--transition-base)
+- Border color transition: var(--transition-base)
+- Applies to: .card, .stat-card, .value-card, .team-card, .why-card, .jd-card
+
+**Button Micro-interactions:**
+- Hover: translateY(-1px)
+- Active: scale(0.99)
+- Applies to: .btn-primary, .btn-secondary
+
+**Navbar Scroll:**
+- Padding: 1rem → 0.85rem (subtle shrink)
+- Background: rgba(255, 255, 255, 0.85) → rgba(255, 255, 255, 0.96)
+- Border: transparent → var(--color-border)
+- Shadow: none → var(--shadow-sm)
+- Transition: padding var(--transition-base)
+- JS: scroll listener at scrollY > 20
+
+**Marquee:**
+- Continuous scroll: translateX(0) → translateX(-50%)
+- Duration: 30s linear infinite
+- Pause on hover
+
+**Other Animations:**
+- Mini bar grow: scaleY(0) → scaleY(1), 1.2s ease
+- Terminal cursor blink: opacity 0/1, 1s step-end infinite
+- Success icon pop: scale(0) → scale(1), 0.3s ease
+
+**Accessibility:**
+- `@media (prefers-reduced-motion: reduce)` disables all animations
+- Sets animation-duration: 0.01ms !important
+- Sets transition-duration: 0.01ms !important
+- .reveal elements immediately visible
+- .hero-badge, .hero-title, .hero-sub, .hero-actions, .hero-visual immediately visible
+
+**Performance:**
+- Only transform + opacity used
+- No layout-triggering properties animated
+- Mobile performance verified smooth
 
 ### Architecture
 
