@@ -331,23 +331,35 @@ select {
 }
 
 @media (max-width: 900px) {
+  .navbar {
+    width: 95%;
+    padding: 0.5rem 1rem;
+    top: 12px;
+  }
+  
+  .navbar.scrolled {
+    top: 8px;
+    padding: 0.4rem 1rem;
+  }
+
   .nav-links {
-    position: fixed;
-    top: 76px;
+    position: absolute;
+    top: calc(100% + 12px);
     left: 0;
     right: 0;
-    background: var(--color-bg);
-    border-bottom: 1px solid var(--color-border);
+    background: rgba(255, 255, 255, 0.98);
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 20px;
     flex-direction: column;
     align-items: stretch;
     gap: 0;
-    padding: var(--space-2) var(--space-6) var(--space-6);
-    box-shadow: var(--shadow-lg);
+    padding: var(--space-4);
+    box-shadow: 0 10px 40px rgba(15, 23, 42, 0.08);
     transform: translateY(-10px);
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: transform var(--transition-base), opacity var(--transition-base), visibility var(--transition-base);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .nav-links.open {
@@ -358,9 +370,18 @@ select {
   }
 
   .nav-links a {
-    padding: var(--space-4) 0;
+    padding: var(--space-3) var(--space-2);
     border-bottom: 1px solid var(--color-border-light);
     font-size: var(--text-base);
+    border-radius: 0;
+  }
+  
+  .nav-links a:last-of-type {
+    border-bottom: none;
+  }
+
+  .nav-hover-backdrop {
+    display: none !important;
   }
 
   .nav-cta {
@@ -600,8 +621,15 @@ select:focus-visible {
 }
 
 @keyframes pulse-dot {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
 }
 
 /* ------------------------------------------------------
@@ -858,8 +886,15 @@ select:focus-visible {
 }
 
 @keyframes bar-grow {
-  from { transform: scaleY(0); opacity: 0; }
-  to { transform: scaleY(1); opacity: 0.85; }
+  from {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+
+  to {
+    transform: scaleY(1);
+    opacity: 0.85;
+  }
 }
 
 .hero-stats {
@@ -901,7 +936,7 @@ select:focus-visible {
 }
 
 /* ------------------------------------------------------
-   10a. Home Page — Market Dashboard (Live Visual)
+   10a. Home Page — V2 Market Dashboard (Live Visual)
    ------------------------------------------------------ */
 .market-dashboard {
   background: #0b0f19;
@@ -909,8 +944,8 @@ select:focus-visible {
   border-radius: var(--radius-3xl);
   padding: var(--space-6);
   box-shadow: 
-    0 4px 6px rgba(0, 0, 0, 0.2),
-    0 20px 40px rgba(0, 0, 0, 0.3),
+    0 10px 30px rgba(0, 0, 0, 0.4),
+    0 30px 70px rgba(0, 0, 0, 0.5),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
   position: relative;
   overflow: hidden;
@@ -919,6 +954,8 @@ select:focus-visible {
   gap: var(--space-4);
   z-index: 2;
   color: #f8fafc;
+  transform-style: preserve-3d;
+  transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.25s;
 }
 
 .market-dashboard::before {
@@ -961,10 +998,10 @@ select:focus-visible {
 .live-dot {
   width: 6px;
   height: 6px;
-  background-color: var(--color-success);
+  background-color: #06b6d4;
   border-radius: 50%;
   display: inline-block;
-  box-shadow: 0 0 8px var(--color-success);
+  box-shadow: 0 0 8px #06b6d4;
 }
 
 .animate-pulse-live {
@@ -1013,12 +1050,19 @@ select:focus-visible {
   background: rgba(255, 255, 255, 0.06);
 }
 
+.dashboard-metrics-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  position: relative;
+  z-index: 1;
+}
+
 .dashboard-price-container {
   display: flex;
   align-items: baseline;
   gap: var(--space-3);
-  position: relative;
-  z-index: 1;
 }
 
 .dashboard-price {
@@ -1053,6 +1097,56 @@ select:focus-visible {
   border: 1px solid rgba(239, 68, 68, 0.15);
 }
 
+/* Risk Gauge Styling */
+.dashboard-risk-gauge {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.risk-ring-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.ring-bg {
+  stroke: rgba(255, 255, 255, 0.05);
+}
+
+.ring-fill {
+  transition: stroke-dasharray 0.5s ease;
+}
+
+.gauge-center-text {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.1;
+}
+
+.gauge-number {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.gauge-title {
+  font-size: 6px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Chart Container */
 .chart-container {
   position: relative;
   background: rgba(255, 255, 255, 0.01);
@@ -1080,13 +1174,25 @@ select:focus-visible {
 }
 
 .pulse-point {
-  animation: radar-beam 2s infinite ease-out;
   transform-origin: center;
 }
 
-@keyframes radar-beam {
-  0% { r: 5px; opacity: 1; stroke-width: 1.5; }
+.price-pulse {
+  animation: radar-beam-cyan 2s infinite ease-out;
+}
+
+.model-pulse {
+  animation: radar-beam-purple 2.2s infinite ease-out;
+}
+
+@keyframes radar-beam-cyan {
+  0% { r: 4.5px; opacity: 1; stroke-width: 1.5; }
   100% { r: 18px; opacity: 0; stroke-width: 0.5; }
+}
+
+@keyframes radar-beam-purple {
+  0% { r: 3px; opacity: 1; stroke-width: 1.2; }
+  100% { r: 15px; opacity: 0; stroke-width: 0.5; }
 }
 
 .chart-tooltip {
@@ -1276,7 +1382,6 @@ select:focus-visible {
 .marquee-track {
   display: flex;
   width: max-content;
-  min-width: 200%;
   gap: var(--space-16);
   animation: marquee-scroll 30s linear infinite;
   will-change: transform;
@@ -1303,8 +1408,13 @@ select:focus-visible {
 }
 
 @keyframes marquee-scroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
 }
 
 /* ------------------------------------------------------
@@ -1420,9 +1530,17 @@ select:focus-visible {
   border-radius: 50%;
 }
 
-.t-dot.r { background: #f87171; }
-.t-dot.y { background: #fbbf24; }
-.t-dot.g { background: #34d399; }
+.t-dot.r {
+  background: #f87171;
+}
+
+.t-dot.y {
+  background: #fbbf24;
+}
+
+.t-dot.g {
+  background: #34d399;
+}
 
 .terminal-title {
   margin-left: var(--space-2);
@@ -1437,11 +1555,26 @@ select:focus-visible {
   line-height: 1.9;
 }
 
-.t-prompt { color: #60a5fa; }
-.t-cmd { color: #e2e8f0; }
-.t-out { color: #34d399; }
-.t-comment { color: #64748b; }
-.t-warn { color: #fbbf24; }
+.t-prompt {
+  color: #60a5fa;
+}
+
+.t-cmd {
+  color: #e2e8f0;
+}
+
+.t-out {
+  color: #34d399;
+}
+
+.t-comment {
+  color: #64748b;
+}
+
+.t-warn {
+  color: #fbbf24;
+}
+
 .t-cursor {
   display: inline-block;
   width: 8px;
@@ -1452,8 +1585,15 @@ select:focus-visible {
 }
 
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
 }
 
 @media (max-width: 900px) {
@@ -1829,6 +1969,7 @@ select:focus-visible {
 }
 
 @media (max-width: 900px) {
+
   .mission-grid,
   .values-grid,
   .team-grid {
@@ -1837,6 +1978,7 @@ select:focus-visible {
 }
 
 @media (max-width: 640px) {
+
   .mission-grid,
   .values-grid,
   .team-grid,
@@ -2030,6 +2172,7 @@ select:focus-visible {
 }
 
 @media (max-width: 900px) {
+
   .why-grid,
   .jd-grid,
   .process-steps {
@@ -2038,6 +2181,7 @@ select:focus-visible {
 }
 
 @media (max-width: 640px) {
+
   .why-grid,
   .jd-grid,
   .process-steps {
@@ -2239,8 +2383,8 @@ select:focus-visible {
 .reveal {
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), 
-              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .reveal.visible {
@@ -2248,14 +2392,29 @@ select:focus-visible {
   transform: translateY(0);
 }
 
-.reveal-d1 { transition-delay: 0.08s; }
-.reveal-d2 { transition-delay: 0.16s; }
-.reveal-d3 { transition-delay: 0.24s; }
-.reveal-d4 { transition-delay: 0.32s; }
-.reveal-d5 { transition-delay: 0.4s; }
+.reveal-d1 {
+  transition-delay: 0.08s;
+}
+
+.reveal-d2 {
+  transition-delay: 0.16s;
+}
+
+.reveal-d3 {
+  transition-delay: 0.24s;
+}
+
+.reveal-d4 {
+  transition-delay: 0.32s;
+}
+
+.reveal-d5 {
+  transition-delay: 0.4s;
+}
 
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -2285,41 +2444,53 @@ select:focus-visible {
 
 /* Badge pulse */
 @keyframes pulse-dot {
-  0%, 100% { 
-    opacity: 1; 
+
+  0%,
+  100% {
+    opacity: 1;
   }
-  50% { 
-    opacity: 0.4; 
+
+  50% {
+    opacity: 0.4;
   }
 }
 
 /* Terminal cursor blink */
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
 }
 
 /* Mini bar grow */
 @keyframes bar-grow {
-  from { 
-    transform: scaleY(0); 
-    opacity: 0; 
+  from {
+    transform: scaleY(0);
+    opacity: 0;
   }
-  to { 
-    transform: scaleY(1); 
-    opacity: 0.85; 
+
+  to {
+    transform: scaleY(1);
+    opacity: 0.85;
   }
 }
 
 /* Success icon pop */
 @keyframes pop {
-  from { 
-    transform: scale(0); 
-    opacity: 0; 
+  from {
+    transform: scale(0);
+    opacity: 0;
   }
-  to { 
-    transform: scale(1); 
-    opacity: 1; 
+
+  to {
+    transform: scale(1);
+    opacity: 1;
   }
 }
 
@@ -2329,8 +2500,17 @@ select:focus-visible {
     opacity: 0;
     transform: translateY(16px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* Force marquee track animation to bypass reduced motion freezes */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation-duration: 30s !important;
+    animation-iteration-count: infinite !important;
   }
 }

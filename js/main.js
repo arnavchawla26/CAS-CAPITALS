@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initContactForm();
   initApplyForm();
   initLiveDashboard();
+  initNavbarHoverEffect();
 });
 
 /* ------------------------------------------------------
@@ -260,11 +261,15 @@ function initLiveDashboard() {
   const bankNiftyEl = document.querySelector('#ticker-banknifty .ticker-val');
   const casPropEl = document.querySelector('#ticker-casprop .ticker-val');
   const logsContainer = document.getElementById('terminal-logs');
+  
+  const riskValEl = document.getElementById('risk-gauge-val');
+  const riskRingEl = document.getElementById('risk-ring-fill');
 
   let niftyVal = 23516.20;
   let sensexVal = 77301.10;
   let bankNiftyVal = 51780.40;
   let casPropVal = 12482.90;
+  let riskPct = 72;
 
   // Tabs interaction
   const tabs = document.querySelectorAll('.dashboard-tabs .tab');
@@ -331,6 +336,16 @@ function initLiveDashboard() {
       casPropEl.textContent = casPropVal.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
 
+    // Update Risk gauge randomly between 65% and 78%
+    const riskDiff = (Math.random() * 6 - 3); // -3% to +3%
+    riskPct = Math.min(80, Math.max(60, riskPct + riskDiff));
+    if (riskValEl) {
+      riskValEl.textContent = `${Math.round(riskPct)}%`;
+    }
+    if (riskRingEl) {
+      riskRingEl.setAttribute('stroke-dasharray', `${Math.round(riskPct)}, 100`);
+    }
+
   }, 3500);
 
   // Algo Terminal Simulation logs
@@ -370,4 +385,79 @@ function initLiveDashboard() {
       currentRows[0].remove();
     }
   }, 5000);
+
+  // 3D Parallax Tilt Effect
+  const card = document.querySelector('.market-dashboard');
+  if (card) {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      
+      const rotateX = ((centerY - y) / centerY) * 8; 
+      const rotateY = ((x - centerX) / centerX) * 8;
+      
+      card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+    });
+  }
+}
+
+/* ------------------------------------------------------
+   Sliding Hover Backdrop Capsule Navbar Effect
+   ------------------------------------------------------ */
+function initNavbarHoverEffect() {
+  const navLinksContainer = document.querySelector('.nav-links');
+  if (!navLinksContainer) return;
+
+  const backdrop = document.createElement('div');
+  backdrop.className = 'nav-hover-backdrop';
+  navLinksContainer.appendChild(backdrop);
+
+  const links = navLinksContainer.querySelectorAll('a:not(.nav-cta)');
+  const activeLink = navLinksContainer.querySelector('a.active') || navLinksContainer.querySelector('a[aria-current="page"]');
+
+  const updateBackdropPosition = (targetElement) => {
+    if (!targetElement || window.innerWidth <= 900) {
+      backdrop.style.opacity = '0';
+      return;
+    }
+    backdrop.style.left = `${targetElement.offsetLeft}px`;
+    backdrop.style.top = `${targetElement.offsetTop}px`;
+    backdrop.style.width = `${targetElement.offsetWidth}px`;
+    backdrop.style.height = `${targetElement.offsetHeight}px`;
+    backdrop.style.opacity = '1';
+  };
+
+  if (activeLink) {
+    setTimeout(() => updateBackdropPosition(activeLink), 150);
+  }
+
+  links.forEach(link => {
+    link.addEventListener('mouseenter', () => {
+      updateBackdropPosition(link);
+    });
+  });
+
+  navLinksContainer.addEventListener('mouseleave', () => {
+    if (activeLink) {
+      updateBackdropPosition(activeLink);
+    } else {
+      backdrop.style.opacity = '0';
+    }
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth <= 900) {
+      backdrop.style.opacity = '0';
+    } else if (activeLink) {
+      updateBackdropPosition(activeLink);
+    }
+  });
 }
