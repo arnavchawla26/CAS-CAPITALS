@@ -10,14 +10,14 @@
   z-index: 2;
   max-width: 720px;
   margin: 0 auto;
-  padding: 120px 32px 80px;
+  padding: clamp(100px, 15vw, 140px) clamp(1rem, 5vw, 2rem) clamp(3rem, 8vw, 5rem);
 }
 
 .apply-page .form-card {
   background: var(--color-bg);
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-border-light);
   border-radius: 24px;
-  padding: 48px 44px;
+  padding: clamp(2rem, 5vw, 3rem) clamp(1.5rem, 4vw, 2.75rem);
   position: relative;
   overflow: hidden;
 }
@@ -82,13 +82,13 @@
 .form-field select {
   background: var(--color-bg-input);
   border: 1px solid var(--color-border);
-  border-radius: 10px;
-  padding: 13px 16px;
+  border-radius: var(--radius-lg);
+  padding: 0.875rem 1rem;
   color: var(--color-text);
   font-family: var(--font-body);
-  font-size: 0.9rem;
+  font-size: var(--text-sm);
   outline: none;
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
   width: 100%;
 }
 
@@ -101,7 +101,8 @@
 .form-field textarea:focus,
 .form-field select:focus {
   border-color: var(--color-accent);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+  background-color: var(--color-bg);
 }
 
 .form-field textarea {
@@ -123,11 +124,11 @@
    ------------------------------------------------------ */
 .upload-area {
   border: 1.5px dashed var(--color-border);
-  border-radius: 12px;
-  padding: 32px 20px;
+  border-radius: var(--radius-xl);
+  padding: var(--space-10) var(--space-6);
   text-align: center;
   cursor: pointer;
-  transition: border-color var(--transition-fast), background var(--transition-fast);
+  transition: border-color var(--transition-base), background-color var(--transition-base);
   position: relative;
   background: var(--color-bg-alt);
 }
@@ -183,9 +184,9 @@
   background: linear-gradient(135deg, var(--color-accent), var(--color-accent-secondary));
   color: #fff;
   padding: 16px 32px;
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: var(--text-sm);
   border: none;
   cursor: pointer;
   transition: transform var(--transition-fast), box-shadow var(--transition-fast), opacity var(--transition-fast);
@@ -197,7 +198,11 @@
 
 .form-submit:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+  box-shadow: var(--shadow-button-hover);
+}
+
+.form-submit:active {
+  transform: translateY(0) scale(0.99);
 }
 
 .form-submit:disabled {
@@ -263,16 +268,8 @@
 /* ------------------------------------------------------
    7. Responsive
    ------------------------------------------------------ */
-@media (max-width: 600px) {
+@media (max-width: 640px) {
   .form-row {
     grid-template-columns: 1fr;
-  }
-
-  .apply-page .form-card {
-    padding: 32px 24px;
-  }
-
-  .apply-page {
-    padding: 100px 20px 60px;
   }
 }

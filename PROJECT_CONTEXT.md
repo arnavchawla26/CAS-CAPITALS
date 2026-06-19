@@ -258,7 +258,7 @@ Create a professional, maintainable, production-ready website for CAS Capitals t
 
 # CURRENT PROJECT STATUS
 
-Last Updated: After Critical C1 Fix (Apply Page CSS Extraction)
+Last Updated: After Premium UI/UX Polish Pass
 
 ## Completed
 
@@ -303,6 +303,72 @@ Added `class="active"` to the current page's nav item in all 5 pages:
 - apply.html: Careers link active (Apply is part of careers flow)
 
 CSS already had `.nav-links a.active` and `.nav-cta.active` rules defined in css/main.css. No CSS changes needed.
+
+#### Premium UI/UX Polish Pass (June 2026)
+
+Refined the design system for a more premium, institutional feel:
+
+**Design Tokens:**
+- Updated shadows: layered card shadows, refined button shadows
+- Updated transitions: smooth cubic-bezier(0.16, 1, 0.3, 1) easing curves
+- Added `--shadow-button-hover` token
+
+**Typography:**
+- Body line-height: 1.6 → 1.65
+- Hero title letter-spacing: -0.03em → -0.04em
+- Hero sub line-height: 1.7 → 1.75
+- Section title letter-spacing: -0.02em → -0.03em
+- Section sub line-height: 1.65 → 1.7
+- Card text line-height: 1.65 → 1.7
+- Contact title letter-spacing: -0.02em → -0.03em
+- JD title letter-spacing: added -0.02em
+- JD list line-height: 1.55 → 1.65
+- Step paragraph line-height: 1.6 → 1.65
+- Why card paragraph line-height: 1.65 → 1.7
+
+**Spacing:**
+- Section padding: var(--space-24) → clamp(4rem, 8vw, 8rem)
+- Hero padding: var(--space-24) → clamp(4rem, 8vw, 7rem)
+- Card padding: var(--space-8) → var(--space-10) (with mobile fallback)
+- Footer padding: var(--space-12) → var(--space-16)
+- Features grid gap: var(--space-6) → var(--space-8)
+- Values grid gap: var(--space-6) → var(--space-8)
+- Team grid gap: var(--space-8) → var(--space-10)
+- Why grid gap: var(--space-6) → var(--space-8)
+- JD grid gap: var(--space-8) → var(--space-10)
+- Container padding: var(--space-6) → clamp(1.25rem, 5vw, 2rem)
+- CTA inner padding: fixed → clamp(3rem, 6vw, 5rem)
+
+**Card Hover States:**
+- All card hover lift: translateY(-4px) → translateY(-2px)
+- Border color: #dbeafe → var(--color-accent-light)
+- Card default border: var(--color-border) → var(--color-border-light)
+
+**Button Styles:**
+- Primary button: added active state with scale(0.99)
+- Secondary button: added active state with scale(0.99)
+- Secondary button hover: background-color var(--color-bg-soft) → var(--color-bg-alt)
+
+**Focus States:**
+- Added global focus-visible styles for accessibility
+- Removed default outline for mouse users
+
+**Reveal Animations:**
+- Transform: translateY(24px) → translateY(20px)
+- Easing: ease → cubic-bezier(0.16, 1, 0.3, 1)
+- Duration: 0.6s → 0.7s
+
+**Responsive:**
+- Removed hero-visual order: -1 (content now first on mobile)
+- CTA inner: responsive padding with clamp()
+
+**Apply Page:**
+- Page padding: responsive with clamp()
+- Form card padding: responsive with clamp()
+- Form inputs: border-radius var(--radius-lg), font-size var(--text-sm)
+- Form inputs: refined focus ring with background-color change
+- Upload area: border-radius var(--radius-xl), responsive padding
+- Submit button: border-radius var(--radius-lg), active state with scale(0.99)
 
 #### Critical: Apply Page CSS Extraction
 
