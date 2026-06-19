@@ -3,1068 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CAS Capitals — AI-Powered Investment Intelligence</title>
-  <meta name="description" content="CAS Capitals harnesses artificial intelligence to unlock the future of investment. Smarter markets. Infinite edge." />
+  <title>CAS Capitals — Proprietary Investment Research</title>
+  <meta name="description" content="CAS Capitals is a private investment and financial research firm focused on proprietary investing, quantitative research, data analytics, and AI/ML for Indian financial markets." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg: #020409;
-      --bg2: #060c17;
-      --accent: #00c6ff;
-      --accent2: #7b2fff;
-      --accent3: #00ff9d;
-      --text: #e8edf5;
-      --muted: #6b7b96;
-      --card: rgba(255,255,255,0.04);
-      --border: rgba(255,255,255,0.07);
-      --glow: rgba(0,198,255,0.15);
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Inter', sans-serif;
-      overflow-x: hidden;
-      line-height: 1.6;
-    }
-
-    /* ── CANVAS BACKGROUND ── */
-    #canvas-bg {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    /* ── NOISE OVERLAY ── */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 1;
-      opacity: 0.5;
-    }
-
-    /* ── LAYOUT ── */
-    .container { max-width: 1200px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 2; }
-
-    /* ── NAV ── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      padding: 20px 0;
-      transition: all 0.4s ease;
-    }
-    nav.scrolled {
-      background: rgba(2,4,9,0.85);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
-      padding: 14px 0;
-    }
-    .nav-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 32px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .logo {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.4rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      background: linear-gradient(135deg, #fff 30%, var(--accent));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-decoration: none;
-    }
-    .logo span { color: var(--accent); -webkit-text-fill-color: var(--accent); }
-    .nav-links {
-      display: flex;
-      gap: 36px;
-      list-style: none;
-    }
-    .nav-links a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.875rem;
-      font-weight: 500;
-      letter-spacing: 0.02em;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--text); }
-    .nav-cta {
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color: #fff !important;
-      padding: 10px 22px;
-      border-radius: 8px;
-      font-weight: 600 !important;
-      transition: opacity 0.2s !important;
-    }
-    .nav-cta:hover { opacity: 0.85; color: #fff !important; }
-
-    /* ── HERO ── */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      position: relative;
-      padding: 120px 0 80px;
-    }
-    .hero-content { max-width: 780px; }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(0,198,255,0.08);
-      border: 1px solid rgba(0,198,255,0.2);
-      border-radius: 100px;
-      padding: 6px 16px;
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: var(--accent);
-      margin-bottom: 28px;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-    }
-    .badge-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--accent);
-      animation: pulse-dot 2s infinite;
-    }
-    @keyframes pulse-dot {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(0.7); }
-    }
-
-    .hero h1 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(3rem, 6vw, 5.5rem);
-      font-weight: 700;
-      line-height: 1.05;
-      letter-spacing: -0.03em;
-      margin-bottom: 24px;
-    }
-    .hero h1 .line2 {
-      background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
-      background-size: 200% 100%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      animation: shimmer 4s linear infinite;
-    }
-    @keyframes shimmer {
-      0% { background-position: 0% 50%; }
-      100% { background-position: 200% 50%; }
-    }
-
-    .hero-sub {
-      font-size: 1.2rem;
-      color: var(--muted);
-      max-width: 560px;
-      margin-bottom: 44px;
-      line-height: 1.7;
-      font-weight: 400;
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 16px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-    .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color: #fff;
-      padding: 16px 32px;
-      border-radius: 10px;
-      font-weight: 600;
-      font-size: 0.95rem;
-      text-decoration: none;
-      transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 0 40px rgba(0,198,255,0.25);
-    }
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 0 60px rgba(0,198,255,0.4);
-    }
-    .btn-secondary {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      color: var(--text);
-      padding: 16px 32px;
-      border-radius: 10px;
-      font-weight: 500;
-      font-size: 0.95rem;
-      text-decoration: none;
-      border: 1px solid var(--border);
-      background: var(--card);
-      transition: border-color 0.2s, background 0.2s;
-    }
-    .btn-secondary:hover {
-      border-color: rgba(255,255,255,0.2);
-      background: rgba(255,255,255,0.07);
-    }
-
-    /* stats row */
-    .hero-stats {
-      margin-top: 72px;
-      display: flex;
-      gap: 48px;
-      flex-wrap: wrap;
-    }
-    .stat-item {}
-    .stat-value {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 2.2rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, #fff, var(--accent));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      letter-spacing: -0.03em;
-    }
-    .stat-label {
-      font-size: 0.82rem;
-      color: var(--muted);
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      margin-top: 2px;
-    }
-
-    /* ── MARQUEE ── */
-    .marquee-section {
-      position: relative;
-      z-index: 2;
-      padding: 24px 0;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      overflow: hidden;
-      background: rgba(0,198,255,0.03);
-    }
-    .marquee-track {
-      display: flex;
-      gap: 60px;
-      animation: marquee 25s linear infinite;
-      white-space: nowrap;
-    }
-    .marquee-track:hover { animation-play-state: paused; }
-    @keyframes marquee {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-    .marquee-item {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: var(--muted);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-    .marquee-item .dot { color: var(--accent); font-size: 1.2rem; }
-
-    /* ── SECTION BASE ── */
-    section { position: relative; z-index: 2; }
-    .section-label {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 16px;
-    }
-    .section-label::before {
-      content: '';
-      width: 20px; height: 1px;
-      background: var(--accent);
-    }
-    .section-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(2rem, 4vw, 3.2rem);
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      line-height: 1.1;
-      margin-bottom: 20px;
-    }
-    .section-sub {
-      color: var(--muted);
-      font-size: 1.05rem;
-      max-width: 520px;
-      line-height: 1.7;
-    }
-
-    /* ── ABOUT / WHAT WE DO ── */
-    .about { padding: 120px 0; }
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: center;
-    }
-    .about-visual {
-      position: relative;
-      height: 480px;
-    }
-    .about-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 32px;
-      position: absolute;
-      backdrop-filter: blur(10px);
-      transition: transform 0.3s;
-    }
-    .about-card:hover { transform: translateY(-4px); }
-    .about-card.main {
-      width: 100%; height: 100%;
-      background: linear-gradient(145deg, rgba(0,198,255,0.06), rgba(123,47,255,0.06));
-      border-color: rgba(0,198,255,0.15);
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-    }
-    .about-card.float1 {
-      width: 200px;
-      top: 20px; right: -30px;
-      background: rgba(0,255,157,0.06);
-      border-color: rgba(0,255,157,0.2);
-    }
-    .about-card.float2 {
-      width: 180px;
-      bottom: 40px; left: -20px;
-      background: rgba(123,47,255,0.08);
-      border-color: rgba(123,47,255,0.2);
-    }
-    .card-icon {
-      font-size: 2rem;
-      margin-bottom: 12px;
-    }
-    .card-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.9rem;
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-    .card-value {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.8rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, var(--accent3), var(--accent));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .card-sub { font-size: 0.78rem; color: var(--muted); }
-
-    /* chart bars inside main card */
-    .mini-chart {
-      display: flex;
-      align-items: flex-end;
-      gap: 6px;
-      height: 80px;
-      margin-bottom: 24px;
-    }
-    .mini-bar {
-      flex: 1;
-      border-radius: 4px 4px 0 0;
-      background: linear-gradient(to top, var(--accent2), var(--accent));
-      opacity: 0.7;
-      animation: bar-grow 1.5s ease forwards;
-      transform-origin: bottom;
-    }
-    @keyframes bar-grow {
-      from { transform: scaleY(0); opacity: 0; }
-      to { transform: scaleY(1); opacity: 0.7; }
-    }
-
-    /* ── FEATURES ── */
-    .features { padding: 120px 0; }
-    .features-header { text-align: center; margin-bottom: 72px; }
-    .features-header .section-label { justify-content: center; }
-    .features-header .section-sub { margin: 0 auto; }
-
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-    }
-    .feature-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 36px 32px;
-      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
-      cursor: default;
-      position: relative;
-      overflow: hidden;
-    }
-    .feature-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--accent-color, var(--accent)), transparent);
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    .feature-card:hover {
-      border-color: rgba(255,255,255,0.12);
-      transform: translateY(-6px);
-      box-shadow: 0 24px 60px rgba(0,0,0,0.4);
-    }
-    .feature-card:hover::before { opacity: 1; }
-    .feature-card.c1 { --accent-color: var(--accent); }
-    .feature-card.c2 { --accent-color: var(--accent2); }
-    .feature-card.c3 { --accent-color: var(--accent3); }
-    .feature-card.c4 { --accent-color: #ff7b54; }
-    .feature-card.c5 { --accent-color: #ff54a8; }
-    .feature-card.c6 { --accent-color: var(--accent); }
-
-    .feature-icon {
-      width: 52px; height: 52px;
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      margin-bottom: 24px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid var(--border);
-    }
-    .feature-card h3 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-bottom: 12px;
-      letter-spacing: -0.01em;
-    }
-    .feature-card p {
-      font-size: 0.9rem;
-      color: var(--muted);
-      line-height: 1.65;
-    }
-
-    /* ── AI ENGINE SECTION ── */
-    .ai-section { padding: 120px 0; }
-    .ai-inner {
-      background: linear-gradient(145deg, rgba(0,198,255,0.05), rgba(123,47,255,0.08));
-      border: 1px solid rgba(0,198,255,0.12);
-      border-radius: 28px;
-      padding: 80px;
-      position: relative;
-      overflow: hidden;
-    }
-    .ai-inner::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      right: -20%;
-      width: 600px; height: 600px;
-      background: radial-gradient(circle, rgba(123,47,255,0.12) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .ai-inner::after {
-      content: '';
-      position: absolute;
-      bottom: -30%;
-      left: -10%;
-      width: 400px; height: 400px;
-      background: radial-gradient(circle, rgba(0,198,255,0.08) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .ai-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: center;
-      position: relative; z-index: 1;
-    }
-    .ai-right { display: flex; flex-direction: column; gap: 20px; }
-    .ai-pill {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 20px 24px;
-      transition: border-color 0.2s;
-    }
-    .ai-pill:hover { border-color: rgba(0,198,255,0.25); }
-    .ai-pill-icon {
-      width: 40px; height: 40px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-      flex-shrink: 0;
-    }
-    .ai-pill-text h4 {
-      font-size: 0.9rem;
-      font-weight: 600;
-      margin-bottom: 2px;
-    }
-    .ai-pill-text p { font-size: 0.8rem; color: var(--muted); }
-
-    /* terminal */
-    .terminal {
-      background: #0a0f1a;
-      border: 1px solid rgba(0,198,255,0.2);
-      border-radius: 16px;
-      overflow: hidden;
-      font-family: 'Courier New', monospace;
-    }
-    .terminal-header {
-      background: rgba(0,198,255,0.06);
-      border-bottom: 1px solid rgba(0,198,255,0.1);
-      padding: 14px 20px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .t-dot { width: 10px; height: 10px; border-radius: 50%; }
-    .t-dot.r { background: #ff5f57; }
-    .t-dot.y { background: #ffbd2e; }
-    .t-dot.g { background: #28ca42; }
-    .terminal-title {
-      font-size: 0.78rem;
-      color: var(--muted);
-      margin-left: 8px;
-      font-family: 'Inter', sans-serif;
-    }
-    .terminal-body { padding: 24px; font-size: 0.82rem; line-height: 1.9; }
-    .t-prompt { color: var(--accent); }
-    .t-cmd { color: #e8edf5; }
-    .t-out { color: var(--accent3); }
-    .t-comment { color: #3d5068; }
-    .t-warn { color: #ffbd2e; }
-    .t-cursor {
-      display: inline-block;
-      width: 8px; height: 15px;
-      background: var(--accent);
-      vertical-align: middle;
-      animation: blink 1s step-end infinite;
-    }
-    @keyframes blink {
-      0%, 100% { opacity: 1; } 50% { opacity: 0; }
-    }
-
-    /* ── HOW IT WORKS ── */
-    .how { padding: 120px 0; }
-    .how-header { text-align: center; margin-bottom: 72px; }
-    .how-header .section-label { justify-content: center; }
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 24px;
-      position: relative;
-    }
-    .steps::before {
-      content: '';
-      position: absolute;
-      top: 36px;
-      left: calc(12.5% + 12px);
-      right: calc(12.5% + 12px);
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--accent), var(--accent2), var(--accent3), transparent);
-      z-index: 0;
-    }
-    .step {
-      text-align: center;
-      position: relative;
-      z-index: 1;
-    }
-    .step-num {
-      width: 72px; height: 72px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--bg2), var(--bg));
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.4rem;
-      font-weight: 700;
-      margin: 0 auto 24px;
-      position: relative;
-      transition: border-color 0.3s;
-    }
-    .step:hover .step-num {
-      border-color: var(--accent);
-      box-shadow: 0 0 30px var(--glow);
-    }
-    .step-num span {
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .step h3 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1rem;
-      font-weight: 600;
-      margin-bottom: 10px;
-    }
-    .step p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
-
-    /* ── CTA SECTION ── */
-    .cta-section { padding: 120px 0; }
-    .cta-inner {
-      text-align: center;
-      background: linear-gradient(145deg, rgba(0,198,255,0.06), rgba(123,47,255,0.1));
-      border: 1px solid rgba(0,198,255,0.15);
-      border-radius: 28px;
-      padding: 100px 60px;
-      position: relative;
-      overflow: hidden;
-    }
-    .cta-glow {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 600px; height: 300px;
-      background: radial-gradient(ellipse, rgba(0,198,255,0.08) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .cta-inner h2 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(2.2rem, 4vw, 3.5rem);
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      line-height: 1.1;
-      margin-bottom: 20px;
-      position: relative;
-    }
-    .cta-inner p {
-      color: var(--muted);
-      font-size: 1.1rem;
-      max-width: 480px;
-      margin: 0 auto 44px;
-      line-height: 1.7;
-      position: relative;
-    }
-    .cta-actions {
-      display: flex;
-      gap: 16px;
-      justify-content: center;
-      flex-wrap: wrap;
-      position: relative;
-    }
-
-    /* ── TEAM ── */
-    .team { padding: 120px 0; }
-    .team-header { text-align: center; margin-bottom: 72px; }
-    .team-header .section-label { justify-content: center; }
-    .team-header .section-sub { margin: 0 auto; }
-
-    .team-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 28px;
-    }
-    .team-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 40px 32px;
-      text-align: center;
-      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
-      position: relative;
-      overflow: hidden;
-    }
-    .team-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    .team-card:hover {
-      border-color: rgba(0,198,255,0.18);
-      transform: translateY(-6px);
-      box-shadow: 0 24px 60px rgba(0,0,0,0.4);
-    }
-    .team-card:hover::before { opacity: 1; }
-
-    .team-avatar {
-      width: 88px; height: 88px;
-      border-radius: 50%;
-      margin: 0 auto 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.8rem;
-      font-weight: 700;
-      position: relative;
-    }
-    .team-avatar::after {
-      content: '';
-      position: absolute;
-      inset: -3px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      z-index: -1;
-    }
-    .team-avatar.av1 { background: linear-gradient(135deg, rgba(0,198,255,0.15), rgba(123,47,255,0.15)); color: var(--accent); }
-    .team-avatar.av2 { background: linear-gradient(135deg, rgba(123,47,255,0.15), rgba(0,255,157,0.15)); color: var(--accent2); }
-    .team-avatar.av3 { background: linear-gradient(135deg, rgba(0,255,157,0.15), rgba(0,198,255,0.15)); color: var(--accent3); }
-
-    .team-name {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.2rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 4px;
-    }
-    .team-role {
-      font-size: 0.8rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 20px;
-    }
-    .team-divider {
-      height: 1px;
-      background: var(--border);
-      margin: 0 auto 20px;
-      width: 40px;
-    }
-    .team-bio {
-      font-size: 0.875rem;
-      color: var(--muted);
-      line-height: 1.75;
-      text-align: left;
-    }
-
-    @media (max-width: 900px) {
-      .team-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
-    }
-
-    /* ── CONTACT FORM ── */
-    .contact-form {
-      max-width: 560px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      position: relative;
-      z-index: 1;
-    }
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-    .form-field {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .form-field label {
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-    .form-field input,
-    .form-field textarea,
-    .form-field select {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 14px 16px;
-      color: var(--text);
-      font-family: 'Inter', sans-serif;
-      font-size: 0.9rem;
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      width: 100%;
-    }
-    .form-field input::placeholder,
-    .form-field textarea::placeholder { color: var(--muted); }
-    .form-field input:focus,
-    .form-field textarea:focus,
-    .form-field select:focus {
-      border-color: rgba(0,198,255,0.4);
-      box-shadow: 0 0 0 3px rgba(0,198,255,0.08);
-    }
-    .form-field textarea { resize: vertical; min-height: 120px; }
-    .form-field select { appearance: none; cursor: pointer; }
-    .form-field select option { background: #0a0f1a; }
-    .form-submit {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color: #fff;
-      padding: 16px 32px;
-      border-radius: 10px;
-      font-weight: 600;
-      font-size: 0.95rem;
-      border: none;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
-      box-shadow: 0 0 40px rgba(0,198,255,0.25);
-      width: 100%;
-      font-family: 'Inter', sans-serif;
-    }
-    .form-submit:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 0 60px rgba(0,198,255,0.4);
-    }
-    .form-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-    .form-success {
-      display: none;
-      text-align: center;
-      padding: 32px;
-      background: rgba(0,255,157,0.06);
-      border: 1px solid rgba(0,255,157,0.2);
-      border-radius: 16px;
-    }
-    .form-success .success-icon { font-size: 2.5rem; margin-bottom: 12px; }
-    .form-success h4 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.2rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-    .form-success p { font-size: 0.9rem; color: var(--muted); }
-
-    /* ── FOOTER ── */
-    footer {
-      position: relative;
-      z-index: 2;
-      border-top: 1px solid var(--border);
-      padding: 48px 0;
-    }
-    .footer-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 24px;
-    }
-    .footer-left { display: flex; flex-direction: column; gap: 8px; }
-    .footer-copy { font-size: 0.82rem; color: var(--muted); }
-    .footer-links {
-      display: flex;
-      gap: 28px;
-      list-style: none;
-    }
-    .footer-links a {
-      font-size: 0.82rem;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .footer-links a:hover { color: var(--text); }
-
-    /* ── SCROLL FADE-IN ── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .reveal-d1 { transition-delay: 0.1s; }
-    .reveal-d2 { transition-delay: 0.2s; }
-    .reveal-d3 { transition-delay: 0.3s; }
-    .reveal-d4 { transition-delay: 0.4s; }
-    .reveal-d5 { transition-delay: 0.5s; }
-    .reveal-d6 { transition-delay: 0.6s; }
-
-    /* ── RESPONSIVE ── */
-    /* ── CAREERS ── */
-    .careers { padding: 120px 0; }
-    .careers-header { text-align: center; margin-bottom: 72px; }
-    .careers-header .section-label { justify-content: center; }
-    .careers-header .section-sub { margin: 0 auto; }
-
-    .jd-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 32px;
-    }
-    .jd-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 40px 36px;
-      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
-      position: relative;
-      overflow: hidden;
-    }
-    .jd-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    .jd-card:hover {
-      border-color: rgba(0,198,255,0.2);
-      transform: translateY(-6px);
-      box-shadow: 0 24px 60px rgba(0,0,0,0.4);
-    }
-    .jd-card:hover::before { opacity: 1; }
-
-    .jd-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(0,198,255,0.08);
-      border: 1px solid rgba(0,198,255,0.2);
-      border-radius: 100px;
-      padding: 4px 14px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--accent);
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      margin-bottom: 20px;
-    }
-    .jd-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.5rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 8px;
-    }
-    .jd-comp {
-      font-size: 0.9rem;
-      color: var(--accent3);
-      font-weight: 600;
-      margin-bottom: 24px;
-    }
-    .jd-divider {
-      height: 1px;
-      background: var(--border);
-      margin: 24px 0;
-    }
-    .jd-section-title {
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 12px;
-    }
-    .jd-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-bottom: 0;
-    }
-    .jd-list li {
-      font-size: 0.875rem;
-      color: var(--muted);
-      line-height: 1.55;
-      padding-left: 18px;
-      position: relative;
-    }
-    .jd-list li::before {
-      content: '→';
-      position: absolute;
-      left: 0;
-      color: var(--accent);
-      font-size: 0.75rem;
-    }
-    .jd-apply {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 28px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color: #fff;
-      padding: 12px 24px;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 0.875rem;
-      text-decoration: none;
-      transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 0 30px rgba(0,198,255,0.2);
-    }
-    .jd-apply:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 0 50px rgba(0,198,255,0.35);
-    }
-
-    @media (max-width: 900px) {
-      .jd-grid { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 900px) {
-      .about-grid { grid-template-columns: 1fr; gap: 48px; }
-      .about-visual { height: 300px; }
-      .about-card.float1, .about-card.float2 { display: none; }
-      .features-grid { grid-template-columns: 1fr 1fr; }
-      .ai-grid { grid-template-columns: 1fr; gap: 40px; }
-      .steps { grid-template-columns: 1fr 1fr; }
-      .steps::before { display: none; }
-      .nav-links { display: none; }
-    }
-    @media (max-width: 600px) {
-      .features-grid { grid-template-columns: 1fr; }
-      .steps { grid-template-columns: 1fr; }
-      .ai-inner { padding: 40px 28px; }
-      .cta-inner { padding: 60px 28px; }
-      .hero-stats { gap: 32px; }
-      .container { padding: 0 20px; }
-    }
-  </style>
+  <link rel="stylesheet" href="css/main.css" />
 </head>
 <body>
 
-<canvas id="canvas-bg"></canvas>
-
 <!-- NAV -->
-<nav id="navbar">
-  <div class="nav-inner">
+<nav class="navbar">
+  <div class="container navbar-inner">
     <a href="index.html" class="logo">CAS<span>.</span>Capitals</a>
+    <button class="mobile-menu-btn" type="button" aria-label="Open navigation menu"></button>
     <ul class="nav-links">
       <li><a href="about.html">About</a></li>
       <li><a href="index.html#technology">Technology</a></li>
       <li><a href="index.html#how">How It Works</a></li>
       <li><a href="about.html#team">Team</a></li>
       <li><a href="careers.html">Careers</a></li>
-      <li><a href="contact.html" class="nav-cta">Contact Us →</a></li>
+      <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
     </ul>
   </div>
 </nav>
@@ -1072,41 +31,63 @@
 <!-- HERO -->
 <section class="hero">
   <div class="container">
-    <div class="hero-content">
-      <div class="badge"><span class="badge-dot"></span>AI-Powered Investment Intelligence</div>
-      <h1>
-        The Future of<br/>
-        <span class="line2">Intelligent Investing</span><br/>
-        is Here.
-      </h1>
-      <p class="hero-sub">
-        CAS Capitals fuses cutting-edge artificial intelligence with deep market expertise to deliver an unfair edge in global financial markets.
-      </p>
-      <div class="hero-actions">
-        <a href="contact.html" class="btn-primary">
-          Start Investing
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-        <a href="#technology" class="btn-secondary">
-          Explore the Technology
-        </a>
+    <div class="hero-grid">
+      <div class="hero-content">
+        <div class="badge hero-badge reveal"><span class="badge-dot"></span>Private investment research firm</div>
+        <h1 class="hero-title reveal reveal-d1">Research-led investing for <em>Indian financial markets.</em></h1>
+        <p class="hero-sub reveal reveal-d2">
+          CAS Capitals is a privately held investment and financial research firm. The firm uses quantitative research, financial analysis, data analytics, and AI/ML to support its own proprietary investment activities.
+        </p>
+        <div class="hero-actions reveal reveal-d3">
+          <a href="about.html" class="btn btn-primary">Learn About the Firm</a>
+          <a href="#technology" class="btn btn-secondary">Explore Research Approach</a>
+        </div>
+        <div class="hero-stats reveal reveal-d4">
+          <div class="stat-item">
+            <div class="stat-value">Private</div>
+            <div class="stat-label">Firm Structure</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">Own Capital</div>
+            <div class="stat-label">Investment Mandate</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">India</div>
+            <div class="stat-label">Market Focus</div>
+          </div>
+        </div>
       </div>
-      <div class="hero-stats">
-        <div class="stat-item">
-          <div class="stat-value">98.4%</div>
-          <div class="stat-label">Signal Accuracy</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-value">2.3ms</div>
-          <div class="stat-label">Avg. Execution Time</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-value">50+</div>
-          <div class="stat-label">AI Models Running Live</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-value">24/7</div>
-          <div class="stat-label">Market Monitoring</div>
+
+      <div class="hero-visual reveal reveal-d2">
+        <div class="hero-decoration"></div>
+        <div class="hero-card">
+          <div class="hero-card-header">
+            <div class="hero-card-title">Research Operating Model</div>
+            <span class="badge">Internal Use</span>
+          </div>
+          <div class="ai-list">
+            <div class="ai-pill">
+              <div class="ai-pill-icon">01</div>
+              <div class="ai-pill-text">
+                <h4>Market Research</h4>
+                <p>Review market structure, macro conditions, sectors, and investment opportunities.</p>
+              </div>
+            </div>
+            <div class="ai-pill">
+              <div class="ai-pill-icon">02</div>
+              <div class="ai-pill-text">
+                <h4>Quantitative Analysis</h4>
+                <p>Use data-driven methods to evaluate patterns, risks, and decision inputs.</p>
+              </div>
+            </div>
+            <div class="ai-pill">
+              <div class="ai-pill-icon">03</div>
+              <div class="ai-pill-text">
+                <h4>Proprietary Deployment</h4>
+                <p>Apply research to the firm's own capital in Indian equity and derivatives markets.</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -1116,69 +97,54 @@
 <!-- MARQUEE -->
 <div class="marquee-section">
   <div class="marquee-track">
-    <span class="marquee-item"><span class="dot">●</span> Equities</span>
-    <span class="marquee-item"><span class="dot">●</span> Derivatives</span>
-    <span class="marquee-item"><span class="dot">●</span> Algorithmic Trading</span>
-    <span class="marquee-item"><span class="dot">●</span> Quantitative Research</span>
-    <span class="marquee-item"><span class="dot">●</span> Predictive Analytics</span>
-    <span class="marquee-item"><span class="dot">●</span> Risk Intelligence</span>
-    <span class="marquee-item"><span class="dot">●</span> NLP Market Signals</span>
-    <span class="marquee-item"><span class="dot">●</span> Deep Learning</span>
-    <span class="marquee-item"><span class="dot">●</span> Equities</span>
-    <span class="marquee-item"><span class="dot">●</span> Derivatives</span>
-    <span class="marquee-item"><span class="dot">●</span> Algorithmic Trading</span>
-    <span class="marquee-item"><span class="dot">●</span> Quantitative Research</span>
-    <span class="marquee-item"><span class="dot">●</span> Predictive Analytics</span>
-    <span class="marquee-item"><span class="dot">●</span> Risk Intelligence</span>
-    <span class="marquee-item"><span class="dot">●</span> NLP Market Signals</span>
-    <span class="marquee-item"><span class="dot">●</span> Deep Learning</span>
+    <span class="marquee-item"><span class="dot">•</span> Quantitative Research</span>
+    <span class="marquee-item"><span class="dot">•</span> Financial Markets</span>
+    <span class="marquee-item"><span class="dot">•</span> Data Analytics</span>
+    <span class="marquee-item"><span class="dot">•</span> Risk Frameworks</span>
+    <span class="marquee-item"><span class="dot">•</span> Machine Learning Research</span>
+    <span class="marquee-item"><span class="dot">•</span> Indian Equity Markets</span>
+    <span class="marquee-item"><span class="dot">•</span> Derivatives Research</span>
+    <span class="marquee-item"><span class="dot">•</span> Systematic Analysis</span>
+    <span class="marquee-item"><span class="dot">•</span> Quantitative Research</span>
+    <span class="marquee-item"><span class="dot">•</span> Financial Markets</span>
+    <span class="marquee-item"><span class="dot">•</span> Data Analytics</span>
+    <span class="marquee-item"><span class="dot">•</span> Risk Frameworks</span>
+    <span class="marquee-item"><span class="dot">•</span> Machine Learning Research</span>
+    <span class="marquee-item"><span class="dot">•</span> Indian Equity Markets</span>
+    <span class="marquee-item"><span class="dot">•</span> Derivatives Research</span>
+    <span class="marquee-item"><span class="dot">•</span> Systematic Analysis</span>
   </div>
 </div>
 
 <!-- ABOUT -->
-<section class="about" id="about">
+<section class="section" id="about">
   <div class="container">
-    <div class="about-grid">
-      <div>
+    <div class="mission-grid">
+      <div class="mission-text">
         <div class="section-label reveal">What We Do</div>
-        <h2 class="section-title reveal reveal-d1">Where Artificial Intelligence Meets Market Mastery</h2>
-        <p class="section-sub reveal reveal-d2">
-          We deploy proprietary AI systems that ingest real-time market data, macroeconomic signals, and alternative datasets — generating institutional-grade investment intelligence at superhuman speed.
+        <h2 class="section-title reveal reveal-d1">A private firm focused on proprietary research and investing.</h2>
+        <p class="reveal reveal-d2">
+          CAS Capitals deploys its own capital in Indian equity and derivatives markets, with a focus on research-led Futures &amp; Options strategies.
         </p>
-        <br/><br/>
-        <p class="section-sub reveal reveal-d3">
-          Our models learn continuously, adapting to evolving market regimes and uncovering patterns invisible to the human eye. This is not just quantitative investing — this is a new category entirely.
+        <p class="reveal reveal-d3">
+          The firm conducts internal research on market structures, macroeconomic trends, sector developments, and investment opportunities. Its research process combines financial analysis with quantitative and data-driven methods.
+        </p>
+        <p class="reveal reveal-d4">
+          CAS Capitals does not manage external capital and does not provide investment services to third parties.
         </p>
       </div>
-      <div class="about-visual reveal reveal-d2">
-        <div class="about-card main">
-          <div class="mini-chart">
-            <div class="mini-bar" style="height:40%;animation-delay:0.1s"></div>
-            <div class="mini-bar" style="height:60%;animation-delay:0.2s"></div>
-            <div class="mini-bar" style="height:45%;animation-delay:0.3s"></div>
-            <div class="mini-bar" style="height:80%;animation-delay:0.4s"></div>
-            <div class="mini-bar" style="height:55%;animation-delay:0.5s"></div>
-            <div class="mini-bar" style="height:95%;animation-delay:0.6s"></div>
-            <div class="mini-bar" style="height:70%;animation-delay:0.7s"></div>
-            <div class="mini-bar" style="height:100%;animation-delay:0.8s"></div>
-            <div class="mini-bar" style="height:85%;animation-delay:0.9s"></div>
-            <div class="mini-bar" style="height:90%;animation-delay:1.0s"></div>
-          </div>
-          <div class="card-title">Portfolio Performance</div>
-          <div class="card-value">+34.7%</div>
-          <div class="card-sub">AI-driven returns YTD vs benchmark</div>
+      <div class="mission-stats reveal reveal-d2">
+        <div class="card">
+          <div class="card-title">Proprietary Investing</div>
+          <p class="card-text">Investment activity is conducted for the firm's own account using internal research and risk processes.</p>
         </div>
-        <div class="about-card float1">
-          <div class="card-icon">🤖</div>
-          <div class="card-title">Models Active</div>
-          <div class="card-value" style="font-size:1.4rem">50+</div>
-          <div class="card-sub">Running live right now</div>
+        <div class="card">
+          <div class="card-title">Financial Research</div>
+          <p class="card-text">Research spans market structures, macroeconomic context, sector analysis, and opportunity evaluation.</p>
         </div>
-        <div class="about-card float2">
-          <div class="card-icon">⚡</div>
-          <div class="card-title">Execution Speed</div>
-          <div class="card-value" style="font-size:1.4rem">2.3ms</div>
-          <div class="card-sub">Sub-millisecond signals</div>
+        <div class="card">
+          <div class="card-title">Data Analytics</div>
+          <p class="card-text">Data science methods support research, risk management, and decision making across the firm.</p>
         </div>
       </div>
     </div>
@@ -1186,113 +152,87 @@
 </section>
 
 <!-- FEATURES -->
-<section class="features" id="features">
+<section class="section section-alt" id="features">
   <div class="container">
-    <div class="features-header">
+    <div class="section-header center">
       <div class="section-label reveal">Core Capabilities</div>
-      <h2 class="section-title reveal reveal-d1">Built for Precision.<br/>Engineered for Alpha.</h2>
-      <p class="section-sub reveal reveal-d2">Every system at CAS Capitals is purpose-built to find and capture opportunity before the market has time to react.</p>
+      <h2 class="section-title reveal reveal-d1">Research capabilities built for internal investment decisions.</h2>
+      <p class="section-sub reveal reveal-d2">The firm's work sits at the intersection of financial markets, quantitative analysis, data engineering, and applied machine learning.</p>
     </div>
     <div class="features-grid">
-      <div class="feature-card c1 reveal reveal-d1">
-        <div class="feature-icon">🧠</div>
-        <h3>Neural Market Models</h3>
-        <p>Deep learning architectures trained on decades of market microstructure data, continuously updated with live feeds across asset classes.</p>
+      <div class="card reveal reveal-d1">
+        <div class="card-icon">PI</div>
+        <h3 class="card-title">Proprietary Investing</h3>
+        <p class="card-text">Deploying the firm's own capital in Indian equity and derivatives markets.</p>
       </div>
-      <div class="feature-card c2 reveal reveal-d2">
-        <div class="feature-icon">⚡</div>
-        <h3>Ultra-Low Latency Execution</h3>
-        <p>Sub-millisecond signal-to-execution pipeline. By the time a human blinks, our systems have already acted.</p>
+      <div class="card reveal reveal-d2">
+        <div class="card-icon">FR</div>
+        <h3 class="card-title">Financial Research</h3>
+        <p class="card-text">Studying macroeconomic conditions, sectors, market structures, and investment opportunities.</p>
       </div>
-      <div class="feature-card c3 reveal reveal-d3">
-        <div class="feature-icon">📡</div>
-        <h3>Alternative Data Ingestion</h3>
-        <p>Satellite imagery, social sentiment, options flow, and macroeconomic events — all synthesized in real time into actionable signals.</p>
+      <div class="card reveal reveal-d3">
+        <div class="card-icon">QR</div>
+        <h3 class="card-title">Quantitative Research</h3>
+        <p class="card-text">Using systematic methods to structure research questions and evaluate market behavior.</p>
       </div>
-      <div class="feature-card c4 reveal reveal-d1">
-        <div class="feature-icon">🛡️</div>
-        <h3>AI-Driven Risk Management</h3>
-        <p>Dynamic, adaptive position sizing and drawdown controls that evolve with market volatility regimes automatically.</p>
+      <div class="card reveal reveal-d1">
+        <div class="card-icon">DA</div>
+        <h3 class="card-title">Data Analytics</h3>
+        <p class="card-text">Transforming market and research data into inputs for monitoring, analysis, and risk review.</p>
       </div>
-      <div class="feature-card c5 reveal reveal-d2">
-        <div class="feature-icon">🔮</div>
-        <h3>Predictive Alpha Generation</h3>
-        <p>Proprietary factor models surface high-conviction opportunities hours before conventional analysis can detect them.</p>
+      <div class="card reveal reveal-d2">
+        <div class="card-icon">ML</div>
+        <h3 class="card-title">AI &amp; Machine Learning</h3>
+        <p class="card-text">Applying machine learning techniques where they can support research and decision processes.</p>
       </div>
-      <div class="feature-card c6 reveal reveal-d3">
-        <div class="feature-icon">🌐</div>
-        <h3>Global Market Coverage</h3>
-        <p>Simultaneous monitoring of equities, derivatives, FX, and crypto markets across every major exchange worldwide.</p>
+      <div class="card reveal reveal-d3">
+        <div class="card-icon">RM</div>
+        <h3 class="card-title">Risk Management</h3>
+        <p class="card-text">Using research and data to support disciplined evaluation of exposure, uncertainty, and market conditions.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- AI ENGINE -->
-<section class="ai-section" id="technology">
+<!-- TECHNOLOGY -->
+<section class="section" id="technology">
   <div class="container">
-    <div class="ai-inner">
+    <div class="ai-section">
       <div class="ai-grid">
         <div>
-          <div class="section-label reveal">The Engine</div>
-          <h2 class="section-title reveal reveal-d1">AI That Never Sleeps, Never Misses, Never Biases</h2>
-          <p class="section-sub reveal reveal-d2">Our proprietary AI stack processes millions of data points per second, surfacing only the highest-conviction signals — stripped of emotion, bias, and fatigue.</p>
-          <br/><br/>
-          <div class="terminal reveal reveal-d3">
-            <div class="terminal-header">
-              <div class="t-dot r"></div>
-              <div class="t-dot y"></div>
-              <div class="t-dot g"></div>
-              <span class="terminal-title">cas_ai_engine.py — live</span>
-            </div>
-            <div class="terminal-body">
-              <div><span class="t-prompt">$</span> <span class="t-cmd">cas run --mode live --universe global</span></div>
-              <div class="t-comment"># Loading 50 neural models...</div>
-              <div class="t-out">✓ MarketMind-v4 initialized</div>
-              <div class="t-out">✓ SentimentProbe active</div>
-              <div class="t-out">✓ OrderFlow-RNN ready</div>
-              <div class="t-comment"># Scanning 12,000+ instruments</div>
-              <div><span class="t-warn">▲</span> SIGNAL: NVDA | conf: 94.2% | long</div>
-              <div><span class="t-warn">▲</span> SIGNAL: SPY | conf: 87.1% | hedge</div>
-              <div class="t-out">✓ Execution confirmed — 1.9ms</div>
-              <div><span class="t-prompt">$</span> <span class="t-cursor"></span></div>
-            </div>
-          </div>
+          <div class="section-label reveal">Technology</div>
+          <h2 class="section-title reveal reveal-d1">Data systems that support research, analysis, and risk review.</h2>
+          <p class="section-sub reveal reveal-d2">
+            CAS Capitals uses data analytics and machine learning as part of an internal research workflow. These tools support market observation, hypothesis testing, risk management, and decision making.
+          </p>
         </div>
-        <div class="ai-right">
+        <div class="ai-list">
           <div class="ai-pill reveal reveal-d1">
-            <div class="ai-pill-icon">🧬</div>
+            <div class="ai-pill-icon">01</div>
             <div class="ai-pill-text">
-              <h4>Ensemble Learning</h4>
-              <p>50+ models vote on every signal — consensus drives conviction</p>
+              <h4>Data Preparation</h4>
+              <p>Organizing relevant market, financial, and research data for internal analysis.</p>
             </div>
           </div>
           <div class="ai-pill reveal reveal-d2">
-            <div class="ai-pill-icon">🌊</div>
+            <div class="ai-pill-icon">02</div>
             <div class="ai-pill-text">
-              <h4>Regime Detection</h4>
-              <p>Real-time market regime classification adapts strategy automatically</p>
+              <h4>Research Modelling</h4>
+              <p>Using quantitative and statistical methods to evaluate market questions.</p>
             </div>
           </div>
           <div class="ai-pill reveal reveal-d3">
-            <div class="ai-pill-icon">📰</div>
+            <div class="ai-pill-icon">03</div>
             <div class="ai-pill-text">
-              <h4>NLP News Intelligence</h4>
-              <p>Earnings calls, news wires & filings analyzed in milliseconds</p>
+              <h4>Risk Context</h4>
+              <p>Reviewing exposures and market conditions before internal capital decisions are made.</p>
             </div>
           </div>
           <div class="ai-pill reveal reveal-d4">
-            <div class="ai-pill-icon">🎯</div>
+            <div class="ai-pill-icon">04</div>
             <div class="ai-pill-text">
-              <h4>Reinforcement Learning</h4>
-              <p>Models self-optimize from live market feedback continuously</p>
-            </div>
-          </div>
-          <div class="ai-pill reveal reveal-d5">
-            <div class="ai-pill-icon">🔐</div>
-            <div class="ai-pill-text">
-              <h4>Secure Infrastructure</h4>
-              <p>Military-grade encryption with redundant fail-safe systems globally</p>
+              <h4>Decision Support</h4>
+              <p>Combining research outputs with human judgment and firm-level risk discipline.</p>
             </div>
           </div>
         </div>
@@ -1302,32 +242,32 @@
 </section>
 
 <!-- HOW IT WORKS -->
-<section class="how" id="how">
+<section class="section section-alt" id="how">
   <div class="container">
-    <div class="how-header">
+    <div class="section-header center">
       <div class="section-label reveal">Process</div>
-      <h2 class="section-title reveal reveal-d1">From Signal to Execution in Milliseconds</h2>
+      <h2 class="section-title reveal reveal-d1">From research question to internal capital decision.</h2>
     </div>
     <div class="steps">
       <div class="step reveal reveal-d1">
         <div class="step-num"><span>01</span></div>
-        <h3>Data Ingestion</h3>
-        <p>Live market feeds, alternative data, global news, and macro events stream into our AI pipeline in real time.</p>
+        <h3>Observe</h3>
+        <p>Monitor market conditions, financial data, macroeconomic context, and sector developments.</p>
       </div>
       <div class="step reveal reveal-d2">
         <div class="step-num"><span>02</span></div>
-        <h3>AI Analysis</h3>
-        <p>50+ models process every data point simultaneously, detecting patterns and generating high-conviction signals.</p>
+        <h3>Research</h3>
+        <p>Frame research questions and evaluate them using financial, quantitative, and data-driven methods.</p>
       </div>
       <div class="step reveal reveal-d3">
         <div class="step-num"><span>03</span></div>
-        <h3>Risk Filter</h3>
-        <p>Every signal passes through our dynamic risk engine — sizing positions and managing portfolio exposure intelligently.</p>
+        <h3>Review Risk</h3>
+        <p>Assess exposure, uncertainty, and market conditions before any proprietary investment action.</p>
       </div>
       <div class="step reveal reveal-d4">
         <div class="step-num"><span>04</span></div>
-        <h3>Execution</h3>
-        <p>Approved trades route to market via ultra-low latency infrastructure. Signal to fill in under 2.3 milliseconds.</p>
+        <h3>Deploy Internally</h3>
+        <p>Use research outputs to support the firm's own investment activity in Indian markets.</p>
       </div>
     </div>
   </div>
@@ -1336,156 +276,37 @@
 <!-- CTA STRIP -->
 <section class="cta-section" id="contact">
   <div class="container">
-    <div class="cta-inner">
-      <div class="cta-glow"></div>
-      <h2>Ready to Invest<br/>at the Speed of AI?</h2>
-      <p>Join CAS Capitals and access institutional-grade AI investment intelligence — built for the next generation of markets.</p>
+    <div class="cta-inner reveal">
+      <div class="cta-decoration"></div>
+      <h2>Learn more about CAS Capitals.</h2>
+      <p>Explore the firm's background, research orientation, and career opportunities.</p>
       <div class="cta-actions">
-        <a href="contact.html" class="btn-primary">
-          Get in Touch
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-        <a href="about.html" class="btn-secondary">Learn More</a>
+        <a href="about.html" class="btn btn-primary">About the Firm</a>
+        <a href="careers.html" class="btn btn-secondary">View Careers</a>
       </div>
     </div>
   </div>
 </section>
 
 <!-- FOOTER -->
-<footer>
+<footer class="footer">
   <div class="container">
     <div class="footer-inner">
-      <div class="footer-left">
+      <div class="footer-brand">
         <a href="index.html" class="logo">CAS<span>.</span>Capitals</a>
         <p class="footer-copy">© 2026 CAS Capitals. All rights reserved.</p>
-        <p class="footer-copy" style="font-size:0.73rem;max-width:360px">Past performance is not indicative of future results. Investing involves risk. All AI-generated signals are for informational purposes.</p>
+        <p class="footer-disclaimer">CAS Capitals is a private investment and research firm. It does not manage external capital or provide investment services to third parties.</p>
       </div>
       <ul class="footer-links">
         <li><a href="about.html">About</a></li>
         <li><a href="about.html#team">Team</a></li>
-        <li><a href="careers.html">Careers</a></li>
+      <li><a href="careers.html">Careers</a></li>
         <li><a href="contact.html">Contact</a></li>
       </ul>
     </div>
   </div>
 </footer>
 
-<script>
-  // ── PARTICLE CANVAS ──
-  const canvas = document.getElementById('canvas-bg');
-  const ctx = canvas.getContext('2d');
-  let W, H, nodes = [], animId;
-
-  function resize() {
-    W = canvas.width = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-  }
-
-  function initNodes(n) {
-    nodes = [];
-    for (let i = 0; i < n; i++) {
-      nodes.push({
-        x: Math.random() * W,
-        y: Math.random() * H,
-        vx: (Math.random() - 0.5) * 0.3,
-        vy: (Math.random() - 0.5) * 0.3,
-        r: Math.random() * 1.5 + 0.5,
-      });
-    }
-  }
-
-  function draw() {
-    ctx.clearRect(0, 0, W, H);
-    const grad = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, Math.max(W,H)*0.8);
-    grad.addColorStop(0, 'rgba(0,198,255,0.04)');
-    grad.addColorStop(1, 'rgba(2,4,9,0)');
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, W, H);
-
-    for (let i = 0; i < nodes.length; i++) {
-      for (let j = i+1; j < nodes.length; j++) {
-        const dx = nodes[i].x - nodes[j].x;
-        const dy = nodes[i].y - nodes[j].y;
-        const dist = Math.sqrt(dx*dx + dy*dy);
-        if (dist < 150) {
-          ctx.beginPath();
-          ctx.moveTo(nodes[i].x, nodes[i].y);
-          ctx.lineTo(nodes[j].x, nodes[j].y);
-          ctx.strokeStyle = `rgba(0,198,255,${0.12 * (1 - dist/150)})`;
-          ctx.lineWidth = 0.5;
-          ctx.stroke();
-        }
-      }
-    }
-
-    nodes.forEach(n => {
-      ctx.beginPath();
-      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(0,198,255,0.5)';
-      ctx.fill();
-      n.x += n.vx;
-      n.y += n.vy;
-      if (n.x < 0 || n.x > W) n.vx *= -1;
-      if (n.y < 0 || n.y > H) n.vy *= -1;
-    });
-
-    animId = requestAnimationFrame(draw);
-  }
-
-  resize();
-  initNodes(80);
-  draw();
-  window.addEventListener('resize', () => { resize(); initNodes(80); });
-
-  const nav = document.getElementById('navbar');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 40);
-  });
-
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        observer.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.1 });
-  reveals.forEach(el => observer.observe(el));
-
-  // ── CONTACT FORM ──
-  const form = document.getElementById('contactForm');
-  const successMsg = document.getElementById('formSuccess');
-  const submitBtn = document.getElementById('submitBtn');
-
-  if (form) {
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Sending…';
-
-      const data = new FormData(form);
-
-      try {
-        const res = await fetch('/', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: new URLSearchParams(data).toString(),
-        });
-
-        if (res.ok) {
-          form.style.display = 'none';
-          successMsg.style.display = 'block';
-        } else {
-          throw new Error('Network response was not ok');
-        }
-      } catch (err) {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = 'Send Message <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-        alert('Something went wrong. Please try again or email us at cascapitals26@gmail.com');
-      }
-    });
-  }
-</script>
+<script src="js/main.js"></script>
 </body>
 </html>

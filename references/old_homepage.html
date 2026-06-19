@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CAS Capitals — Quantitative Research & Investment</title>
+  <meta name="description" content="CAS Capitals deploys proprietary capital across quantitative research, financial data analytics, and advanced investing strategies." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #ffffff;
+      --bg2: #f9fafb;
+      --accent: #0d47a1;
+      --accent2: #1565c0;
+      --accent3: #1976d2;
+      --text: #1a202c;
+      --muted: #64748b;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --glow: rgba(13, 71, 161, 0.08);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ── CANVAS BACKGROUND ── */
+    #canvas-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.02'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.3;
+    }
+
+    /* ── LAYOUT ── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 2; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 20px 0;
+      transition: all 0.4s ease;
+    }
+    nav.scrolled {
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 0;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .logo span { color: var(--accent); }
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      background: var(--accent);
+      color: #fff !important;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 600 !important;
+      transition: all 0.2s !important;
+      box-shadow: 0 2px 8px rgba(13, 71, 161, 0.15);
+    }
+    .nav-cta:hover { background: var(--accent2); box-shadow: 0 4px 16px rgba(13, 71, 161, 0.25); color: #fff !important; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      padding: 120px 0 60px;
+      margin-top: 60px;
+    }
+    .hero-content { max-width: 780px; margin: 0; }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(13, 71, 161, 0.08);
+      border: 1px solid rgba(13, 71, 161, 0.15);
+      border-radius: 100px;
+      padding: 6px 14px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 28px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .badge-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse-dot 2s infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.7); }
+    }
+
+    .hero h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2.8rem, 5.5vw, 5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 28px;
+      margin-top: 0;
+    }
+    .hero h1 .line2 {
+      color: var(--text);
+    }
+
+    .hero-sub {
+      font-size: 1.2rem;
+      color: var(--muted);
+      max-width: 560px;
+      margin-bottom: 44px;
+      line-height: 1.7;
+      font-weight: 400;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--accent);
+      color: #fff;
+      padding: 14px 28px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(13, 71, 161, 0.15);
+      border: none;
+      cursor: pointer;
+    }
+    .btn-primary:hover {
+      background: var(--accent2);
+      box-shadow: 0 4px 16px rgba(13, 71, 161, 0.25);
+      transform: translateY(-1px);
+    }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text);
+      padding: 14px 28px;
+      border-radius: 8px;
+      font-weight: 500;
+      font-size: 0.95rem;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      background: var(--bg2);
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      background: var(--bg);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    /* stats row */
+    .hero-stats {
+      margin-top: 72px;
+      display: flex;
+      gap: 48px;
+      flex-wrap: wrap;
+    }
+    .stat-item {}
+    .stat-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+    .stat-label {
+      font-size: 0.775rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-weight: 500;
+      margin-top: 0;
+    }
+
+    /* ── MARQUEE ── */
+    .marquee-section {
+      position: relative;
+      z-index: 2;
+      padding: 24px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+      background: var(--bg2);
+    }
+    .marquee-track {
+      display: flex;
+      gap: 60px;
+      animation: marquee 25s linear infinite;
+      white-space: nowrap;
+    }
+    .marquee-track:hover { animation-play-state: paused; }
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .marquee-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .marquee-item .dot { color: var(--accent); font-size: 1.2rem; }
+
+    /* ── SECTION BASE ── */
+    section { position: relative; z-index: 2; }
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+    .section-label::before {
+      content: '';
+      width: 20px; height: 1px;
+      background: var(--accent);
+    }
+    .section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 24px;
+      margin-top: 0;
+    }
+    .section-sub {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 520px;
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    /* ── ABOUT / WHAT WE DO ── */
+    .about { padding: 140px 0; }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .about-visual {
+      position: relative;
+      height: 480px;
+    }
+    .about-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      position: absolute;
+      transition: all 0.3s ease;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .about-card:hover { 
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+    .about-card.main {
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, #f0f7ff 0%, #f5f9ff 100%);
+      border-color: rgba(13, 71, 161, 0.12);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+    .about-card.float1 {
+      width: 200px;
+      top: 40px; right: -10px;
+      background: var(--card);
+      border-color: var(--border);
+    }
+    .about-card.float2 {
+      width: 180px;
+      bottom: 60px; left: 0px;
+      background: var(--card);
+      border-color: var(--border);
+    }
+    .card-icon {
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+    .card-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .card-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .card-sub { font-size: 0.78rem; color: var(--muted); }
+
+    /* chart bars inside main card */
+    .mini-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      height: 80px;
+      margin-bottom: 24px;
+    }
+    .mini-bar {
+      flex: 1;
+      border-radius: 4px 4px 0 0;
+      background: linear-gradient(to top, var(--accent2), var(--accent));
+      opacity: 0.7;
+      animation: bar-grow 1.5s ease forwards;
+      transform-origin: bottom;
+    }
+    @keyframes bar-grow {
+      from { transform: scaleY(0); opacity: 0; }
+      to { transform: scaleY(1); opacity: 0.7; }
+    }
+
+    /* ── FEATURES ── */
+    .features { padding: 140px 0; }
+    .features-header { text-align: center; margin-bottom: 72px; }
+    .features-header .section-label { justify-content: center; }
+    .features-header .section-sub { margin: 0 auto; }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      row-gap: 32px;
+    }
+    .feature-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 40px 36px;
+      transition: all 0.3s ease;
+      cursor: default;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--accent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .feature-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+    .feature-card:hover::before { opacity: 1; }
+    .feature-card.c1 { --accent-color: var(--accent); }
+    .feature-card.c2 { --accent-color: var(--accent2); }
+    .feature-card.c3 { --accent-color: var(--accent3); }
+    .feature-card.c4 { --accent-color: #ff7b54; }
+    .feature-card.c5 { --accent-color: #ff54a8; }
+    .feature-card.c6 { --accent-color: var(--accent); }
+
+    .feature-icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 24px;
+      background: rgba(13, 71, 161, 0.06);
+      border: 1px solid rgba(13, 71, 161, 0.1);
+      color: var(--accent);
+    }
+    .feature-card h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 14px;
+      letter-spacing: -0.01em;
+      color: var(--text);
+    }
+    .feature-card p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.7;
+      flex-grow: 1;
+    }
+
+    /* ── AI ENGINE SECTION ── */
+    .ai-section { padding: 140px 0; }
+    .ai-inner {
+      background: linear-gradient(135deg, #f5f9ff 0%, #ffffff 100%);
+      border: 1px solid rgba(13, 71, 161, 0.1);
+      border-radius: 20px;
+      padding: 80px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    }
+    .ai-inner::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(13, 71, 161, 0.04) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .ai-inner::after {
+      content: '';
+      position: absolute;
+      bottom: -30%;
+      left: -10%;
+      width: 350px; height: 350px;
+      background: radial-gradient(circle, rgba(13, 71, 161, 0.03) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .ai-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      position: relative; z-index: 1;
+    }
+    .ai-right { display: flex; flex-direction: column; gap: 24px; }
+    .ai-pill {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 28px;
+      transition: all 0.2s ease;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .ai-pill:hover { 
+      border-color: var(--accent);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .ai-pill-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      color: white;
+    }
+    .ai-pill-text h4 {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .ai-pill-text p { font-size: 0.8rem; color: var(--muted); }
+
+    /* terminal */
+    .terminal {
+      background: #161a22;
+      border: 1px solid rgba(0,0,0,0.25);
+      border-radius: 12px;
+      overflow: hidden;
+      font-family: 'Courier New', monospace;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    }
+    .terminal-header {
+      background: #0d1117;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .t-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .t-dot.r { background: #ff5f57; }
+    .t-dot.y { background: #ffbd2e; }
+    .t-dot.g { background: #28ca42; }
+    .terminal-title {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-left: 8px;
+      font-family: 'Inter', sans-serif;
+    }
+    .terminal-body { padding: 28px; font-size: 0.82rem; line-height: 1.85; }
+    .t-prompt { color: var(--accent); }
+    .t-cmd { color: #e8edf5; }
+    .t-out { color: var(--accent3); }
+    .t-comment { color: #3d5068; }
+    .t-warn { color: #ffbd2e; }
+    .t-cursor {
+      display: inline-block;
+      width: 8px; height: 15px;
+      background: var(--accent);
+      vertical-align: middle;
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; } 50% { opacity: 0; }
+    }
+
+    /* ── HOW IT WORKS ── */
+    .how { padding: 140px 0; }
+    .how-header { text-align: center; margin-bottom: 72px; }
+    .how-header .section-label { justify-content: center; }
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      position: relative;
+    }
+    .steps::before {
+      content: '';
+      position: absolute;
+      top: 36px;
+      left: calc(12.5% + 12px);
+      right: calc(12.5% + 12px);
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), var(--accent2), transparent);
+      z-index: 0;
+    }
+    .step {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .step-num {
+      width: 68px; height: 68px;
+      border-radius: 50%;
+      background: var(--bg2);
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin: 0 auto 24px;
+      position: relative;
+      transition: all 0.3s ease;
+      color: var(--text);
+    }
+    .step:hover .step-num {
+      border-color: var(--accent);
+      background: rgba(13, 71, 161, 0.05);
+      box-shadow: 0 0 20px rgba(13, 71, 161, 0.15);
+    }
+    .step-num span {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .step h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .step p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+
+    /* ── CTA SECTION ── */
+    .cta-section { padding: 140px 0; }
+    .cta-inner {
+      text-align: center;
+      background: linear-gradient(135deg, #0d3a8e 0%, #0f4da8 100%);
+      border: none;
+      border-radius: 20px;
+      padding: 120px 60px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(13, 71, 161, 0.18);
+    }
+    .cta-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 500px; height: 250px;
+      background: radial-gradient(ellipse, rgba(255,255,255,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta-inner h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 24px;
+      margin-top: 0;
+      position: relative;
+      color: white;
+    }
+    .cta-inner p {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 1.1rem;
+      max-width: 480px;
+      margin: 0 auto 48px;
+      line-height: 1.7;
+      position: relative;
+    }
+    .cta-actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      position: relative;
+    }
+
+    /* ── TEAM ── */
+    .team { padding: 140px 0; }
+    .team-header { text-align: center; margin-bottom: 72px; }
+    .team-header .section-label { justify-content: center; }
+    .team-header .section-sub { margin: 0 auto; }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+    .team-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 40px 32px;
+      text-align: center;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .team-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--accent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .team-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+    .team-card:hover::before { opacity: 1; }
+
+    .team-avatar {
+      width: 88px; height: 88px;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      position: relative;
+    }
+    .team-avatar::after {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      z-index: -1;
+    }
+    .team-avatar.av1 { background: linear-gradient(135deg, rgba(13, 71, 161, 0.12), rgba(21, 101, 192, 0.12)); color: var(--accent); }
+    .team-avatar.av2 { background: linear-gradient(135deg, rgba(21, 101, 192, 0.12), rgba(13, 71, 161, 0.12)); color: var(--accent2); }
+    .team-avatar.av3 { background: linear-gradient(135deg, rgba(13, 71, 161, 0.12), rgba(25, 118, 210, 0.12)); color: var(--accent3); }
+
+    .team-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 4px;
+    }
+    .team-role {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+    .team-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 0 auto 20px;
+      width: 40px;
+    }
+    .team-bio {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.75;
+      text-align: left;
+    }
+
+    @media (max-width: 900px) {
+      .team-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+    }
+
+    /* ── CONTACT FORM ── */
+    .contact-form {
+      max-width: 560px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      position: relative;
+      z-index: 1;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-field label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .form-field input,
+    .form-field textarea,
+    .form-field select {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+      transition: all 0.2s ease;
+      width: 100%;
+    }
+    .form-field input::-webkit-autofill,
+    .form-field input::-webkit-autofill:hover,
+    .form-field input::-webkit-autofill:focus { -webkit-box-shadow: 0 0 0 1000px var(--bg2) inset !important; -webkit-text-fill-color: var(--text) !important; }
+    .form-field input::placeholder,
+    .form-field textarea::placeholder { color: var(--muted); }
+    .form-field input:focus,
+    .form-field textarea:focus,
+    .form-field select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(13, 71, 161, 0.1);
+    }
+    .form-field textarea { resize: vertical; min-height: 120px; }
+    .form-field select { appearance: none; cursor: pointer; }
+    .form-field select option { background: white; color: var(--text); }
+    .form-submit {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: var(--accent);
+      color: #fff;
+      padding: 14px 28px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(13, 71, 161, 0.15);
+      width: 100%;
+      font-family: 'Inter', sans-serif;
+    }
+    .form-submit:hover {
+      background: var(--accent2);
+      box-shadow: 0 4px 16px rgba(13, 71, 161, 0.25);
+      transform: translateY(-1px);
+    }
+    .form-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 32px;
+      background: rgba(13, 71, 161, 0.06);
+      border: 1px solid rgba(13, 71, 161, 0.15);
+      border-radius: 12px;
+    }
+    .form-success .success-icon { font-size: 2.5rem; margin-bottom: 12px; }
+    .form-success h4 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .form-success p { font-size: 0.9rem; color: var(--muted); }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 80px 0 40px;
+      border-top: 1px solid var(--border);
+      position: relative;
+      z-index: 2;
+      background: var(--bg2);
+    }
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .footer-left { display: flex; flex-direction: column; gap: 8px; }
+    .footer-copy { font-size: 0.82rem; color: var(--muted); }
+    .footer-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+    .footer-links a {
+      font-size: 0.82rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--text); }
+
+    /* ── SCROLL FADE-IN ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-d1 { transition-delay: 0.1s; }
+    .reveal-d2 { transition-delay: 0.2s; }
+    .reveal-d3 { transition-delay: 0.3s; }
+    .reveal-d4 { transition-delay: 0.4s; }
+    .reveal-d5 { transition-delay: 0.5s; }
+    .reveal-d6 { transition-delay: 0.6s; }
+
+    /* ── RESPONSIVE ── */
+    /* ── CAREERS ── */
+    .careers { padding: 140px 0; }
+    .careers-header { text-align: center; margin-bottom: 72px; }
+    .careers-header .section-label { justify-content: center; }
+    .careers-header .section-sub { margin: 0 auto; }
+
+    .jd-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+    .jd-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 40px 36px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .jd-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--accent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .jd-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+    .jd-card:hover::before { opacity: 1; }
+
+    .jd-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(13, 71, 161, 0.08);
+      border: 1px solid rgba(13, 71, 161, 0.15);
+      border-radius: 100px;
+      padding: 4px 14px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .jd-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+    .jd-comp {
+      font-size: 0.9rem;
+      color: var(--accent3);
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+    .jd-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 24px 0;
+    }
+    .jd-section-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+    .jd-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 0;
+    }
+    .jd-list li {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.55;
+      padding-left: 18px;
+      position: relative;
+    }
+    .jd-list li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: 0.75rem;
+    }
+    .jd-apply {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 28px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.875rem;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(13, 71, 161, 0.15);
+    }
+    .jd-apply:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(13, 71, 161, 0.25);
+    }
+
+    @media (max-width: 900px) {
+      .jd-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 900px) {
+      .about { padding: 100px 0; }
+      .features { padding: 100px 0; }
+      .ai-section { padding: 100px 0; }
+      .how { padding: 100px 0; }
+      .team { padding: 100px 0; }
+      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+      .about-visual { height: 300px; }
+      .about-card.float1, .about-card.float2 { display: none; }
+      .features-grid { grid-template-columns: 1fr 1fr; gap: 24px; row-gap: 28px; }
+      .ai-grid { grid-template-columns: 1fr; gap: 40px; }
+      .steps { grid-template-columns: 1fr 1fr; gap: 24px; }
+      .steps::before { display: none; }
+      .nav-links { display: none; }
+      .team-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
+    }
+    @media (max-width: 600px) {
+      .about { padding: 80px 0; }
+      .features { padding: 80px 0; }
+      .ai-section { padding: 80px 0; }
+      .how { padding: 80px 0; }
+      .team { padding: 80px 0; }
+      .features-grid { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr; }
+      .team-grid { grid-template-columns: 1fr; }
+      .ai-inner { padding: 50px 32px; }
+      .cta-inner { padding: 80px 32px; }
+      .hero-stats { gap: 28px; flex-direction: column; }
+      .container { padding: 0 20px; }
+      .hero h1 { font-size: clamp(2rem, 4vw, 3rem); }
+      .stat-value { font-size: 1.6rem; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="canvas-bg"></canvas>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">CAS<span>.</span>Capitals</a>
+    <ul class="nav-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="index.html#technology">Technology</a></li>
+      <li><a href="index.html#how">How It Works</a></li>
+      <li><a href="about.html#team">Team</a></li>
+      <li><a href="careers.html">Careers</a></li>
+      <li><a href="contact.html" class="nav-cta">Contact Us →</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <div class="badge"><span class="badge-dot"></span>Quantitative Research</div>
+      <h1>
+        Investment & Research<br/>
+        <span class="line2">Built on Rigor</span><br/>
+        and Independence.
+      </h1>
+      <p class="hero-sub">
+        CAS Capitals deploys proprietary capital across quantitative research, financial data analytics, and advanced investing strategies grounded in scientific rigor.
+      </p>
+      <div class="hero-actions">
+        <a href="contact.html" class="btn-primary">
+          Explore Opportunities
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#technology" class="btn-secondary">
+          Learn More
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <span class="marquee-item"><span class="dot">●</span> Equities</span>
+    <span class="marquee-item"><span class="dot">●</span> Derivatives</span>
+    <span class="marquee-item"><span class="dot">●</span> Financial Research</span>
+    <span class="marquee-item"><span class="dot">●</span> Quantitative Analysis</span>
+    <span class="marquee-item"><span class="dot">●</span> Data Analytics</span>
+    <span class="marquee-item"><span class="dot">●</span> Market Analysis</span>
+    <span class="marquee-item"><span class="dot">●</span> Statistical Methods</span>
+    <span class="marquee-item"><span class="dot">●</span> Systematic Investing</span>
+    <span class="marquee-item"><span class="dot">●</span> Indian Markets</span>
+    <span class="marquee-item"><span class="dot">●</span> Research Framework</span>
+    <span class="marquee-item"><span class="dot">●</span> Financial Research</span>
+    <span class="marquee-item"><span class="dot">●</span> Quantitative Analysis</span>
+    <span class="marquee-item"><span class="dot">●</span> Data Analytics</span>
+    <span class="marquee-item"><span class="dot">●</span> Market Analysis</span>
+    <span class="marquee-item"><span class="dot">●</span> Statistical Methods</span>
+    <span class="marquee-item"><span class="dot">●</span> Systematic Investing</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div>
+        <div class="section-label reveal">What We Do</div>
+        <h2 class="section-title reveal reveal-d1">Where Artificial Intelligence Meets Market Mastery</h2>
+        <p class="section-sub reveal reveal-d2">
+          We conduct rigorous quantitative research, analyzing market structures, financial data, and macroeconomic indicators to develop systematic investment strategies.
+        </p>
+        <br/><br/>
+        <p class="section-sub reveal reveal-d3">
+          Our models learn continuously, adapting to evolving market regimes and uncovering patterns invisible to the human eye. This is not just quantitative investing — this is a new category entirely.
+        </p>
+      </div>
+      <div class="about-visual reveal reveal-d2">
+        <div class="about-card main">
+          <div class="mini-chart">
+            <div class="mini-bar" style="height:40%;animation-delay:0.1s"></div>
+            <div class="mini-bar" style="height:60%;animation-delay:0.2s"></div>
+            <div class="mini-bar" style="height:45%;animation-delay:0.3s"></div>
+            <div class="mini-bar" style="height:80%;animation-delay:0.4s"></div>
+            <div class="mini-bar" style="height:55%;animation-delay:0.5s"></div>
+            <div class="mini-bar" style="height:95%;animation-delay:0.6s"></div>
+            <div class="mini-bar" style="height:70%;animation-delay:0.7s"></div>
+            <div class="mini-bar" style="height:100%;animation-delay:0.8s"></div>
+            <div class="mini-bar" style="height:85%;animation-delay:0.9s"></div>
+            <div class="mini-bar" style="height:90%;animation-delay:1.0s"></div>
+          </div>
+          <div class="card-title">Research Focus</div>
+          <div class="card-value" style="font-size:1.4rem">Systematic</div>
+          <div class="card-sub">Rigorous quantitative research</div>
+        </div>
+        <div class="about-card float1">
+          <div class="card-icon">📊</div>
+          <div class="card-title">Analysis Scope</div>
+          <div class="card-value" style="font-size:1.4rem">Comprehensive</div>
+          <div class="card-sub">Market structures and dynamics</div>
+        </div>
+        <div class="about-card float2">
+          <div class="card-icon">🔬</div>
+          <div class="card-title">Data Science</div>
+          <div class="card-value" style="font-size:1.4rem">Advanced</div>
+          <div class="card-sub">Analytics and modeling</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="container">
+    <div class="features-header">
+      <div class="section-label reveal">Core Capabilities</div>
+      <h2 class="section-title reveal reveal-d1">Research-Driven<br/>Infrastructure</h2>
+      <p class="section-sub reveal reveal-d2">Our systems are built to conduct rigorous analysis, process large datasets, and support systematic investment research.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card c1 reveal reveal-d1">
+        <div class="feature-icon">📊</div>
+        <h3>Quantitative Analysis</h3>
+        <p>Systematic analysis of market structures, financial data, and macroeconomic indicators using advanced analytical frameworks.</p>
+      </div>
+      <div class="feature-card c2 reveal reveal-d2">
+        <div class="feature-icon">🔬</div>
+        <h3>Research Framework</h3>
+        <p>Rigorous methodology for conducting financial research, testing investment strategies, and analyzing market dynamics.</p>
+      </div>
+      <div class="feature-card c3 reveal reveal-d3">
+        <div class="feature-icon">📊</div>
+        <h3>Data Integration</h3>
+        <p>Systematic processing of market data, economic indicators, and financial information for comprehensive analysis.</p>
+      </div>
+      <div class="feature-card c4 reveal reveal-d1">
+        <div class="feature-icon">📈</div>
+        <h3>Risk Analysis</h3>
+        <p>Comprehensive evaluation of market risks, portfolio dynamics, and systematic factor analysis.</p>
+      </div>
+      <div class="feature-card c5 reveal reveal-d2">
+        <div class="feature-icon">🔬</div>
+        <h3>Statistical Methods</h3>
+        <p>Advanced statistical and quantitative approaches to financial analysis and research.</p>
+      </div>
+      <div class="feature-card c6 reveal reveal-d3">
+        <div class="feature-icon">🌍</div>
+        <h3>Market Research</h3>
+        <p>Focus on Indian financial markets with rigorous research methodology and systematic analysis.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AI ENGINE -->
+<section class="ai-section" id="technology">
+  <div class="container">
+    <div class="ai-inner">
+      <div class="ai-grid">
+        <div>
+          <div class="section-label reveal">The Engine</div>
+          <h2 class="section-title reveal reveal-d1">Quantitative Research<br/>Stack</h2>
+          <p class="section-sub reveal reveal-d2">Advanced analytical tools and frameworks designed for systematic financial research and market analysis.</p>
+          <br/><br/>
+          <div class="terminal reveal reveal-d3">
+            <div class="terminal-header">
+              <div class="t-dot r"></div>
+              <div class="t-dot y"></div>
+              <div class="t-dot g"></div>
+              <span class="terminal-title">cas_ai_engine.py — live</span>
+            </div>
+            <div class="terminal-body">
+              <div><span class="t-prompt">$</span> <span class="t-cmd">cas run --analysis market-structure --output research</span></div>
+              <div class="t-comment"># Loading research models...</div>
+              <div class="t-out">✓ Data pipeline initialized</div>
+              <div class="t-out">✓ Analysis engine active</div>
+              <div class="t-out">✓ Research framework ready</div>
+              <div class="t-comment"># Processing market data and trends</div>
+              <div class="t-out">✓ Market structure analysis complete</div>
+              <div class="t-out">✓ Macroeconomic indicators processed</div>
+              <div class="t-out">✓ Research report generated</div>
+              <div><span class="t-prompt">$</span> <span class="t-cursor"></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="ai-right">
+          <div class="ai-pill reveal reveal-d1">
+            <div class="ai-pill-icon">🧬</div>
+            <div class="ai-pill-text">
+              <h4>Quantitative Models</h4>
+              <p>Systematic approach combining multiple analytical frameworks</p>
+            </div>
+          </div>
+          <div class="ai-pill reveal reveal-d2">
+            <div class="ai-pill-icon">🌊</div>
+            <div class="ai-pill-text">
+              <h4>Market Analysis</h4>
+              <p>Comprehensive study of market structures and dynamics</p>
+            </div>
+          </div>
+          <div class="ai-pill reveal reveal-d3">
+            <div class="ai-pill-icon">📰</div>
+            <div class="ai-pill-text">
+              <h4>Data Analytics</h4>
+              <p>Advanced processing and analysis of financial data</p>
+            </div>
+          </div>
+          <div class="ai-pill reveal reveal-d4">
+            <div class="ai-pill-icon">🎯</div>
+            <div class="ai-pill-text">
+              <h4>Research Framework</h4>
+              <p>Rigorous methodology for systematic investment research</p>
+            </div>
+          </div>
+          <div class="ai-pill reveal reveal-d5">
+            <div class="ai-pill-icon">🔐</div>
+            <div class="ai-pill-text">
+              <h4>Institutional Standards</h4>
+              <p>Enterprise-grade systems and operational infrastructure</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="container">
+    <div class="how-header">
+      <div class="section-label reveal">Process</div>
+      <h2 class="section-title reveal reveal-d1">Our Research Process</h2>
+    </div>
+    <div class="steps">
+      <div class="step reveal reveal-d1">
+        <div class="step-num"><span>01</span></div>
+        <h3>Data Collection</h3>
+        <p>Systematic collection and integration of market data, financial indicators, and macroeconomic information.</p>
+      </div>
+      <div class="step reveal reveal-d2">
+        <div class="step-num"><span>02</span></div>
+        <h3>Analysis</h3>
+        <p>Rigorous quantitative analysis and systematic evaluation of market structures, trends, and dynamics.</p>
+      </div>
+      <div class="step reveal reveal-d3">
+        <div class="step-num"><span>03</span></div>
+        <h3>Research</h3>
+        <p>Comprehensive research methodology applied to understand market conditions and investment opportunities.</p>
+      </div>
+      <div class="step reveal reveal-d4">
+        <div class="step-num"><span>04</span></div>
+        <h3>Implementation</h3>
+        <p>Systematic deployment of research findings through disciplined investment strategies and frameworks.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA STRIP -->
+<section class="cta-section" id="contact">
+  <div class="container">
+    <div class="cta-inner">
+      <div class="cta-glow"></div>
+      <h2>Interested in<br/>Our Research?</h2>
+      <p>Learn more about CAS Capitals and our approach to quantitative research and systematic investing.</p>
+      <div class="cta-actions">
+        <a href="contact.html" class="btn-primary">
+          Get in Touch
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="about.html" class="btn-secondary">Learn More</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-left">
+        <a href="index.html" class="logo">CAS<span>.</span>Capitals</a>
+        <p class="footer-copy">© 2026 CAS Capitals. All rights reserved.</p>
+        <p class="footer-copy" style="font-size:0.73rem;max-width:360px">This website is for informational purposes. Past performance is not indicative of future results. Investing involves risk.</p>
+      </div>
+      <ul class="footer-links">
+        <li><a href="about.html">About</a></li>
+        <li><a href="about.html#team">Team</a></li>
+        <li><a href="careers.html">Careers</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ── PARTICLE CANVAS ──
+  const canvas = document.getElementById('canvas-bg');
+  const ctx = canvas.getContext('2d');
+  let W, H, nodes = [], animId;
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  function initNodes(n) {
+    nodes = [];
+    for (let i = 0; i < n; i++) {
+      nodes.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        r: Math.random() * 1.5 + 0.5,
+      });
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    const grad = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, Math.max(W,H)*0.8);
+    grad.addColorStop(0, 'rgba(13,71,161,0.02)');
+    grad.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, W, H);
+
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i+1; j < nodes.length; j++) {
+        const dx = nodes[i].x - nodes[j].x;
+        const dy = nodes[i].y - nodes[j].y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < 150) {
+          ctx.beginPath();
+          ctx.moveTo(nodes[i].x, nodes[i].y);
+          ctx.lineTo(nodes[j].x, nodes[j].y);
+          ctx.strokeStyle = `rgba(13,71,161,${0.08 * (1 - dist/150)})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+
+    nodes.forEach(n => {
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(13,71,161,0.3)';
+      ctx.fill();
+      n.x += n.vx;
+      n.y += n.vy;
+      if (n.x < 0 || n.x > W) n.vx *= -1;
+      if (n.y < 0 || n.y > H) n.vy *= -1;
+    });
+
+    animId = requestAnimationFrame(draw);
+  }
+
+  resize();
+  initNodes(80);
+  draw();
+  window.addEventListener('resize', () => { resize(); initNodes(80); });
+
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // ── CONTACT FORM ──
+  const form = document.getElementById('contactForm');
+  const successMsg = document.getElementById('formSuccess');
+  const submitBtn = document.getElementById('submitBtn');
+
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+
+      const data = new FormData(form);
+
+      try {
+        const res = await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(data).toString(),
+        });
+
+        if (res.ok) {
+          form.style.display = 'none';
+          successMsg.style.display = 'block';
+        } else {
+          throw new Error('Network response was not ok');
+        }
+      } catch (err) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Send Message <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+        alert('Something went wrong. Please try again or email us at cascapitals26@gmail.com');
+      }
+    });
+  }
+</script>
+</body>
+</html>

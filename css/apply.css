@@ -1,0 +1,275 @@
+/* =====================================================
+   CAS Capitals — Apply Page Styles
+   ===================================================== */
+
+/* ------------------------------------------------------
+   1. Page Layout
+   ------------------------------------------------------ */
+.apply-page {
+  position: relative;
+  z-index: 2;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: clamp(100px, 15vw, 140px) clamp(1rem, 5vw, 2rem) clamp(3rem, 8vw, 5rem);
+}
+
+.apply-page .form-card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border-light);
+  border-radius: 24px;
+  padding: clamp(2rem, 5vw, 3rem) clamp(1.5rem, 4vw, 2.75rem);
+  position: relative;
+  overflow: hidden;
+}
+
+.apply-page .form-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-secondary), var(--color-success));
+}
+
+/* ------------------------------------------------------
+   2. Form Layout
+   ------------------------------------------------------ */
+.apply-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-divider {
+  height: 1px;
+  background: var(--color-border);
+  margin: 4px 0;
+}
+
+.form-section-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: -4px;
+}
+
+/* ------------------------------------------------------
+   3. Form Fields
+   ------------------------------------------------------ */
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.form-field label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.form-field input,
+.form-field textarea,
+.form-field select {
+  background: var(--color-bg-input);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 0.875rem 1rem;
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  outline: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
+  width: 100%;
+}
+
+.form-field input::placeholder,
+.form-field textarea::placeholder {
+  color: var(--color-text-muted);
+}
+
+.form-field input:focus,
+.form-field textarea:focus,
+.form-field select:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+  background-color: var(--color-bg);
+}
+
+.form-field textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+.form-field select {
+  appearance: none;
+  cursor: pointer;
+}
+
+.form-field select option {
+  background: var(--color-bg);
+}
+
+/* ------------------------------------------------------
+   4. File Upload
+   ------------------------------------------------------ */
+.upload-area {
+  border: 1.5px dashed var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-10) var(--space-6);
+  text-align: center;
+  cursor: pointer;
+  transition: border-color var(--transition-base), background-color var(--transition-base);
+  position: relative;
+  background: var(--color-bg-alt);
+}
+
+.upload-area:hover,
+.upload-area.dragover {
+  border-color: var(--color-accent);
+  background: var(--color-accent-light);
+}
+
+.upload-area input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+
+.upload-icon {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.upload-text {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 4px;
+}
+
+.upload-hint {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+}
+
+.upload-filename {
+  margin-top: 10px;
+  font-size: 0.82rem;
+  color: var(--color-success);
+  font-weight: 500;
+  display: none;
+}
+
+/* ------------------------------------------------------
+   5. Submit Button
+   ------------------------------------------------------ */
+.form-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-secondary));
+  color: #fff;
+  padding: 16px 32px;
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+  font-size: var(--text-sm);
+  border: none;
+  cursor: pointer;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), opacity var(--transition-fast);
+  box-shadow: var(--shadow-button);
+  width: 100%;
+  font-family: var(--font-body);
+  margin-top: 4px;
+}
+
+.form-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-button-hover);
+}
+
+.form-submit:active {
+  transform: translateY(0) scale(0.99);
+}
+
+.form-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ------------------------------------------------------
+   6. Success State
+   ------------------------------------------------------ */
+.form-success {
+  display: none;
+  text-align: center;
+  padding: 48px 32px;
+}
+
+.success-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+}
+
+.success-icon span {
+  display: inline-block;
+  animation: pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes pop {
+  from { transform: scale(0); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.form-success h3 {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  letter-spacing: -0.02em;
+}
+
+.form-success p {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.form-success .back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 28px;
+  color: var(--color-accent);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: opacity var(--transition-fast);
+}
+
+.form-success .back-btn:hover {
+  opacity: 0.75;
+}
+
+/* ------------------------------------------------------
+   7. Responsive
+   ------------------------------------------------------ */
+@media (max-width: 640px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
