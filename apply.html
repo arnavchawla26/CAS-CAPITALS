@@ -18,8 +18,8 @@
       padding: 120px 32px 80px;
     }
     .apply-page .form-card {
-      background: var(--card);
-      border: 1px solid var(--border);
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
       border-radius: 24px;
       padding: 48px 44px;
       position: relative;
@@ -30,7 +30,7 @@
       position: absolute;
       top: 0; left: 0; right: 0;
       height: 2px;
-      background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+      background: linear-gradient(90deg, var(--color-accent), var(--color-accent-secondary), var(--color-success));
     }
     .apply-form { display: flex; flex-direction: column; gap: 20px; }
     .form-row {
@@ -48,16 +48,16 @@
       font-weight: 600;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: var(--muted);
+      color: var(--color-text-muted);
     }
     .form-field input,
     .form-field textarea,
     .form-field select {
       background: rgba(255,255,255,0.04);
-      border: 1px solid var(--border);
+      border: 1px solid var(--color-border);
       border-radius: 10px;
       padding: 13px 16px;
-      color: var(--text);
+      color: var(--color-text);
       font-family: 'Inter', sans-serif;
       font-size: 0.9rem;
       outline: none;
@@ -101,23 +101,23 @@
     .upload-text {
       font-size: 0.9rem;
       font-weight: 600;
-      color: var(--text);
+      color: var(--color-text);
       margin-bottom: 4px;
     }
     .upload-hint {
       font-size: 0.78rem;
-      color: var(--muted);
+      color: var(--color-text-muted);
     }
     .upload-filename {
       margin-top: 10px;
       font-size: 0.82rem;
-      color: var(--accent3);
+      color: var(--color-success);
       font-weight: 500;
       display: none;
     }
     .form-divider {
       height: 1px;
-      background: var(--border);
+      background: var(--color-border);
       margin: 4px 0;
     }
     .form-section-label {
@@ -133,7 +133,7 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      background: linear-gradient(135deg, var(--color-accent), var(--color-accent-secondary));
       color: #fff;
       padding: 16px 32px;
       border-radius: 10px;
@@ -173,13 +173,13 @@
       margin-bottom: 10px;
       letter-spacing: -0.02em;
     }
-    .form-success p { color: var(--muted); font-size: 0.95rem; line-height: 1.7; }
+    .form-success p { color: var(--color-text-muted); font-size: 0.95rem; line-height: 1.7; }
     .form-success .back-btn {
       display: inline-flex;
       align-items: center;
       gap: 8px;
       margin-top: 28px;
-      color: var(--accent);
+      color: var(--color-accent);
       text-decoration: none;
       font-weight: 600;
       font-size: 0.9rem;
@@ -214,7 +214,7 @@
 <!-- APPLY PAGE -->
 <section class="apply-page">
   <div class="badge hero-badge reveal"><span class="badge-dot"></span>Now Hiring</div>
-  <h1 class="hero-title reveal reveal-d1" style="margin-bottom: 12px;">Apply for <span id="roleDisplay" style="background: linear-gradient(90deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">a Position</span></h1>
+  <h1 class="hero-title reveal reveal-d1" style="margin-bottom: 12px;">Apply for <span id="roleDisplay" style="background: linear-gradient(90deg, var(--color-accent), var(--color-accent-secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">a Position</span></h1>
   <p class="hero-sub reveal reveal-d2" style="margin-bottom: 48px;">
     Fill in your details below and attach your resume. We review every application and will get back to you within 5 business days.
   </p>
@@ -362,57 +362,5 @@
 </footer>
 
 <script src="js/main.js"></script>
-<script>
-  // Role from URL param
-  const params = new URLSearchParams(window.location.search);
-  const role = params.get('role') || '';
-  if (role) {
-    document.getElementById('roleDisplay').textContent = role;
-    document.getElementById('roleInput').value = role;
-    document.title = `Apply — ${role} | CAS Capitals`;
-  }
-
-  // File upload label
-  const fileInput = document.getElementById('resumeFile');
-  const uploadArea = document.getElementById('uploadArea');
-  const filenameEl = document.getElementById('uploadFilename');
-
-  fileInput.addEventListener('change', () => {
-    if (fileInput.files.length > 0) {
-      filenameEl.textContent = '✓ ' + fileInput.files[0].name;
-      filenameEl.style.display = 'block';
-      uploadArea.style.borderColor = 'rgba(0,255,157,0.4)';
-    }
-  });
-
-  uploadArea.addEventListener('dragover', e => { e.preventDefault(); uploadArea.classList.add('dragover'); });
-  uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
-  uploadArea.addEventListener('drop', e => { e.preventDefault(); uploadArea.classList.remove('dragover'); });
-
-  // Form submit
-  const form = document.getElementById('applyForm');
-  const successMsg = document.getElementById('formSuccess');
-  const submitBtn = document.getElementById('submitBtn');
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Submitting…';
-
-    const data = new FormData(form);
-
-    try {
-      const res = await fetch('/', { method: 'POST', body: data });
-      if (res.ok) {
-        form.style.display = 'none';
-        successMsg.style.display = 'block';
-      } else { throw new Error(); }
-    } catch {
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = 'Submit Application <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-      alert('Something went wrong. Please email your application to cascapitals26@gmail.com');
-    }
-  });
-</script>
 </body>
 </html>

@@ -202,11 +202,11 @@ function initApplyForm() {
       uploadArea.classList.remove('dragover');
       const files = e.dataTransfer && e.dataTransfer.files;
       if (files && files.length && fileInput) {
-        try {
-          fileInput.files = files;
-        } catch (err) {
-          return;
+        const dt = new DataTransfer();
+        for (let i = 0; i < files.length; i++) {
+          dt.items.add(files[i]);
         }
+        fileInput.files = dt.files;
         fileInput.dispatchEvent(new Event('change'));
       }
     });

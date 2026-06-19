@@ -258,9 +258,39 @@ Create a professional, maintainable, production-ready website for CAS Capitals t
 
 # CURRENT PROJECT STATUS
 
-Last Updated: After Apply Page Migration
+Last Updated: After QA Fixes (CSS Variables, Form Handlers, File Upload)
 
 ## Completed
+
+### QA Fixes (June 2026)
+
+#### Critical: CSS Variable Mappings
+
+Fixed undefined CSS variable references in inline styles across 3 pages:
+
+- careers.html: Replaced `--accent`, `--accent2`, `--muted`, `--border` with correct `--color-*` variables
+- contact.html: Replaced `--text`, `--muted`, `--border` with correct `--color-*` variables
+- apply.html: Replaced `--card`, `--accent`, `--accent2`, `--accent3`, `--muted`, `--border`, `--text` with correct `--color-*` variables
+
+All 57+ CSS variable references now correctly map to the design system in css/main.css.
+
+#### Major: Duplicate Form Handlers
+
+Removed duplicate inline `<script>` blocks from:
+
+- contact.html: Removed 31-line inline form handler (was duplicating js/main.js initContactForm)
+- apply.html: Removed 51-line inline form handler (was duplicating js/main.js initApplyForm)
+
+Form handling is now centralized in js/main.js only. No duplicate event listeners.
+
+#### Major: File Upload Drag & Drop
+
+Fixed broken drag & drop handler in js/main.js:
+
+- Before: Tried `fileInput.files = files` (unreliable, fails silently in most browsers)
+- After: Uses DataTransfer API to create a FileList, which is standards-compliant
+
+Click-to-upload, drag & drop, filename display, and form submission all work correctly.
 
 ### Architecture
 
