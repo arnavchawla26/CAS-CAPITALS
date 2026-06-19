@@ -258,7 +258,7 @@ Create a professional, maintainable, production-ready website for CAS Capitals t
 
 # CURRENT PROJECT STATUS
 
-Last Updated: After About Page Migration
+Last Updated: After Careers Page Migration
 
 ## Completed
 
@@ -339,22 +339,42 @@ No inline CSS remains.
 
 No inline JavaScript remains.
 
+### Careers Page Migration
+
+✓ careers.html migrated
+
+Changes:
+
+- Removed inline CSS (100+ lines of dark theme styles)
+- Removed inline JavaScript (canvas particle animation, scroll effects, intersection observer)
+- Connected css/main.css
+- Connected js/main.js
+- Removed canvas particle background
+- Removed marketing language ("Build the Future of Intelligent Investing", "Work at the Frontier", "High Ownership", "Growth & Learning")
+- Removed client-facing language ("client portfolios", "portfolio managers", "asset management")
+- Removed portfolio management references ("Assistant Portfolio Manager" role, "portfolio performance", "portfolio management tools")
+- Removed external capital management references ("client portfolios", "investment mandates")
+- Removed asset management language
+- Replaced "Assistant Portfolio Manager" role with "Quantitative Research Analyst" role
+- Updated responsibilities to focus on quantitative research, data analytics, and AI/ML
+- Updated requirements to align with research-focused roles
+- Updated navbar to shared architecture (added mobile-menu-btn)
+- Updated footer to shared architecture (footer-brand, footer-links)
+- Added CTA section for consistency
+- Kept page purpose unchanged (Careers page)
+- Fixed navigation consistency with other pages
+
+Current status:
+
+careers.html uses shared assets.
+
+No inline CSS remains.
+
+No inline JavaScript remains.
+
 ---
 
 ## Pending Pages
-
-### careers.html
-
-Status: Not migrated
-
-Still contains:
-
-- Inline CSS
-- Inline JS
-- Old dark theme
-- Client-facing language
-- Portfolio manager references
-- Navigation inconsistency
 
 ### contact.html
 
@@ -411,9 +431,8 @@ Continue migration.
 
 Order:
 
-1. careers.html
-2. contact.html
-3. apply.html
+1. contact.html
+2. apply.html
 
 For each page:
 
@@ -447,6 +466,24 @@ Static verification completed successfully.
 Browser-based visual QA still pending.
 
 ## About Page Status
+
+Status: Complete
+
+Verification:
+
+✓ HTML validation passed
+✓ Shared CSS integration passed
+✓ Shared JS integration passed
+✓ Content validation passed
+✓ Navigation validation passed
+
+Notes:
+
+Static verification completed successfully.
+
+Browser-based visual QA still pending.
+
+## Careers Page Status
 
 Status: Complete
 
