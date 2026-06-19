@@ -4,191 +4,72 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>About — CAS Capitals</title>
-  <meta name="description" content="Learn about CAS Capitals — our mission, story, and the team behind AI-powered investment intelligence." />
+  <meta name="description" content="Learn about CAS Capitals — our mission, research orientation, and the team behind proprietary investment research." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --bg: #020409; --bg2: #060c17;
-      --accent: #00c6ff; --accent2: #7b2fff; --accent3: #00ff9d;
-      --text: #e8edf5; --muted: #6b7b96;
-      --card: rgba(255,255,255,0.04); --border: rgba(255,255,255,0.07);
-      --glow: rgba(0,198,255,0.15);
-    }
-    html { scroll-behavior: smooth; }
-    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; overflow-x: hidden; line-height: 1.6; }
-    body::before {
-      content: ''; position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none; z-index: 1; opacity: 0.5;
-    }
-    #canvas-bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
-    .container { max-width: 1200px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 2; }
-
-    /* NAV */
-    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 20px 0; transition: all 0.4s ease; }
-    nav.scrolled { background: rgba(2,4,9,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 14px 0; }
-    .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 32px; display: flex; align-items: center; justify-content: space-between; }
-    .logo { font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; font-weight: 700; letter-spacing: -0.02em; background: linear-gradient(135deg, #fff 30%, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
-    .logo span { color: var(--accent); -webkit-text-fill-color: var(--accent); }
-    .nav-links { display: flex; gap: 36px; list-style: none; }
-    .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.875rem; font-weight: 500; letter-spacing: 0.02em; transition: color 0.2s; }
-    .nav-links a:hover, .nav-links a.active { color: var(--text); }
-    .nav-cta { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff !important; padding: 10px 22px; border-radius: 8px; font-weight: 600 !important; transition: opacity 0.2s !important; }
-    .nav-cta:hover { opacity: 0.85; }
-    @media (max-width: 900px) { .nav-links { display: none; } }
-
-    /* SECTION BASE */
-    section { position: relative; z-index: 2; }
-    .section-label { display: inline-flex; align-items: center; gap: 8px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
-    .section-label::before { content: ''; width: 20px; height: 1px; background: var(--accent); }
-    .section-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 20px; }
-    .section-sub { color: var(--muted); font-size: 1.05rem; max-width: 560px; line-height: 1.7; }
-
-    /* PAGE HERO */
-    .page-hero { padding: 160px 0 80px; border-bottom: 1px solid var(--border); }
-    .page-hero-inner { max-width: 760px; }
-    .page-tag { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,198,255,0.08); border: 1px solid rgba(0,198,255,0.2); border-radius: 100px; padding: 5px 16px; font-size: 0.75rem; font-weight: 600; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 20px; }
-    .page-hero h1 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(2.8rem, 5vw, 4.5rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1.08; margin-bottom: 24px; }
-    .page-hero h1 em { font-style: normal; background: linear-gradient(90deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .page-hero p { font-size: 1.15rem; color: var(--muted); line-height: 1.75; max-width: 580px; }
-
-    /* MISSION */
-    .mission { padding: 100px 0; }
-    .mission-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
-    .mission-text p { color: var(--muted); font-size: 1rem; line-height: 1.8; margin-bottom: 20px; }
-    .mission-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-    .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px 24px; transition: border-color 0.3s, transform 0.3s; }
-    .stat-card:hover { border-color: rgba(0,198,255,0.2); transform: translateY(-4px); }
-    .stat-card-value { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 700; background: linear-gradient(135deg, #fff, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: -0.03em; margin-bottom: 4px; }
-    .stat-card-label { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 500; }
-    @media (max-width: 900px) { .mission-grid { grid-template-columns: 1fr; gap: 48px; } }
-
-    /* VALUES */
-    .values { padding: 100px 0; background: linear-gradient(180deg, transparent, rgba(0,198,255,0.02), transparent); }
-    .values-header { text-align: center; margin-bottom: 64px; }
-    .values-header .section-label { justify-content: center; }
-    .values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-    .value-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 36px 28px; transition: border-color 0.3s, transform 0.3s; }
-    .value-card:hover { border-color: rgba(0,198,255,0.15); transform: translateY(-4px); }
-    .value-icon { font-size: 2rem; margin-bottom: 16px; }
-    .value-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 600; margin-bottom: 10px; }
-    .value-card p { font-size: 0.875rem; color: var(--muted); line-height: 1.7; }
-    @media (max-width: 900px) { .values-grid { grid-template-columns: 1fr 1fr; } }
-    @media (max-width: 600px) { .values-grid { grid-template-columns: 1fr; } }
-
-    /* TEAM */
-    .team { padding: 100px 0; }
-    .team-header { text-align: center; margin-bottom: 64px; }
-    .team-header .section-label { justify-content: center; }
-    .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
-    .team-card { background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 40px 32px; text-align: center; transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s; position: relative; overflow: hidden; }
-    .team-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent2)); opacity: 0; transition: opacity 0.3s; }
-    .team-card:hover { border-color: rgba(0,198,255,0.18); transform: translateY(-6px); box-shadow: 0 24px 60px rgba(0,0,0,0.4); }
-    .team-card:hover::before { opacity: 1; }
-    .team-avatar { width: 88px; height: 88px; border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem; font-weight: 700; position: relative; }
-    .team-avatar::after { content: ''; position: absolute; inset: -3px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent2)); z-index: -1; }
-    .team-avatar.av1 { background: linear-gradient(135deg, rgba(0,198,255,0.15), rgba(123,47,255,0.15)); color: var(--accent); }
-    .team-avatar.av2 { background: linear-gradient(135deg, rgba(123,47,255,0.15), rgba(0,255,157,0.15)); color: var(--accent2); }
-    .team-avatar.av3 { background: linear-gradient(135deg, rgba(0,255,157,0.15), rgba(0,198,255,0.15)); color: var(--accent3); }
-    .team-name { font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 4px; }
-    .team-role { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; }
-    .team-divider { height: 1px; background: var(--border); margin: 0 auto 20px; width: 40px; }
-    .team-bio { font-size: 0.875rem; color: var(--muted); line-height: 1.75; text-align: left; }
-    @media (max-width: 900px) { .team-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; } }
-
-    /* CTA STRIP */
-    .cta-strip { padding: 100px 0; }
-    .cta-inner { text-align: center; background: linear-gradient(145deg, rgba(0,198,255,0.06), rgba(123,47,255,0.1)); border: 1px solid rgba(0,198,255,0.15); border-radius: 28px; padding: 80px 60px; position: relative; overflow: hidden; }
-    .cta-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 600px; height: 300px; background: radial-gradient(ellipse, rgba(0,198,255,0.08) 0%, transparent 70%); pointer-events: none; }
-    .cta-inner h2 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 16px; position: relative; }
-    .cta-inner p { color: var(--muted); font-size: 1.05rem; max-width: 440px; margin: 0 auto 36px; line-height: 1.7; position: relative; }
-    .cta-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; position: relative; }
-    .btn-primary { display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; padding: 16px 32px; border-radius: 10px; font-weight: 600; font-size: 0.95rem; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 0 40px rgba(0,198,255,0.25); }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 60px rgba(0,198,255,0.4); }
-    .btn-secondary { display: inline-flex; align-items: center; gap: 10px; color: var(--text); padding: 16px 32px; border-radius: 10px; font-weight: 500; font-size: 0.95rem; text-decoration: none; border: 1px solid var(--border); background: var(--card); transition: border-color 0.2s, background 0.2s; }
-    .btn-secondary:hover { border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.07); }
-    @media (max-width: 600px) { .cta-inner { padding: 60px 24px; } }
-
-    /* FOOTER */
-    footer { position: relative; z-index: 2; border-top: 1px solid var(--border); padding: 48px 0; }
-    .footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px; }
-    .footer-left { display: flex; flex-direction: column; gap: 8px; }
-    .footer-copy { font-size: 0.82rem; color: var(--muted); }
-    .footer-links { display: flex; gap: 28px; list-style: none; }
-    .footer-links a { font-size: 0.82rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
-    .footer-links a:hover { color: var(--text); }
-
-    /* REVEAL */
-    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-    .reveal-d1 { transition-delay: 0.1s; }
-    .reveal-d2 { transition-delay: 0.2s; }
-    .reveal-d3 { transition-delay: 0.3s; }
-    .reveal-d4 { transition-delay: 0.4s; }
-  </style>
+  <link rel="stylesheet" href="css/main.css" />
 </head>
 <body>
 
-<canvas id="canvas-bg"></canvas>
-
 <!-- NAV -->
-<nav id="navbar">
-  <div class="nav-inner">
+<nav class="navbar">
+  <div class="container navbar-inner">
     <a href="index.html" class="logo">CAS<span>.</span>Capitals</a>
+    <button class="mobile-menu-btn" type="button" aria-label="Open navigation menu"></button>
     <ul class="nav-links">
       <li><a href="about.html" class="active">About</a></li>
       <li><a href="index.html#technology">Technology</a></li>
       <li><a href="index.html#how">How It Works</a></li>
       <li><a href="about.html#team">Team</a></li>
       <li><a href="careers.html">Careers</a></li>
-      <li><a href="contact.html" class="nav-cta">Contact Us →</a></li>
+      <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
     </ul>
   </div>
 </nav>
 
 <!-- PAGE HERO -->
-<section class="page-hero">
+<section class="hero">
   <div class="container">
-    <div class="page-hero-inner">
-      <div class="page-tag reveal">Our Story</div>
-      <h1 class="reveal reveal-d1">Redefining What's Possible<br/>in <em>Intelligent Investing</em></h1>
-      <p class="reveal reveal-d2">CAS Capitals was built on a single conviction: that the future of investing belongs to those who harness the full power of artificial intelligence — not as a tool, but as the engine at the core of every decision.</p>
+    <div class="hero-content">
+      <div class="badge hero-badge reveal"><span class="badge-dot"></span>About the Firm</div>
+      <h1 class="hero-title reveal reveal-d1">A private investment and research firm focused on <em>proprietary capital.</em></h1>
+      <p class="hero-sub reveal reveal-d2">
+        CAS Capitals is a privately held investment and financial research firm. The firm uses quantitative research, financial analysis, data analytics, and AI/ML to support its own proprietary investment activities in Indian financial markets.
+      </p>
     </div>
   </div>
 </section>
 
 <!-- MISSION -->
-<section class="mission">
+<section class="section" id="mission">
   <div class="container">
     <div class="mission-grid">
       <div class="mission-text">
         <div class="section-label reveal">Our Mission</div>
-        <h2 class="section-title reveal reveal-d1">Institutional Intelligence.<br/>Democratised.</h2>
-        <p class="reveal reveal-d2">For too long, the most sophisticated investment strategies were locked behind the walls of elite hedge funds and investment banks. CAS Capitals was founded to change that — to make AI-powered, institutional-grade intelligence accessible, transparent, and relentlessly effective.</p>
-        <p class="reveal reveal-d3">We deploy proprietary AI systems that ingest real-time market data, macroeconomic signals, and alternative datasets — generating insights at a scale and speed no human analyst can match. Our models learn continuously, adapting to evolving market regimes and uncovering patterns invisible to the naked eye.</p>
-        <p class="reveal reveal-d4">This is not just quantitative investing. This is a new category entirely — where artificial intelligence and human expertise work in lockstep to find and capture opportunity before the market has time to react.</p>
+        <h2 class="section-title reveal reveal-d1">Research-led investing for Indian financial markets.</h2>
+        <p class="reveal reveal-d2">
+          CAS Capitals deploys its own capital in Indian equity and derivatives markets, with a focus on research-led Futures & Options strategies.
+        </p>
+        <p class="reveal reveal-d3">
+          The firm conducts internal research on market structures, macroeconomic trends, sector developments, and investment opportunities. Its research process combines financial analysis with quantitative and data-driven methods.
+        </p>
+        <p class="reveal reveal-d4">
+          CAS Capitals does not manage external capital and does not provide investment services to third parties.
+        </p>
       </div>
-      <div>
-        <div class="mission-stats reveal reveal-d2">
-          <div class="stat-card">
-            <div class="stat-card-value">98.4%</div>
-            <div class="stat-card-label">Signal Accuracy</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-card-value">2.3ms</div>
-            <div class="stat-card-label">Avg. Execution Time</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-card-value">50+</div>
-            <div class="stat-card-label">AI Models Live</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-card-value">24/7</div>
-            <div class="stat-card-label">Market Monitoring</div>
-          </div>
+      <div class="mission-stats reveal reveal-d2">
+        <div class="card">
+          <div class="card-title">Proprietary Investing</div>
+          <p class="card-text">Investment activity is conducted for the firm's own account using internal research and risk processes.</p>
+        </div>
+        <div class="card">
+          <div class="card-title">Financial Research</div>
+          <p class="card-text">Research spans market structures, macroeconomic context, sector analysis, and opportunity evaluation.</p>
+        </div>
+        <div class="card">
+          <div class="card-title">Data Analytics</div>
+          <p class="card-text">Data science methods support research, risk management, and decision making across the firm.</p>
         </div>
       </div>
     </div>
@@ -196,111 +77,102 @@
 </section>
 
 <!-- VALUES -->
-<section class="values">
+<section class="section section-alt" id="values">
   <div class="container">
-    <div class="values-header">
+    <div class="section-header center">
       <div class="section-label reveal">What We Stand For</div>
-      <h2 class="section-title reveal reveal-d1">Our Core Values</h2>
+      <h2 class="section-title reveal reveal-d1">Core Principles</h2>
+      <p class="section-sub reveal reveal-d2">The firm's work is guided by research discipline, risk awareness, and long-term thinking.</p>
     </div>
-    <div class="values-grid">
-      <div class="value-card reveal reveal-d1">
-        <div class="value-icon">🎯</div>
-        <h3>Precision Over Noise</h3>
-        <p>We cut through market noise with data and logic. Every signal we act on has passed through rigorous validation — no gut feeling, no bias.</p>
+    <div class="features-grid">
+      <div class="card reveal reveal-d1">
+        <div class="card-icon">RD</div>
+        <h3 class="card-title">Research Discipline</h3>
+        <p class="card-text">Every decision is grounded in data and rigorous analysis. No speculation, no impulse — only structured research.</p>
       </div>
-      <div class="value-card reveal reveal-d2">
-        <div class="value-icon">🔬</div>
-        <h3>Continuous Learning</h3>
-        <p>Our models don't sleep. They adapt, evolve, and improve with every data point — staying ahead of regime changes and new market dynamics.</p>
+      <div class="card reveal reveal-d2">
+        <div class="card-icon">RA</div>
+        <h3 class="card-title">Risk Awareness</h3>
+        <p class="card-text">Understanding uncertainty and managing exposure is central to how the firm approaches markets.</p>
       </div>
-      <div class="value-card reveal reveal-d3">
-        <div class="value-icon">🔐</div>
-        <h3>Trust & Transparency</h3>
-        <p>We hold ourselves to the highest standards of integrity. Our clients always know what we're doing and why — no black boxes, no surprises.</p>
+      <div class="card reveal reveal-d3">
+        <div class="card-icon">LT</div>
+        <h3 class="card-title">Long-Term Thinking</h3>
+        <p class="card-text">The firm focuses on sustainable research processes rather than short-term market noise.</p>
       </div>
-      <div class="value-card reveal reveal-d1">
-        <div class="value-icon">⚡</div>
-        <h3>Speed as Strategy</h3>
-        <p>In markets, milliseconds matter. Our infrastructure is engineered for sub-2ms execution — because being second is the same as being wrong.</p>
+      <div class="card reveal reveal-d1">
+        <div class="card-icon">IC</div>
+        <h3 class="card-title">Intellectual Curiosity</h3>
+        <p class="card-text">Continuous learning and adaptation are embedded in the firm's research culture.</p>
       </div>
-      <div class="value-card reveal reveal-d2">
-        <div class="value-icon">🌐</div>
-        <h3>Global Perspective</h3>
-        <p>Opportunity doesn't respect borders. We monitor markets across every major exchange and asset class simultaneously, 24 hours a day.</p>
+      <div class="card reveal reveal-d2">
+        <div class="card-icon">IN</div>
+        <h3 class="card-title">Independence</h3>
+        <p class="card-text">The firm operates independently, using its own capital and making its own research decisions.</p>
       </div>
-      <div class="value-card reveal reveal-d3">
-        <div class="value-icon">🤝</div>
-        <h3>Long-Term Partnership</h3>
-        <p>We succeed when our clients succeed. Our alignment of interests drives everything — from how we structure our strategies to how we communicate results.</p>
+      <div class="card reveal reveal-d3">
+        <div class="card-icon">TR</div>
+        <h3 class="card-title">Transparency</h3>
+        <p class="card-text">The firm maintains clarity about what it does and what it does not do.</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- TEAM -->
-<section class="team" id="team">
+<section class="section" id="team">
   <div class="container">
-    <div class="team-header">
+    <div class="section-header center">
       <div class="section-label reveal">The Team</div>
-      <h2 class="section-title reveal reveal-d1">The Minds Behind CAS Capitals</h2>
-      <p class="section-sub reveal reveal-d2" style="margin: 0 auto;">A team that combines elite academic training, deep market expertise, and a relentless drive to push the boundaries of investment intelligence.</p>
+      <h2 class="section-title reveal reveal-d1">The people behind CAS Capitals</h2>
+      <p class="section-sub reveal reveal-d2">A team combining financial expertise, quantitative research, and market experience.</p>
     </div>
-    <div class="team-grid">
-
-      <div class="team-card reveal reveal-d1">
-        <div class="team-avatar av1">AC</div>
-        <div class="team-name">Arnav Chawla</div>
-        <div class="team-role">Co-Founder & CEO</div>
-        <div class="team-divider"></div>
-        <p class="team-bio">Arnav is the driving force behind CAS Capitals' vision and strategy. A graduate of a top-tier university in the United States, he founded CAS Capitals with a mission to bring institutional-grade AI intelligence to modern investing. His passion lies at the intersection of artificial intelligence, quantitative finance, and disruptive technology — building systems that give investors an unfair, data-driven edge.</p>
+    <div class="features-grid">
+      <div class="card reveal reveal-d1">
+        <div class="card-icon">AC</div>
+        <h3 class="card-title">Arnav Chawla</h3>
+        <p class="card-text" style="font-size: 0.75rem; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 16px;">Co-Founder & CEO</p>
+        <p class="card-text">Arnav is the driving force behind CAS Capitals' vision and strategy. A graduate of a top-tier university in the United States, he founded CAS Capitals with a mission to bring institutional-grade research to proprietary investing. His passion lies at the intersection of artificial intelligence, quantitative finance, and technology — building systems that support research and investment decisions.</p>
       </div>
-
-      <div class="team-card reveal reveal-d2">
-        <div class="team-avatar av2">A</div>
-        <div class="team-name">Archit</div>
-        <div class="team-role">Co-Founder & Financial Analyst</div>
-        <div class="team-divider"></div>
-        <p class="team-bio">Archit leads financial research and analytical strategy at CAS Capitals. Armed with a degree from a leading US university, he brings a rigorous, data-driven approach to market analysis. His work underpins the firm's investment thesis — translating complex market dynamics, macroeconomic signals, and alternative datasets into high-conviction, actionable signals that drive performance.</p>
+      <div class="card reveal reveal-d2">
+        <div class="card-icon">A</div>
+        <h3 class="card-title">Archit</h3>
+        <p class="card-text" style="font-size: 0.75rem; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 16px;">Co-Founder & Financial Analyst</p>
+        <p class="card-text">Archit leads financial research and analytical strategy at CAS Capitals. Armed with a degree from a leading US university, he brings a rigorous, data-driven approach to market analysis. His work underpins the firm's investment thesis — translating complex market dynamics, macroeconomic signals, and alternative datasets into research inputs that support investment decisions.</p>
       </div>
-
-      <div class="team-card reveal reveal-d3">
-        <div class="team-avatar av3">V</div>
-        <div class="team-name">Vinod</div>
-        <div class="team-role">Managing Director</div>
-        <div class="team-divider"></div>
-        <p class="team-bio">Vinod brings over 30 years of deep experience in financial markets to CAS Capitals. A seasoned veteran of the investment industry, he has successfully navigated multiple market cycles and built a reputation for disciplined, high-performance portfolio management. His expertise and leadership provide the institutional backbone that grounds the firm's AI-powered approach in decades of real-world market wisdom.</p>
+      <div class="card reveal reveal-d3">
+        <div class="card-icon">V</div>
+        <h3 class="card-title">Vinod</h3>
+        <p class="card-text" style="font-size: 0.75rem; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 16px;">Managing Director</p>
+        <p class="card-text">Vinod brings over 30 years of deep experience in financial markets to CAS Capitals. A seasoned veteran of the investment industry, he has successfully navigated multiple market cycles and built a reputation for disciplined, high-performance portfolio management. His expertise and leadership provide the institutional backbone that grounds the firm's research-driven approach in decades of real-world market wisdom.</p>
       </div>
-
     </div>
   </div>
 </section>
 
-<!-- CTA -->
-<section class="cta-strip">
+<!-- CTA STRIP -->
+<section class="cta-section" id="contact">
   <div class="container">
-    <div class="cta-inner">
-      <div class="cta-glow"></div>
-      <h2>Ready to Work With Us?</h2>
-      <p>Get in touch to explore how CAS Capitals can work for you — or join the team.</p>
+    <div class="cta-inner reveal">
+      <div class="cta-decoration"></div>
+      <h2>Learn more about CAS Capitals.</h2>
+      <p>Explore the firm's career opportunities or get in touch.</p>
       <div class="cta-actions">
-        <a href="contact.html" class="btn-primary">
-          Contact Us
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-        <a href="careers.html" class="btn-secondary">View Careers</a>
+        <a href="contact.html" class="btn btn-primary">Contact Us</a>
+        <a href="careers.html" class="btn btn-secondary">View Careers</a>
       </div>
     </div>
   </div>
 </section>
 
 <!-- FOOTER -->
-<footer>
+<footer class="footer">
   <div class="container">
     <div class="footer-inner">
-      <div class="footer-left">
+      <div class="footer-brand">
         <a href="index.html" class="logo">CAS<span>.</span>Capitals</a>
         <p class="footer-copy">© 2026 CAS Capitals. All rights reserved.</p>
-        <p class="footer-copy" style="font-size:0.73rem;max-width:360px">Past performance is not indicative of future results. Investing involves risk.</p>
+        <p class="footer-disclaimer">CAS Capitals is a private investment and research firm. It does not manage external capital or provide investment services to third parties.</p>
       </div>
       <ul class="footer-links">
         <li><a href="about.html">About</a></li>
@@ -312,28 +184,6 @@
   </div>
 </footer>
 
-<script>
-  const canvas = document.getElementById('canvas-bg');
-  const ctx = canvas.getContext('2d');
-  let W, H, nodes = [];
-  function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
-  function initNodes(n) { nodes = []; for (let i=0;i<n;i++) nodes.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-0.5)*0.3,vy:(Math.random()-0.5)*0.3,r:Math.random()*1.5+0.5}); }
-  function draw() {
-    ctx.clearRect(0,0,W,H);
-    for (let i=0;i<nodes.length;i++) for (let j=i+1;j<nodes.length;j++) {
-      const dx=nodes[i].x-nodes[j].x,dy=nodes[i].y-nodes[j].y,d=Math.sqrt(dx*dx+dy*dy);
-      if(d<150){ctx.beginPath();ctx.moveTo(nodes[i].x,nodes[i].y);ctx.lineTo(nodes[j].x,nodes[j].y);ctx.strokeStyle=`rgba(0,198,255,${0.1*(1-d/150)})`;ctx.lineWidth=0.5;ctx.stroke();}
-    }
-    nodes.forEach(n=>{ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);ctx.fillStyle='rgba(0,198,255,0.5)';ctx.fill();n.x+=n.vx;n.y+=n.vy;if(n.x<0||n.x>W)n.vx*=-1;if(n.y<0||n.y>H)n.vy*=-1;});
-    requestAnimationFrame(draw);
-  }
-  resize(); initNodes(70); draw();
-  window.addEventListener('resize',()=>{resize();initNodes(70);});
-  const nav = document.getElementById('navbar');
-  window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>40));
-  const reveals = document.querySelectorAll('.reveal');
-  const obs = new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}}),{threshold:0.1});
-  reveals.forEach(el=>obs.observe(el));
-</script>
+<script src="js/main.js"></script>
 </body>
 </html>
