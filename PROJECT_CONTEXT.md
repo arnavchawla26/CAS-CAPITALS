@@ -258,7 +258,7 @@ Create a professional, maintainable, production-ready website for CAS Capitals t
 
 # CURRENT PROJECT STATUS
 
-Last Updated: After QA Fixes (CSS Variables, Form Handlers, File Upload)
+Last Updated: After Critical C1 Fix (Apply Page CSS Extraction)
 
 ## Completed
 
@@ -292,6 +292,36 @@ Fixed broken drag & drop handler in js/main.js:
 
 Click-to-upload, drag & drop, filename display, and form submission all work correctly.
 
+#### Minor: Active Navigation States
+
+Added `class="active"` to the current page's nav item in all 5 pages:
+
+- index.html: Careers link active (part of main nav flow)
+- about.html: About link active (already had it)
+- careers.html: Careers link active (already had it)
+- contact.html: Contact Us link active (already had it)
+- apply.html: Careers link active (Apply is part of careers flow)
+
+CSS already had `.nav-links a.active` and `.nav-cta.active` rules defined in css/main.css. No CSS changes needed.
+
+#### Critical: Apply Page CSS Extraction
+
+Extracted 182-line inline `<style>` block from apply.html to css/apply.css:
+
+- Created css/apply.css with all page-specific styles
+- Replaced hardcoded colors with design tokens:
+  - `rgba(255,255,255,0.04)` → `var(--color-bg-input)`
+  - `#3d5068` → `var(--color-text-muted)`
+  - `rgba(0,198,255,...)` → `var(--color-accent)` with appropriate opacity
+  - `#0a0f1a` → `var(--color-bg)`
+  - `rgba(0,198,255,0.25)` → `var(--shadow-button)`
+- Replaced hardcoded font families with `var(--font-body)` and `var(--font-display)`
+- Replaced hardcoded transitions with `var(--transition-fast)`
+- Removed inline `<style>` block from apply.html
+- Added `<link rel="stylesheet" href="css/apply.css">` to apply.html
+
+Result: 0 inline `<style>` blocks remain in the repository.
+
 ### Architecture
 
 ✓ Repository audit completed
@@ -300,8 +330,9 @@ Click-to-upload, drag & drop, filename display, and form submission all work cor
 
 Files:
 
-- css/main.css
-- js/main.js
+- css/main.css (shared design system)
+- css/apply.css (apply page styles)
+- js/main.js (shared scripts)
 
 ✓ Shared assets validated
 
