@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initRevealAnimations();
   initContactForm();
   initApplyForm();
+  initLiveDashboard();
 });
 
 /* ------------------------------------------------------
@@ -245,4 +246,128 @@ function initApplyForm() {
       alert('Something went wrong. Please email your application to cascapitals26@gmail.com');
     }
   });
+}
+
+/* ------------------------------------------------------
+   Live stock market dashboard simulation
+   ------------------------------------------------------ */
+function initLiveDashboard() {
+  const mainPriceEl = document.getElementById('main-index-price');
+  if (!mainPriceEl) return; // Exit if not on home page
+
+  const mainChangeEl = document.getElementById('main-index-change');
+  const sensexEl = document.querySelector('#ticker-sensex .ticker-val');
+  const bankNiftyEl = document.querySelector('#ticker-banknifty .ticker-val');
+  const casPropEl = document.querySelector('#ticker-casprop .ticker-val');
+  const logsContainer = document.getElementById('terminal-logs');
+
+  let niftyVal = 23516.20;
+  let sensexVal = 77301.10;
+  let bankNiftyVal = 51780.40;
+  let casPropVal = 12482.90;
+
+  // Tabs interaction
+  const tabs = document.querySelectorAll('.dashboard-tabs .tab');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+
+  // Align starting times to actual current clock time
+  const initializeLogsTime = () => {
+    if (!logsContainer) return;
+    const rows = logsContainer.querySelectorAll('.log-row');
+    const now = new Date();
+    const offsets = [6, 3, 0];
+    rows.forEach((row, i) => {
+      const timeEl = row.querySelector('.log-time');
+      if (timeEl) {
+        const tempDate = new Date(now.getTime() - offsets[i] * 1000);
+        timeEl.textContent = tempDate.toLocaleTimeString('en-IN', { hour12: false });
+      }
+    });
+  };
+  initializeLogsTime();
+
+  // Price Tick Simulation
+  setInterval(() => {
+    const changePct = (Math.random() * 0.08 - 0.03); // -0.03% to +0.05%
+    
+    niftyVal += niftyVal * (changePct / 100);
+    sensexVal += sensexVal * (changePct / 100);
+    bankNiftyVal += bankNiftyVal * ((changePct + 0.01) / 100);
+    casPropVal += casPropVal * ((changePct + 0.02) / 100);
+    
+    // Update main index price
+    mainPriceEl.textContent = niftyVal.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    
+    // Update main change badge
+    const niftyDiff = niftyVal - 23136.20; // baseline for percentage calculation
+    const niftyChangePct = (niftyDiff / 23136.20) * 100;
+    const isPositive = niftyChangePct >= 0;
+    
+    if (mainChangeEl) {
+      mainChangeEl.className = `dashboard-change ${isPositive ? 'positive' : 'negative'}`;
+      mainChangeEl.innerHTML = `
+        <svg width="10" height="10" viewBox="0 0 12 12" fill="none" style="margin-right: 2px;">
+          ${isPositive 
+            ? '<path d="M6 2L2 6h3v4h2V6h3L6 2z" fill="currentColor"/>' 
+            : '<path d="M6 10l4-4H7V2H5v4H2l4 4z" fill="currentColor"/>'}
+        </svg>
+        <span class="change-text">${isPositive ? '+' : ''}${niftyChangePct.toFixed(2)}%</span>
+      `;
+    }
+
+    // Update Sparkline tickers
+    if (sensexEl) {
+      sensexEl.textContent = sensexVal.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+    if (bankNiftyEl) {
+      bankNiftyEl.textContent = bankNiftyVal.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+    if (casPropEl) {
+      casPropEl.textContent = casPropVal.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+  }, 3500);
+
+  // Algo Terminal Simulation logs
+  const logPool = [
+    { tag: 'Trade', type: 'success', msg: 'Buy Order Executed NIFTY26JUN Call @ 142.10' },
+    { tag: 'Trade', type: 'success', msg: 'Sell Order Executed BANKNIFTY26JUN Put @ 285.40' },
+    { tag: 'Algo', type: 'info', msg: 'Delta-neutral hedge rebalanced portfolio risk' },
+    { tag: 'Algo', type: 'info', msg: 'ML Model predicts upward trend (Confidence: 84.6%)' },
+    { tag: 'Algo', type: 'info', msg: 'Spread arbitrage detected in NIFTY Futures' },
+    { tag: 'Risk', type: 'warning', msg: 'Exposure optimized. Model predictions locked.' },
+    { tag: 'Risk', type: 'warning', msg: 'Hedge ratio adjusted to volatility parameters' },
+    { tag: 'Risk', type: 'warning', msg: 'Margin buffer validated: 32.4% [Safe]' }
+  ];
+
+  setInterval(() => {
+    if (!logsContainer) return;
+    
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString('en-IN', { hour12: false });
+    const logItem = logPool[Math.floor(Math.random() * logPool.length)];
+    
+    const row = document.createElement('div');
+    row.className = 'log-row active-row';
+    row.innerHTML = `
+      <span class="log-time">${timeStr}</span>
+      <span class="log-tag tag-${logItem.type}">${logItem.tag}</span>
+      <span class="log-msg">${logItem.msg}</span>
+    `;
+
+    const existingRows = logsContainer.querySelectorAll('.log-row');
+    existingRows.forEach(r => r.classList.remove('active-row'));
+    
+    logsContainer.appendChild(row);
+    
+    const currentRows = logsContainer.querySelectorAll('.log-row');
+    if (currentRows.length > 3) {
+      currentRows[0].remove();
+    }
+  }, 5000);
 }

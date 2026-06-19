@@ -1,184 +1,283 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Apply — CAS Capitals</title>
-  <meta name="description" content="Apply for a position at CAS Capitals. Join our research team." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css" />
-  <link rel="stylesheet" href="css/apply.css" />
-</head>
-<body>
-
-<!-- NAV -->
-<nav class="navbar">
-  <div class="container navbar-inner">
-    <a href="index.html" class="logo">CAS<span>.</span>Capitals</a>
-    <button class="mobile-menu-btn" type="button" aria-label="Open navigation menu"></button>
-    <ul class="nav-links">
-      <li><a href="about.html">About</a></li>
-      <li><a href="index.html#technology">Technology</a></li>
-      <li><a href="index.html#how">How It Works</a></li>
-      <li><a href="about.html#team">Team</a></li>
-      <li><a href="careers.html">Careers</a></li>
-      <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
-    </ul>
-  </div>
-</nav>
-
-<!-- APPLY PAGE -->
-<section class="apply-page">
-  <div class="badge hero-badge reveal"><span class="badge-dot"></span>Now Hiring</div>
-  <h1 class="hero-title reveal reveal-d1" style="margin-bottom: 12px;">Apply for <span id="roleDisplay" style="background: linear-gradient(90deg, var(--color-accent), var(--color-accent-secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">a Position</span></h1>
-  <p class="hero-sub reveal reveal-d2" style="margin-bottom: 48px;">
-    Fill in your details below and attach your resume. We review every application and will get back to you within 5 business days.
-  </p>
-
-  <div class="form-card reveal reveal-d3">
-    <form class="apply-form" id="applyForm" name="job-application" netlify netlify-honeypot="bot-field" enctype="multipart/form-data">
-      <input type="hidden" name="form-name" value="job-application" />
-      <input type="hidden" name="bot-field" />
-      <input type="hidden" name="role" id="roleInput" value="" />
-
-      <!-- Personal Info -->
-      <div class="form-section-label">Personal Information</div>
-
-      <div class="form-row">
-        <div class="form-field">
-          <label for="fname">First Name *</label>
-          <input type="text" id="fname" name="first_name" placeholder="Arnav" required />
-        </div>
-        <div class="form-field">
-          <label for="lname">Last Name *</label>
-          <input type="text" id="lname" name="last_name" placeholder="Chawla" required />
-        </div>
-      </div>
-
-      <div class="form-row">
-        <div class="form-field">
-          <label for="email">Email Address *</label>
-          <input type="email" id="email" name="email" placeholder="you@example.com" required />
-        </div>
-        <div class="form-field">
-          <label for="phone">Phone Number</label>
-          <input type="tel" id="phone" name="phone" placeholder="+91 98765 43210" />
-        </div>
-      </div>
-
-      <div class="form-row">
-        <div class="form-field">
-          <label for="city">City</label>
-          <input type="text" id="city" name="city" placeholder="Mumbai" />
-        </div>
-        <div class="form-field">
-          <label for="linkedin">LinkedIn Profile</label>
-          <input type="url" id="linkedin" name="linkedin" placeholder="linkedin.com/in/yourname" />
-        </div>
-      </div>
-
-      <div class="form-divider"></div>
-
-      <!-- Experience -->
-      <div class="form-section-label">Experience</div>
-
-      <div class="form-row">
-        <div class="form-field">
-          <label for="experience">Years of Experience *</label>
-          <select id="experience" name="experience" required>
-            <option value="" disabled selected>Select range</option>
-            <option value="0-1 years">0–1 years</option>
-            <option value="1-2 years">1–2 years</option>
-            <option value="2-3 years">2–3 years</option>
-            <option value="3-5 years">3–5 years</option>
-            <option value="5-8 years">5–8 years</option>
-            <option value="8+ years">8+ years</option>
-          </select>
-        </div>
-        <div class="form-field">
-          <label for="current_role">Current / Most Recent Role</label>
-          <input type="text" id="current_role" name="current_role" placeholder="e.g. Junior Analyst at XYZ" />
-        </div>
-      </div>
-
-      <div class="form-field">
-        <label for="education">Highest Qualification</label>
-        <select id="education" name="education">
-          <option value="" disabled selected>Select qualification</option>
-          <option value="B.Com / BBA / B.Sc (Finance)">B.Com / BBA / B.Sc (Finance)</option>
-          <option value="MBA (Finance)">MBA (Finance)</option>
-          <option value="CFA (Level 1)">CFA – Level 1</option>
-          <option value="CFA (Level 2)">CFA – Level 2</option>
-          <option value="CFA (Charterholder)">CFA – Charterholder</option>
-          <option value="CA / CPA">CA / CPA</option>
-          <option value="MS/PhD in Quantitative Finance">MS/PhD in Quantitative Finance</option>
-          <option value="MS/PhD in Statistics/Mathematics">MS/PhD in Statistics/Mathematics</option>
-          <option value="Other">Other</option>
-        </select>
-      </div>
-
-      <div class="form-divider"></div>
-
-      <!-- Resume -->
-      <div class="form-section-label">Resume / CV</div>
-
-      <div class="form-field">
-        <label>Upload Resume *</label>
-        <div class="upload-area" id="uploadArea">
-          <input type="file" id="resumeFile" name="resume" accept=".pdf,.doc,.docx" required />
-          <div class="upload-icon">📎</div>
-          <div class="upload-text">Click to upload or drag & drop</div>
-          <div class="upload-hint">PDF, DOC, or DOCX · Max 5MB</div>
-          <div class="upload-filename" id="uploadFilename"></div>
-        </div>
-      </div>
-
-      <div class="form-divider"></div>
-
-      <!-- Cover note -->
-      <div class="form-section-label">Cover Note</div>
-
-      <div class="form-field">
-        <label for="cover">Why CAS Capitals?</label>
-        <textarea id="cover" name="cover_note" placeholder="Tell us why you're interested in this role and what makes you a strong fit…"></textarea>
-      </div>
-
-      <button type="submit" class="form-submit" id="submitBtn">
-        Submit Application
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-    </form>
-
-    <div class="form-success" id="formSuccess">
-      <div class="success-icon"><span>🎉</span></div>
-      <h3>Application Submitted!</h3>
-      <p>Thanks for applying to CAS Capitals. Our team will review your application and reach out within 5 business days.</p>
-      <a href="careers.html" class="back-btn">← Back to Careers</a>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="footer">
-  <div class="container">
-    <div class="footer-inner">
-      <div class="footer-brand">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Apply — CAS Capitals</title>
+    <meta
+      name="description"
+      content="Apply for a position at CAS Capitals. Join our research team."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/apply.css" />
+  </head>
+  <body>
+    <!-- NAV -->
+    <nav class="navbar">
+      <div class="container navbar-inner">
         <a href="index.html" class="logo">CAS<span>.</span>Capitals</a>
-        <p class="footer-copy">© 2026 CAS Capitals. All rights reserved.</p>
-        <p class="footer-disclaimer">CAS Capitals is a private investment and research firm. It does not manage external capital or provide investment services to third parties.</p>
+        <button
+          class="mobile-menu-btn"
+          type="button"
+          aria-label="Open navigation menu"
+        ></button>
+        <ul class="nav-links">
+          <li><a href="about.html">About</a></li>
+          <li><a href="index.html#technology">Technology</a></li>
+          <li><a href="index.html#how">How It Works</a></li>
+          <li><a href="about.html#team">Team</a></li>
+          <li><a href="careers.html">Careers</a></li>
+          <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
+        </ul>
       </div>
-      <ul class="footer-links">
-        <li><a href="about.html">About</a></li>
-        <li><a href="about.html#team">Team</a></li>
-      <li><a href="careers.html" class="active">Careers</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
-    </div>
-  </div>
-</footer>
+    </nav>
 
-<script src="js/main.js"></script>
-</body>
+    <!-- APPLY PAGE -->
+    <section class="apply-page">
+      <div class="badge hero-badge reveal">
+        <span class="badge-dot"></span>Now Hiring
+      </div>
+      <h1 class="hero-title reveal reveal-d1" style="margin-bottom: 12px">
+        Apply for
+        <span
+          id="roleDisplay"
+          style="
+            background: linear-gradient(
+              90deg,
+              var(--color-accent),
+              var(--color-accent-secondary)
+            );
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+          "
+          >a Position</span
+        >
+      </h1>
+      <p class="hero-sub reveal reveal-d2" style="margin-bottom: 48px">
+        Fill in your details below and attach your resume. We review every
+        application and will get back to you within 5 business days.
+      </p>
+
+      <div class="form-card reveal reveal-d3">
+        <form
+          class="apply-form"
+          id="applyForm"
+          name="job-application"
+          netlify
+          netlify-honeypot="bot-field"
+          enctype="multipart/form-data"
+        >
+          <input type="hidden" name="form-name" value="job-application" />
+          <input type="hidden" name="bot-field" />
+          <input type="hidden" name="role" id="roleInput" value="" />
+
+          <!-- Personal Info -->
+          <div class="form-section-label">Personal Information</div>
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="fname">First Name *</label>
+              <input
+                type="text"
+                id="fname"
+                name="first_name"
+                placeholder="Arnav"
+                required
+              />
+            </div>
+            <div class="form-field">
+              <label for="lname">Last Name *</label>
+              <input
+                type="text"
+                id="lname"
+                name="last_name"
+                placeholder="Chawla"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="email">Email Address *</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="you@example.com"
+                required
+              />
+            </div>
+            <div class="form-field">
+              <label for="phone">Phone Number</label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                placeholder="+91 98765 43210"
+              />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="city">City</label>
+              <input type="text" id="city" name="city" placeholder="Mumbai" />
+            </div>
+            <div class="form-field">
+              <label for="linkedin">LinkedIn Profile</label>
+              <input
+                type="url"
+                id="linkedin"
+                name="linkedin"
+                placeholder="linkedin.com/in/yourname"
+              />
+            </div>
+          </div>
+
+          <div class="form-divider"></div>
+
+          <!-- Experience -->
+          <div class="form-section-label">Experience</div>
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="experience">Years of Experience *</label>
+              <select id="experience" name="experience" required>
+                <option value="" disabled selected>Select range</option>
+                <option value="0-1 years">0–1 years</option>
+                <option value="1-2 years">1–2 years</option>
+                <option value="2-3 years">2–3 years</option>
+                <option value="3-5 years">3–5 years</option>
+                <option value="5-8 years">5–8 years</option>
+                <option value="8+ years">8+ years</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="current_role">Current / Most Recent Role</label>
+              <input
+                type="text"
+                id="current_role"
+                name="current_role"
+                placeholder="e.g. Junior Analyst at XYZ"
+              />
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="education">Highest Qualification</label>
+            <select id="education" name="education">
+              <option value="" disabled selected>Select qualification</option>
+              <option value="B.Com / BBA / B.Sc (Finance)">
+                B.Com / BBA / B.Sc (Finance)
+              </option>
+              <option value="MBA (Finance)">MBA (Finance)</option>
+              <option value="CFA (Level 1)">CFA – Level 1</option>
+              <option value="CFA (Level 2)">CFA – Level 2</option>
+              <option value="CFA (Charterholder)">CFA – Charterholder</option>
+              <option value="CA / CPA">CA / CPA</option>
+              <option value="MS/PhD in Quantitative Finance">
+                MS/PhD in Quantitative Finance
+              </option>
+              <option value="MS/PhD in Statistics/Mathematics">
+                MS/PhD in Statistics/Mathematics
+              </option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-divider"></div>
+
+          <!-- Resume -->
+          <div class="form-section-label">Resume / CV</div>
+
+          <div class="form-field">
+            <label>Upload Resume *</label>
+            <div class="upload-area" id="uploadArea">
+              <input
+                type="file"
+                id="resumeFile"
+                name="resume"
+                accept=".pdf,.doc,.docx"
+                required
+              />
+              <div class="upload-icon">📎</div>
+              <div class="upload-text">Click to upload or drag & drop</div>
+              <div class="upload-hint">PDF, DOC, or DOCX · Max 5MB</div>
+              <div class="upload-filename" id="uploadFilename"></div>
+            </div>
+          </div>
+
+          <div class="form-divider"></div>
+
+          <!-- Cover note -->
+          <div class="form-section-label">Cover Note</div>
+
+          <div class="form-field">
+            <label for="cover">Why CAS Capitals?</label>
+            <textarea
+              id="cover"
+              name="cover_note"
+              placeholder="Tell us why you're interested in this role and what makes you a strong fit…"
+            ></textarea>
+          </div>
+
+          <button type="submit" class="form-submit" id="submitBtn">
+            Submit Application
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path
+                d="M3 8h10M9 4l4 4-4 4"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+        </form>
+
+        <div class="form-success" id="formSuccess">
+          <div class="success-icon"><span>🎉</span></div>
+          <h3>Application Submitted!</h3>
+          <p>
+            Thanks for applying to CAS Capitals. Our team will review your
+            application and reach out within 5 business days.
+          </p>
+          <a href="careers.html" class="back-btn">← Back to Careers</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-inner">
+          <div class="footer-brand">
+            <a href="index.html" class="logo">CAS<span>.</span>Capitals</a>
+            <p class="footer-copy">© 2026 CAS Capitals. All rights reserved.</p>
+            <p class="footer-disclaimer">
+              CAS Capitals is a private investment and research firm. It does
+              not manage external capital or provide investment services to
+              third parties.
+            </p>
+          </div>
+          <ul class="footer-links">
+            <li><a href="about.html">About</a></li>
+            <li><a href="about.html#team">Team</a></li>
+            <li><a href="careers.html" class="active">Careers</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
 </html>

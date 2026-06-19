@@ -1,139 +1,426 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contact — CAS Capitals</title>
-  <meta name="description" content="Get in touch with CAS Capitals for general inquiries, research opportunities, or careers." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css" />
-</head>
-<body>
-
-<!-- NAV -->
-<nav class="navbar">
-  <div class="container navbar-inner">
-    <a href="index.html" class="logo">CAS<span>.</span>Capitals</a>
-    <button class="mobile-menu-btn" type="button" aria-label="Open navigation menu"></button>
-    <ul class="nav-links">
-      <li><a href="about.html">About</a></li>
-      <li><a href="index.html#technology">Technology</a></li>
-      <li><a href="index.html#how">How It Works</a></li>
-      <li><a href="about.html#team">Team</a></li>
-      <li><a href="careers.html">Careers</a></li>
-      <li><a href="contact.html" class="nav-cta active" aria-current="page">Contact Us</a></li>
-    </ul>
-  </div>
-</nav>
-
-<!-- CONTACT PAGE -->
-<section class="hero">
-  <div class="container">
-    <div class="hero-grid">
-      <div class="hero-content">
-        <div class="badge hero-badge reveal"><span class="badge-dot"></span>Get in Touch</div>
-        <h1 class="hero-title reveal reveal-d1">Contact <em>CAS Capitals.</em></h1>
-        <p class="hero-sub reveal reveal-d2">
-          For general inquiries, research opportunities, or career-related questions — we'd like to hear from you.
-        </p>
-
-        <div class="hero-stats reveal reveal-d3">
-          <div class="stat-item">
-            <div class="stat-value">Email</div>
-            <div class="stat-label"><a href="mailto:cascapitals26@gmail.com" style="color: var(--color-text); text-decoration: none;">cascapitals26@gmail.com</a></div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-value">Website</div>
-            <div class="stat-label"><a href="https://cascapitals.com" target="_blank" style="color: var(--color-text); text-decoration: none;">cascapitals.com</a></div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-value">Careers</div>
-            <div class="stat-label"><a href="careers.html" style="color: var(--color-text); text-decoration: none;">View open positions →</a></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="hero-visual reveal reveal-d2">
-        <div class="hero-decoration"></div>
-        <div class="hero-card">
-          <div class="hero-card-header">
-            <div class="hero-card-title">Send a Message</div>
-            <span class="badge">Contact Form</span>
-          </div>
-          <form class="contact-form" id="contactForm" name="contact" netlify netlify-honeypot="bot-field">
-            <input type="hidden" name="form-name" value="contact" />
-            <input type="hidden" name="bot-field" />
-
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-              <div class="ai-pill" style="flex-direction: column; align-items: stretch; gap: 6px; padding: 0; background: none; border: none;">
-                <label style="font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-muted);">First Name *</label>
-                <input type="text" id="fname" name="first_name" placeholder="Arnav" required style="background: rgba(255,255,255,0.04); border: 1px solid var(--color-border); border-radius: 10px; padding: 13px 16px; color: var(--color-text); font-family: 'Inter', sans-serif; font-size: 0.9rem; outline: none; transition: border-color 0.2s, box-shadow 0.2s; width: 100%;" />
-              </div>
-              <div class="ai-pill" style="flex-direction: column; align-items: stretch; gap: 6px; padding: 0; background: none; border: none;">
-                <label style="font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-muted);">Last Name *</label>
-                <input type="text" id="lname" name="last_name" placeholder="Chawla" required style="background: rgba(255,255,255,0.04); border: 1px solid var(--color-border); border-radius: 10px; padding: 13px 16px; color: var(--color-text); font-family: 'Inter', sans-serif; font-size: 0.9rem; outline: none; transition: border-color 0.2s, box-shadow 0.2s; width: 100%;" />
-              </div>
-            </div>
-
-            <div class="ai-pill" style="flex-direction: column; align-items: stretch; gap: 6px; padding: 0; background: none; border: none;">
-              <label style="font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-muted);">Email Address *</label>
-              <input type="email" id="email" name="email" placeholder="you@example.com" required style="background: rgba(255,255,255,0.04); border: 1px solid var(--color-border); border-radius: 10px; padding: 13px 16px; color: var(--color-text); font-family: 'Inter', sans-serif; font-size: 0.9rem; outline: none; transition: border-color 0.2s, box-shadow 0.2s; width: 100%;" />
-            </div>
-
-            <div class="ai-pill" style="flex-direction: column; align-items: stretch; gap: 6px; padding: 0; background: none; border: none;">
-              <label style="font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-muted);">I'm interested in *</label>
-              <select id="interest" name="interest" required style="background: rgba(255,255,255,0.04); border: 1px solid var(--color-border); border-radius: 10px; padding: 13px 16px; color: var(--color-text); font-family: 'Inter', sans-serif; font-size: 0.9rem; outline: none; transition: border-color 0.2s, box-shadow 0.2s; width: 100%; appearance: none; cursor: pointer;">
-                <option value="" disabled selected>Select an option</option>
-                <option value="General Inquiry">General Inquiry</option>
-                <option value="Research Opportunities">Research Opportunities</option>
-                <option value="Careers">Careers</option>
-                <option value="Business Communication">Business Communication</option>
-              </select>
-            </div>
-
-            <div class="ai-pill" style="flex-direction: column; align-items: stretch; gap: 6px; padding: 0; background: none; border: none;">
-              <label style="font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-muted);">Message *</label>
-              <textarea id="message" name="message" placeholder="Tell us a bit about yourself and what you're looking for…" required style="background: rgba(255,255,255,0.04); border: 1px solid var(--color-border); border-radius: 10px; padding: 13px 16px; color: var(--color-text); font-family: 'Inter', sans-serif; font-size: 0.9rem; outline: none; transition: border-color 0.2s, box-shadow 0.2s; width: 100%; resize: vertical; min-height: 130px;"></textarea>
-            </div>
-
-            <button type="submit" class="btn btn-primary" id="submitBtn" style="width: 100%; justify-content: center; margin-top: 4px;">
-              Send Message
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-          </form>
-
-          <div id="formSuccess" style="display: none; text-align: center; padding: 40px 20px;">
-            <div style="font-size: 2.5rem; margin-bottom: 12px;">✅</div>
-            <h4 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 8px;">Message Sent!</h4>
-            <p style="color: var(--color-text-muted); font-size: 0.9rem; line-height: 1.7;">Thanks for reaching out. We'll get back to you within 24 hours.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="footer">
-  <div class="container">
-    <div class="footer-inner">
-      <div class="footer-brand">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact — CAS Capitals</title>
+    <meta
+      name="description"
+      content="Get in touch with CAS Capitals for general inquiries, research opportunities, or careers."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/main.css" />
+  </head>
+  <body>
+    <!-- NAV -->
+    <nav class="navbar">
+      <div class="container navbar-inner">
         <a href="index.html" class="logo">CAS<span>.</span>Capitals</a>
-        <p class="footer-copy">© 2026 CAS Capitals. All rights reserved.</p>
-        <p class="footer-disclaimer">CAS Capitals is a private investment and research firm. It does not manage external capital or provide investment services to third parties.</p>
+        <button
+          class="mobile-menu-btn"
+          type="button"
+          aria-label="Open navigation menu"
+        ></button>
+        <ul class="nav-links">
+          <li><a href="about.html">About</a></li>
+          <li><a href="index.html#technology">Technology</a></li>
+          <li><a href="index.html#how">How It Works</a></li>
+          <li><a href="about.html#team">Team</a></li>
+          <li><a href="careers.html">Careers</a></li>
+          <li>
+            <a href="contact.html" class="nav-cta active" aria-current="page"
+              >Contact Us</a
+            >
+          </li>
+        </ul>
       </div>
-      <ul class="footer-links">
-        <li><a href="about.html">About</a></li>
-        <li><a href="about.html#team">Team</a></li>
-        <li><a href="careers.html">Careers</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
-    </div>
-  </div>
-</footer>
+    </nav>
 
-<script src="js/main.js"></script>
-</body>
+    <!-- CONTACT PAGE -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="hero-content">
+            <div class="badge hero-badge reveal">
+              <span class="badge-dot"></span>Get in Touch
+            </div>
+            <h1 class="hero-title reveal reveal-d1">
+              Contact <em>CAS Capitals.</em>
+            </h1>
+            <p class="hero-sub reveal reveal-d2">
+              For general inquiries, research opportunities, or career-related
+              questions — we'd like to hear from you.
+            </p>
+
+            <div class="hero-stats reveal reveal-d3">
+              <div class="stat-item">
+                <div class="stat-value">Email</div>
+                <div class="stat-label">
+                  <a
+                    href="mailto:cascapitals26@gmail.com"
+                    style="color: var(--color-text); text-decoration: none"
+                    >cascapitals26@gmail.com</a
+                  >
+                </div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value">Website</div>
+                <div class="stat-label">
+                  <a
+                    href="https://cascapitals.com"
+                    target="_blank"
+                    style="color: var(--color-text); text-decoration: none"
+                    >cascapitals.com</a
+                  >
+                </div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value">Careers</div>
+                <div class="stat-label">
+                  <a
+                    href="careers.html"
+                    style="color: var(--color-text); text-decoration: none"
+                    >View open positions →</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-visual reveal reveal-d2">
+            <div class="hero-decoration"></div>
+            <div class="hero-card">
+              <div class="hero-card-header">
+                <div class="hero-card-title">Send a Message</div>
+                <span class="badge">Contact Form</span>
+              </div>
+              <form
+                class="contact-form"
+                id="contactForm"
+                name="contact"
+                netlify
+                netlify-honeypot="bot-field"
+              >
+                <input type="hidden" name="form-name" value="contact" />
+                <input type="hidden" name="bot-field" />
+
+                <div
+                  style="
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 16px;
+                  "
+                >
+                  <div
+                    class="ai-pill"
+                    style="
+                      flex-direction: column;
+                      align-items: stretch;
+                      gap: 6px;
+                      padding: 0;
+                      background: none;
+                      border: none;
+                    "
+                  >
+                    <label
+                      style="
+                        font-size: 0.75rem;
+                        font-weight: 600;
+                        letter-spacing: 0.08em;
+                        text-transform: uppercase;
+                        color: var(--color-text-muted);
+                      "
+                      >First Name *</label
+                    >
+                    <input
+                      type="text"
+                      id="fname"
+                      name="first_name"
+                      placeholder="Arnav"
+                      required
+                      style="
+                        background: rgba(255, 255, 255, 0.04);
+                        border: 1px solid var(--color-border);
+                        border-radius: 10px;
+                        padding: 13px 16px;
+                        color: var(--color-text);
+                        font-family: &quot;Inter&quot;, sans-serif;
+                        font-size: 0.9rem;
+                        outline: none;
+                        transition:
+                          border-color 0.2s,
+                          box-shadow 0.2s;
+                        width: 100%;
+                      "
+                    />
+                  </div>
+                  <div
+                    class="ai-pill"
+                    style="
+                      flex-direction: column;
+                      align-items: stretch;
+                      gap: 6px;
+                      padding: 0;
+                      background: none;
+                      border: none;
+                    "
+                  >
+                    <label
+                      style="
+                        font-size: 0.75rem;
+                        font-weight: 600;
+                        letter-spacing: 0.08em;
+                        text-transform: uppercase;
+                        color: var(--color-text-muted);
+                      "
+                      >Last Name *</label
+                    >
+                    <input
+                      type="text"
+                      id="lname"
+                      name="last_name"
+                      placeholder="Chawla"
+                      required
+                      style="
+                        background: rgba(255, 255, 255, 0.04);
+                        border: 1px solid var(--color-border);
+                        border-radius: 10px;
+                        padding: 13px 16px;
+                        color: var(--color-text);
+                        font-family: &quot;Inter&quot;, sans-serif;
+                        font-size: 0.9rem;
+                        outline: none;
+                        transition:
+                          border-color 0.2s,
+                          box-shadow 0.2s;
+                        width: 100%;
+                      "
+                    />
+                  </div>
+                </div>
+
+                <div
+                  class="ai-pill"
+                  style="
+                    flex-direction: column;
+                    align-items: stretch;
+                    gap: 6px;
+                    padding: 0;
+                    background: none;
+                    border: none;
+                  "
+                >
+                  <label
+                    style="
+                      font-size: 0.75rem;
+                      font-weight: 600;
+                      letter-spacing: 0.08em;
+                      text-transform: uppercase;
+                      color: var(--color-text-muted);
+                    "
+                    >Email Address *</label
+                  >
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="you@example.com"
+                    required
+                    style="
+                      background: rgba(255, 255, 255, 0.04);
+                      border: 1px solid var(--color-border);
+                      border-radius: 10px;
+                      padding: 13px 16px;
+                      color: var(--color-text);
+                      font-family: &quot;Inter&quot;, sans-serif;
+                      font-size: 0.9rem;
+                      outline: none;
+                      transition:
+                        border-color 0.2s,
+                        box-shadow 0.2s;
+                      width: 100%;
+                    "
+                  />
+                </div>
+
+                <div
+                  class="ai-pill"
+                  style="
+                    flex-direction: column;
+                    align-items: stretch;
+                    gap: 6px;
+                    padding: 0;
+                    background: none;
+                    border: none;
+                  "
+                >
+                  <label
+                    style="
+                      font-size: 0.75rem;
+                      font-weight: 600;
+                      letter-spacing: 0.08em;
+                      text-transform: uppercase;
+                      color: var(--color-text-muted);
+                    "
+                    >I'm interested in *</label
+                  >
+                  <select
+                    id="interest"
+                    name="interest"
+                    required
+                    style="
+                      background: rgba(255, 255, 255, 0.04);
+                      border: 1px solid var(--color-border);
+                      border-radius: 10px;
+                      padding: 13px 16px;
+                      color: var(--color-text);
+                      font-family: &quot;Inter&quot;, sans-serif;
+                      font-size: 0.9rem;
+                      outline: none;
+                      transition:
+                        border-color 0.2s,
+                        box-shadow 0.2s;
+                      width: 100%;
+                      appearance: none;
+                      cursor: pointer;
+                    "
+                  >
+                    <option value="" disabled selected>Select an option</option>
+                    <option value="General Inquiry">General Inquiry</option>
+                    <option value="Research Opportunities">
+                      Research Opportunities
+                    </option>
+                    <option value="Careers">Careers</option>
+                    <option value="Business Communication">
+                      Business Communication
+                    </option>
+                  </select>
+                </div>
+
+                <div
+                  class="ai-pill"
+                  style="
+                    flex-direction: column;
+                    align-items: stretch;
+                    gap: 6px;
+                    padding: 0;
+                    background: none;
+                    border: none;
+                  "
+                >
+                  <label
+                    style="
+                      font-size: 0.75rem;
+                      font-weight: 600;
+                      letter-spacing: 0.08em;
+                      text-transform: uppercase;
+                      color: var(--color-text-muted);
+                    "
+                    >Message *</label
+                  >
+                  <textarea
+                    id="message"
+                    name="message"
+                    placeholder="Tell us a bit about yourself and what you're looking for…"
+                    required
+                    style="
+                      background: rgba(255, 255, 255, 0.04);
+                      border: 1px solid var(--color-border);
+                      border-radius: 10px;
+                      padding: 13px 16px;
+                      color: var(--color-text);
+                      font-family: &quot;Inter&quot;, sans-serif;
+                      font-size: 0.9rem;
+                      outline: none;
+                      transition:
+                        border-color 0.2s,
+                        box-shadow 0.2s;
+                      width: 100%;
+                      resize: vertical;
+                      min-height: 130px;
+                    "
+                  ></textarea>
+                </div>
+
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  id="submitBtn"
+                  style="width: 100%; justify-content: center; margin-top: 4px"
+                >
+                  Send Message
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path
+                      d="M3 8h10M9 4l4 4-4 4"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </button>
+              </form>
+
+              <div
+                id="formSuccess"
+                style="display: none; text-align: center; padding: 40px 20px"
+              >
+                <div style="font-size: 2.5rem; margin-bottom: 12px">✅</div>
+                <h4
+                  style="
+                    font-family: &quot;Space Grotesk&quot;, sans-serif;
+                    font-size: 1.3rem;
+                    font-weight: 700;
+                    margin-bottom: 8px;
+                  "
+                >
+                  Message Sent!
+                </h4>
+                <p
+                  style="
+                    color: var(--color-text-muted);
+                    font-size: 0.9rem;
+                    line-height: 1.7;
+                  "
+                >
+                  Thanks for reaching out. We'll get back to you within 24
+                  hours.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-inner">
+          <div class="footer-brand">
+            <a href="index.html" class="logo">CAS<span>.</span>Capitals</a>
+            <p class="footer-copy">© 2026 CAS Capitals. All rights reserved.</p>
+            <p class="footer-disclaimer">
+              CAS Capitals is a private investment and research firm. It does
+              not manage external capital or provide investment services to
+              third parties.
+            </p>
+          </div>
+          <ul class="footer-links">
+            <li><a href="about.html">About</a></li>
+            <li><a href="about.html#team">Team</a></li>
+            <li><a href="careers.html">Careers</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
 </html>
