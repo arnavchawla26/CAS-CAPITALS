@@ -4,40 +4,363 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Apply — CAS Capitals</title>
-  <meta name="description" content="Apply for a position at CAS Capitals. Join our research team." />
+  <meta name="description" content="Apply for a position at CAS Capitals. Join our AI-powered investment team." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css" />
-  <link rel="stylesheet" href="css/apply.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #020409;
+      --bg2: #060c17;
+      --accent: #00c6ff;
+      --accent2: #7b2fff;
+      --accent3: #00ff9d;
+      --text: #e8edf5;
+      --muted: #6b7b96;
+      --card: rgba(255,255,255,0.04);
+      --border: rgba(255,255,255,0.07);
+      --glow: rgba(0,198,255,0.15);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* NOISE */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.5;
+    }
+
+    /* CANVAS */
+    #canvas-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 20px 0;
+      background: rgba(2,4,9,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #fff 30%, var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+    }
+    .logo span { color: var(--accent); -webkit-text-fill-color: var(--accent); }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--text); }
+
+    /* PAGE */
+    .page {
+      position: relative;
+      z-index: 2;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 120px 32px 80px;
+    }
+
+    /* HEADER */
+    .page-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0,198,255,0.08);
+      border: 1px solid rgba(0,198,255,0.2);
+      border-radius: 100px;
+      padding: 5px 14px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .page-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+    .page-title .role-name {
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .page-sub {
+      color: var(--muted);
+      font-size: 1rem;
+      margin-bottom: 48px;
+      line-height: 1.7;
+    }
+
+    /* FORM CARD */
+    .form-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 48px 44px;
+      position: relative;
+      overflow: hidden;
+    }
+    .form-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+    }
+
+    .apply-form { display: flex; flex-direction: column; gap: 20px; }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+    .form-field label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .form-field input,
+    .form-field textarea,
+    .form-field select {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 13px 16px;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      width: 100%;
+    }
+    .form-field input::placeholder,
+    .form-field textarea::placeholder { color: #3d5068; }
+    .form-field input:focus,
+    .form-field textarea:focus,
+    .form-field select:focus {
+      border-color: rgba(0,198,255,0.4);
+      box-shadow: 0 0 0 3px rgba(0,198,255,0.08);
+    }
+    .form-field textarea { resize: vertical; min-height: 110px; }
+    .form-field select { appearance: none; cursor: pointer; }
+    .form-field select option { background: #0a0f1a; }
+
+    /* RESUME UPLOAD */
+    .upload-area {
+      border: 1.5px dashed rgba(0,198,255,0.25);
+      border-radius: 12px;
+      padding: 32px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      position: relative;
+      background: rgba(0,198,255,0.02);
+    }
+    .upload-area:hover, .upload-area.dragover {
+      border-color: rgba(0,198,255,0.5);
+      background: rgba(0,198,255,0.05);
+    }
+    .upload-area input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+    .upload-icon { font-size: 2rem; margin-bottom: 10px; }
+    .upload-text {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .upload-hint {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+    .upload-filename {
+      margin-top: 10px;
+      font-size: 0.82rem;
+      color: var(--accent3);
+      font-weight: 500;
+      display: none;
+    }
+
+    /* DIVIDER */
+    .form-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 4px 0;
+    }
+    .form-section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(0,198,255,0.6);
+      margin-bottom: -4px;
+    }
+
+    /* SUBMIT */
+    .form-submit {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      padding: 16px 32px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+      box-shadow: 0 0 40px rgba(0,198,255,0.25);
+      width: 100%;
+      font-family: 'Inter', sans-serif;
+      margin-top: 4px;
+    }
+    .form-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 60px rgba(0,198,255,0.4);
+    }
+    .form-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    /* SUCCESS */
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 48px 32px;
+    }
+    .success-icon { font-size: 3rem; margin-bottom: 16px; }
+    .success-icon span {
+      display: inline-block;
+      animation: pop 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards;
+    }
+    @keyframes pop {
+      from { transform: scale(0); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .form-success h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      letter-spacing: -0.02em;
+    }
+    .form-success p { color: var(--muted); font-size: 0.95rem; line-height: 1.7; }
+    .form-success .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 28px;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: opacity 0.2s;
+    }
+    .form-success .back-btn:hover { opacity: 0.75; }
+
+    /* FOOTER */
+    .page-footer {
+      position: relative;
+      z-index: 2;
+      border-top: 1px solid var(--border);
+      padding: 32px;
+      text-align: center;
+    }
+    .page-footer p {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    @media (max-width: 600px) {
+      .form-row { grid-template-columns: 1fr; }
+      .form-card { padding: 32px 24px; }
+      .page { padding: 100px 20px 60px; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav class="navbar">
-  <div class="container navbar-inner">
+<canvas id="canvas-bg"></canvas>
+
+<nav>
+  <div class="nav-inner">
     <a href="index.html" class="logo">CAS<span>.</span>Capitals</a>
-    <button class="mobile-menu-btn" type="button" aria-label="Open navigation menu"></button>
-    <ul class="nav-links">
-      <li><a href="about.html">About</a></li>
-      <li><a href="index.html#technology">Technology</a></li>
-      <li><a href="index.html#how">How It Works</a></li>
-      <li><a href="about.html#team">Team</a></li>
-      <li><a href="careers.html">Careers</a></li>
-      <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
-    </ul>
+    <a href="index.html#careers" class="back-link">
+      ← Back to Careers
+    </a>
   </div>
 </nav>
 
-<!-- APPLY PAGE -->
-<section class="apply-page">
-  <div class="badge hero-badge reveal"><span class="badge-dot"></span>Now Hiring</div>
-  <h1 class="hero-title reveal reveal-d1" style="margin-bottom: 12px;">Apply for <span id="roleDisplay" style="background: linear-gradient(90deg, var(--color-accent), var(--color-accent-secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">a Position</span></h1>
-  <p class="hero-sub reveal reveal-d2" style="margin-bottom: 48px;">
-    Fill in your details below and attach your resume. We review every application and will get back to you within 5 business days.
-  </p>
+<div class="page">
+  <div class="page-tag">Now Hiring</div>
+  <h1 class="page-title">Apply for <span class="role-name" id="roleDisplay">a Position</span></h1>
+  <p class="page-sub">Fill in your details below and attach your resume. We review every application and will get back to you within 5 business days.</p>
 
-  <div class="form-card reveal reveal-d3">
+  <div class="form-card">
     <form class="apply-form" id="applyForm" name="job-application" netlify netlify-honeypot="bot-field" enctype="multipart/form-data">
       <input type="hidden" name="form-name" value="job-application" />
       <input type="hidden" name="bot-field" />
@@ -113,8 +436,6 @@
           <option value="CFA (Level 2)">CFA – Level 2</option>
           <option value="CFA (Charterholder)">CFA – Charterholder</option>
           <option value="CA / CPA">CA / CPA</option>
-          <option value="MS/PhD in Quantitative Finance">MS/PhD in Quantitative Finance</option>
-          <option value="MS/PhD in Statistics/Mathematics">MS/PhD in Statistics/Mathematics</option>
           <option value="Other">Other</option>
         </select>
       </div>
@@ -142,7 +463,7 @@
 
       <div class="form-field">
         <label for="cover">Why CAS Capitals?</label>
-        <textarea id="cover" name="cover_note" placeholder="Tell us why you're interested in this role and what makes you a strong fit…"></textarea>
+        <textarea id="cover" name="cover_note" placeholder="Tell us why you're excited about this role and what makes you a strong fit…"></textarea>
       </div>
 
       <button type="submit" class="form-submit" id="submitBtn">
@@ -155,30 +476,96 @@
       <div class="success-icon"><span>🎉</span></div>
       <h3>Application Submitted!</h3>
       <p>Thanks for applying to CAS Capitals. Our team will review your application and reach out within 5 business days.</p>
-      <a href="careers.html" class="back-btn">← Back to Careers</a>
+      <a href="index.html#careers" class="back-btn">← Back to Careers</a>
     </div>
   </div>
-</section>
+</div>
 
-<!-- FOOTER -->
-<footer class="footer">
-  <div class="container">
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <a href="index.html" class="logo">CAS<span>.</span>Capitals</a>
-        <p class="footer-copy">© 2026 CAS Capitals. All rights reserved.</p>
-        <p class="footer-disclaimer">CAS Capitals is a private investment and research firm. It does not manage external capital or provide investment services to third parties.</p>
-      </div>
-      <ul class="footer-links">
-        <li><a href="about.html">About</a></li>
-        <li><a href="about.html#team">Team</a></li>
-      <li><a href="careers.html" class="active">Careers</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
-    </div>
-  </div>
+<footer class="page-footer">
+  <p>© 2026 CAS Capitals. All rights reserved.</p>
 </footer>
 
-<script src="js/main.js"></script>
+<script>
+  // ── PARTICLE CANVAS ──
+  const canvas = document.getElementById('canvas-bg');
+  const ctx = canvas.getContext('2d');
+  let W, H, nodes = [];
+
+  function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+  function initNodes(n) {
+    nodes = [];
+    for (let i = 0; i < n; i++) {
+      nodes.push({ x: Math.random()*W, y: Math.random()*H, vx:(Math.random()-0.5)*0.3, vy:(Math.random()-0.5)*0.3, r:Math.random()*1.5+0.5 });
+    }
+  }
+  function draw() {
+    ctx.clearRect(0,0,W,H);
+    for (let i=0;i<nodes.length;i++) {
+      for (let j=i+1;j<nodes.length;j++) {
+        const dx=nodes[i].x-nodes[j].x, dy=nodes[i].y-nodes[j].y, d=Math.sqrt(dx*dx+dy*dy);
+        if (d<150) { ctx.beginPath(); ctx.moveTo(nodes[i].x,nodes[i].y); ctx.lineTo(nodes[j].x,nodes[j].y); ctx.strokeStyle=`rgba(0,198,255,${0.1*(1-d/150)})`; ctx.lineWidth=0.5; ctx.stroke(); }
+      }
+    }
+    nodes.forEach(n => {
+      ctx.beginPath(); ctx.arc(n.x,n.y,n.r,0,Math.PI*2); ctx.fillStyle='rgba(0,198,255,0.4)'; ctx.fill();
+      n.x+=n.vx; n.y+=n.vy;
+      if(n.x<0||n.x>W) n.vx*=-1; if(n.y<0||n.y>H) n.vy*=-1;
+    });
+    requestAnimationFrame(draw);
+  }
+  resize(); initNodes(60); draw();
+  window.addEventListener('resize', ()=>{ resize(); initNodes(60); });
+
+  // ── ROLE FROM URL PARAM ──
+  const params = new URLSearchParams(window.location.search);
+  const role = params.get('role') || '';
+  if (role) {
+    document.getElementById('roleDisplay').textContent = role;
+    document.getElementById('roleInput').value = role;
+    document.title = `Apply — ${role} | CAS Capitals`;
+  }
+
+  // ── FILE UPLOAD LABEL ──
+  const fileInput = document.getElementById('resumeFile');
+  const uploadArea = document.getElementById('uploadArea');
+  const filenameEl = document.getElementById('uploadFilename');
+
+  fileInput.addEventListener('change', () => {
+    if (fileInput.files.length > 0) {
+      filenameEl.textContent = '✓ ' + fileInput.files[0].name;
+      filenameEl.style.display = 'block';
+      uploadArea.style.borderColor = 'rgba(0,255,157,0.4)';
+    }
+  });
+
+  uploadArea.addEventListener('dragover', e => { e.preventDefault(); uploadArea.classList.add('dragover'); });
+  uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
+  uploadArea.addEventListener('drop', e => { e.preventDefault(); uploadArea.classList.remove('dragover'); });
+
+  // ── FORM SUBMIT ──
+  const form = document.getElementById('applyForm');
+  const successMsg = document.getElementById('formSuccess');
+  const submitBtn = document.getElementById('submitBtn');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting…';
+
+    const data = new FormData(form);
+
+    try {
+      const res = await fetch('/', { method: 'POST', body: data });
+      if (res.ok) {
+        form.style.display = 'none';
+        successMsg.style.display = 'block';
+      } else { throw new Error(); }
+    } catch {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = 'Submit Application <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      alert('Something went wrong. Please email your application to cascapitals26@gmail.com');
+    }
+  });
+</script>
 </body>
 </html>

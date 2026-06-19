@@ -4,125 +4,219 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Contact — CAS Capitals</title>
-  <meta name="description" content="Get in touch with CAS Capitals for general inquiries, research opportunities, or careers." />
+  <meta name="description" content="Get in touch with CAS Capitals. We'd love to hear from you." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #020409; --bg2: #060c17;
+      --accent: #00c6ff; --accent2: #7b2fff; --accent3: #00ff9d;
+      --text: #e8edf5; --muted: #6b7b96;
+      --card: rgba(255,255,255,0.04); --border: rgba(255,255,255,0.07);
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; overflow-x: hidden; line-height: 1.6; }
+    body::before { content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:1;opacity:0.5; }
+    #canvas-bg { position:fixed;inset:0;z-index:0;pointer-events:none; }
+    .container { max-width:1200px;margin:0 auto;padding:0 32px;position:relative;z-index:2; }
+    section { position:relative;z-index:2; }
+
+    /* NAV */
+    nav { position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 0;transition:all 0.4s; }
+    nav.scrolled { background:rgba(2,4,9,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:14px 0; }
+    .nav-inner { max-width:1200px;margin:0 auto;padding:0 32px;display:flex;align-items:center;justify-content:space-between; }
+    .logo { font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:700;letter-spacing:-0.02em;background:linear-gradient(135deg,#fff 30%,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-decoration:none; }
+    .logo span { color:var(--accent);-webkit-text-fill-color:var(--accent); }
+    .nav-links { display:flex;gap:36px;list-style:none; }
+    .nav-links a { color:var(--muted);text-decoration:none;font-size:0.875rem;font-weight:500;letter-spacing:0.02em;transition:color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color:var(--text); }
+    .nav-cta { background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff !important;padding:10px 22px;border-radius:8px;font-weight:600 !important;transition:opacity 0.2s !important; }
+    .nav-cta:hover { opacity:0.85; }
+    @media(max-width:900px){.nav-links{display:none;}}
+
+    /* LAYOUT */
+    .contact-page { padding:140px 0 100px; }
+    .contact-grid { display:grid;grid-template-columns:1fr 1.6fr;gap:80px;align-items:start; }
+    @media(max-width:900px){.contact-grid{grid-template-columns:1fr;gap:48px;}}
+
+    /* LEFT INFO */
+    .page-tag { display:inline-flex;align-items:center;gap:8px;background:rgba(0,198,255,0.08);border:1px solid rgba(0,198,255,0.2);border-radius:100px;padding:5px 16px;font-size:0.75rem;font-weight:600;color:var(--accent);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:20px; }
+    .contact-title { font-family:'Space Grotesk',sans-serif;font-size:clamp(2.2rem,4vw,3.5rem);font-weight:700;letter-spacing:-0.03em;line-height:1.1;margin-bottom:20px; }
+    .contact-title em { font-style:normal;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text; }
+    .contact-desc { color:var(--muted);font-size:1rem;line-height:1.75;margin-bottom:40px; }
+
+    .contact-info { display:flex;flex-direction:column;gap:16px; }
+    .info-item { display:flex;align-items:center;gap:14px;padding:16px 20px;background:var(--card);border:1px solid var(--border);border-radius:12px;transition:border-color 0.2s; }
+    .info-item:hover { border-color:rgba(0,198,255,0.2); }
+    .info-icon { width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0; }
+    .info-text h4 { font-size:0.8rem;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);margin-bottom:2px; }
+    .info-text p { font-size:0.9rem;color:var(--text); }
+    .info-text a { color:var(--text);text-decoration:none;transition:color 0.2s; }
+    .info-text a:hover { color:var(--accent); }
+
+    /* FORM CARD */
+    .form-card { background:var(--card);border:1px solid var(--border);border-radius:24px;padding:48px 44px;position:relative;overflow:hidden; }
+    .form-card::before { content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent3)); }
+    @media(max-width:600px){.form-card{padding:32px 24px;}}
+
+    .contact-form { display:flex;flex-direction:column;gap:18px; }
+    .form-row { display:grid;grid-template-columns:1fr 1fr;gap:16px; }
+    @media(max-width:600px){.form-row{grid-template-columns:1fr;}}
+    .form-field { display:flex;flex-direction:column;gap:6px; }
+    .form-field label { font-size:0.75rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted); }
+    .form-field input,.form-field textarea,.form-field select { background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:10px;padding:13px 16px;color:var(--text);font-family:'Inter',sans-serif;font-size:0.9rem;outline:none;transition:border-color 0.2s,box-shadow 0.2s;width:100%; }
+    .form-field input::placeholder,.form-field textarea::placeholder { color:#3d5068; }
+    .form-field input:focus,.form-field textarea:focus,.form-field select:focus { border-color:rgba(0,198,255,0.4);box-shadow:0 0 0 3px rgba(0,198,255,0.08); }
+    .form-field textarea { resize:vertical;min-height:130px; }
+    .form-field select { appearance:none;cursor:pointer; }
+    .form-field select option { background:#0a0f1a; }
+    .form-submit { display:inline-flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;padding:16px 32px;border-radius:10px;font-weight:600;font-size:0.95rem;border:none;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s,opacity 0.2s;box-shadow:0 0 40px rgba(0,198,255,0.25);width:100%;font-family:'Inter',sans-serif;margin-top:4px; }
+    .form-submit:hover { transform:translateY(-2px);box-shadow:0 0 60px rgba(0,198,255,0.4); }
+    .form-submit:disabled { opacity:0.6;cursor:not-allowed;transform:none; }
+
+    /* SUCCESS */
+    .form-success { display:none;text-align:center;padding:40px 20px; }
+    .success-icon { font-size:2.5rem;margin-bottom:12px; }
+    .form-success h4 { font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:700;margin-bottom:8px; }
+    .form-success p { color:var(--muted);font-size:0.9rem;line-height:1.7; }
+
+    /* FOOTER */
+    footer { position:relative;z-index:2;border-top:1px solid var(--border);padding:48px 0; }
+    .footer-inner { display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:24px; }
+    .footer-left { display:flex;flex-direction:column;gap:8px; }
+    .footer-copy { font-size:0.82rem;color:var(--muted); }
+    .footer-links { display:flex;gap:28px;list-style:none; }
+    .footer-links a { font-size:0.82rem;color:var(--muted);text-decoration:none;transition:color 0.2s; }
+    .footer-links a:hover { color:var(--text); }
+
+    /* REVEAL */
+    .reveal { opacity:0;transform:translateY(30px);transition:opacity 0.7s ease,transform 0.7s ease; }
+    .reveal.visible { opacity:1;transform:translateY(0); }
+    .reveal-d1{transition-delay:0.1s;} .reveal-d2{transition-delay:0.2s;} .reveal-d3{transition-delay:0.3s;}
+
+    @media(max-width:600px){.container{padding:0 20px;}}
+  </style>
 </head>
 <body>
 
+<canvas id="canvas-bg"></canvas>
+
 <!-- NAV -->
-<nav class="navbar">
-  <div class="container navbar-inner">
+<nav id="navbar">
+  <div class="nav-inner">
     <a href="index.html" class="logo">CAS<span>.</span>Capitals</a>
-    <button class="mobile-menu-btn" type="button" aria-label="Open navigation menu"></button>
     <ul class="nav-links">
       <li><a href="about.html">About</a></li>
       <li><a href="index.html#technology">Technology</a></li>
       <li><a href="index.html#how">How It Works</a></li>
       <li><a href="about.html#team">Team</a></li>
       <li><a href="careers.html">Careers</a></li>
-      <li><a href="contact.html" class="nav-cta active" aria-current="page">Contact Us</a></li>
+      <li><a href="contact.html" class="nav-cta active">Contact Us →</a></li>
     </ul>
   </div>
 </nav>
 
 <!-- CONTACT PAGE -->
-<section class="hero">
+<section class="contact-page">
   <div class="container">
-    <div class="hero-grid">
-      <div class="hero-content">
-        <div class="badge hero-badge reveal"><span class="badge-dot"></span>Get in Touch</div>
-        <h1 class="hero-title reveal reveal-d1">Contact <em>CAS Capitals.</em></h1>
-        <p class="hero-sub reveal reveal-d2">
-          For general inquiries, research opportunities, or career-related questions — we'd like to hear from you.
-        </p>
+    <div class="contact-grid">
 
-        <div class="hero-stats reveal reveal-d3">
-          <div class="stat-item">
-            <div class="stat-value">Email</div>
-            <div class="stat-label"><a href="mailto:cascapitals26@gmail.com" style="color: var(--color-text); text-decoration: none;">cascapitals26@gmail.com</a></div>
+      <!-- LEFT: Info -->
+      <div>
+        <div class="page-tag reveal">Get in Touch</div>
+        <h1 class="contact-title reveal reveal-d1">Let's Talk<br/><em>Investments.</em></h1>
+        <p class="contact-desc reveal reveal-d2">Whether you're an investor, a potential partner, or exploring careers with us — we'd love to hear from you. We respond to every inquiry within 24 hours.</p>
+
+        <div class="contact-info reveal reveal-d3">
+          <div class="info-item">
+            <div class="info-icon">✉️</div>
+            <div class="info-text">
+              <h4>Email</h4>
+              <p><a href="mailto:cascapitals26@gmail.com">cascapitals26@gmail.com</a></p>
+            </div>
           </div>
-          <div class="stat-item">
-            <div class="stat-value">Website</div>
-            <div class="stat-label"><a href="https://cascapitals.com" target="_blank" style="color: var(--color-text); text-decoration: none;">cascapitals.com</a></div>
+          <div class="info-item">
+            <div class="info-icon">🌐</div>
+            <div class="info-text">
+              <h4>Website</h4>
+              <p><a href="https://cascapitals.com" target="_blank">cascapitals.com</a></p>
+            </div>
           </div>
-          <div class="stat-item">
-            <div class="stat-value">Careers</div>
-            <div class="stat-label"><a href="careers.html" style="color: var(--color-text); text-decoration: none;">View open positions →</a></div>
+          <div class="info-item">
+            <div class="info-icon">💼</div>
+            <div class="info-text">
+              <h4>Careers</h4>
+              <p><a href="careers.html">View open positions →</a></p>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="hero-visual reveal reveal-d2">
-        <div class="hero-decoration"></div>
-        <div class="hero-card">
-          <div class="hero-card-header">
-            <div class="hero-card-title">Send a Message</div>
-            <span class="badge">Contact Form</span>
+      <!-- RIGHT: Form -->
+      <div class="form-card reveal reveal-d2">
+        <form class="contact-form" id="contactForm" name="contact" netlify netlify-honeypot="bot-field">
+          <input type="hidden" name="form-name" value="contact" />
+          <input type="hidden" name="bot-field" />
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="fname">First Name *</label>
+              <input type="text" id="fname" name="first_name" placeholder="Arnav" required />
+            </div>
+            <div class="form-field">
+              <label for="lname">Last Name *</label>
+              <input type="text" id="lname" name="last_name" placeholder="Chawla" required />
+            </div>
           </div>
-          <form class="contact-form" id="contactForm" name="contact" netlify netlify-honeypot="bot-field">
-            <input type="hidden" name="form-name" value="contact" />
-            <input type="hidden" name="bot-field" />
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-              <div class="ai-pill" style="flex-direction: column; align-items: stretch; gap: 6px; padding: 0; background: none; border: none;">
-                <label style="font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-muted);">First Name *</label>
-                <input type="text" id="fname" name="first_name" placeholder="Arnav" required style="background: rgba(255,255,255,0.04); border: 1px solid var(--color-border); border-radius: 10px; padding: 13px 16px; color: var(--color-text); font-family: 'Inter', sans-serif; font-size: 0.9rem; outline: none; transition: border-color 0.2s, box-shadow 0.2s; width: 100%;" />
-              </div>
-              <div class="ai-pill" style="flex-direction: column; align-items: stretch; gap: 6px; padding: 0; background: none; border: none;">
-                <label style="font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-muted);">Last Name *</label>
-                <input type="text" id="lname" name="last_name" placeholder="Chawla" required style="background: rgba(255,255,255,0.04); border: 1px solid var(--color-border); border-radius: 10px; padding: 13px 16px; color: var(--color-text); font-family: 'Inter', sans-serif; font-size: 0.9rem; outline: none; transition: border-color 0.2s, box-shadow 0.2s; width: 100%;" />
-              </div>
-            </div>
-
-            <div class="ai-pill" style="flex-direction: column; align-items: stretch; gap: 6px; padding: 0; background: none; border: none;">
-              <label style="font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-muted);">Email Address *</label>
-              <input type="email" id="email" name="email" placeholder="you@example.com" required style="background: rgba(255,255,255,0.04); border: 1px solid var(--color-border); border-radius: 10px; padding: 13px 16px; color: var(--color-text); font-family: 'Inter', sans-serif; font-size: 0.9rem; outline: none; transition: border-color 0.2s, box-shadow 0.2s; width: 100%;" />
-            </div>
-
-            <div class="ai-pill" style="flex-direction: column; align-items: stretch; gap: 6px; padding: 0; background: none; border: none;">
-              <label style="font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-muted);">I'm interested in *</label>
-              <select id="interest" name="interest" required style="background: rgba(255,255,255,0.04); border: 1px solid var(--color-border); border-radius: 10px; padding: 13px 16px; color: var(--color-text); font-family: 'Inter', sans-serif; font-size: 0.9rem; outline: none; transition: border-color 0.2s, box-shadow 0.2s; width: 100%; appearance: none; cursor: pointer;">
-                <option value="" disabled selected>Select an option</option>
-                <option value="General Inquiry">General Inquiry</option>
-                <option value="Research Opportunities">Research Opportunities</option>
-                <option value="Careers">Careers</option>
-                <option value="Business Communication">Business Communication</option>
-              </select>
-            </div>
-
-            <div class="ai-pill" style="flex-direction: column; align-items: stretch; gap: 6px; padding: 0; background: none; border: none;">
-              <label style="font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-muted);">Message *</label>
-              <textarea id="message" name="message" placeholder="Tell us a bit about yourself and what you're looking for…" required style="background: rgba(255,255,255,0.04); border: 1px solid var(--color-border); border-radius: 10px; padding: 13px 16px; color: var(--color-text); font-family: 'Inter', sans-serif; font-size: 0.9rem; outline: none; transition: border-color 0.2s, box-shadow 0.2s; width: 100%; resize: vertical; min-height: 130px;"></textarea>
-            </div>
-
-            <button type="submit" class="btn btn-primary" id="submitBtn" style="width: 100%; justify-content: center; margin-top: 4px;">
-              Send Message
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-          </form>
-
-          <div id="formSuccess" style="display: none; text-align: center; padding: 40px 20px;">
-            <div style="font-size: 2.5rem; margin-bottom: 12px;">✅</div>
-            <h4 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 8px;">Message Sent!</h4>
-            <p style="color: var(--color-text-muted); font-size: 0.9rem; line-height: 1.7;">Thanks for reaching out. We'll get back to you within 24 hours.</p>
+          <div class="form-field">
+            <label for="email">Email Address *</label>
+            <input type="email" id="email" name="email" placeholder="you@example.com" required />
           </div>
+
+          <div class="form-field">
+            <label for="interest">I'm interested in *</label>
+            <select id="interest" name="interest" required>
+              <option value="" disabled selected>Select an option</option>
+              <option value="Investing with CAS Capitals">Investing with CAS Capitals</option>
+              <option value="Partnership / Institutional">Partnership / Institutional</option>
+              <option value="Careers">Careers</option>
+              <option value="General Enquiry">General Enquiry</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="message">Message *</label>
+            <textarea id="message" name="message" placeholder="Tell us a bit about yourself and what you're looking for…" required></textarea>
+          </div>
+
+          <button type="submit" class="form-submit" id="submitBtn">
+            Send Message
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </form>
+
+        <div class="form-success" id="formSuccess">
+          <div class="success-icon">✅</div>
+          <h4>Message Sent!</h4>
+          <p>Thanks for reaching out. We'll get back to you within 24 hours.</p>
         </div>
       </div>
+
     </div>
   </div>
 </section>
 
 <!-- FOOTER -->
-<footer class="footer">
+<footer>
   <div class="container">
     <div class="footer-inner">
-      <div class="footer-brand">
+      <div class="footer-left">
         <a href="index.html" class="logo">CAS<span>.</span>Capitals</a>
         <p class="footer-copy">© 2026 CAS Capitals. All rights reserved.</p>
-        <p class="footer-disclaimer">CAS Capitals is a private investment and research firm. It does not manage external capital or provide investment services to third parties.</p>
+        <p class="footer-copy" style="font-size:0.73rem;max-width:360px">Past performance is not indicative of future results. Investing involves risk.</p>
       </div>
       <ul class="footer-links">
         <li><a href="about.html">About</a></li>
@@ -134,6 +228,29 @@
   </div>
 </footer>
 
-<script src="js/main.js"></script>
+<script>
+  const canvas=document.getElementById('canvas-bg'),ctx=canvas.getContext('2d');let W,H,nodes=[];
+  function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
+  function initNodes(n){nodes=[];for(let i=0;i<n;i++)nodes.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-0.5)*0.3,vy:(Math.random()-0.5)*0.3,r:Math.random()*1.5+0.5});}
+  function draw(){ctx.clearRect(0,0,W,H);for(let i=0;i<nodes.length;i++)for(let j=i+1;j<nodes.length;j++){const dx=nodes[i].x-nodes[j].x,dy=nodes[i].y-nodes[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<150){ctx.beginPath();ctx.moveTo(nodes[i].x,nodes[i].y);ctx.lineTo(nodes[j].x,nodes[j].y);ctx.strokeStyle=`rgba(0,198,255,${0.1*(1-d/150)})`;ctx.lineWidth=0.5;ctx.stroke();}}
+  nodes.forEach(n=>{ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);ctx.fillStyle='rgba(0,198,255,0.5)';ctx.fill();n.x+=n.vx;n.y+=n.vy;if(n.x<0||n.x>W)n.vx*=-1;if(n.y<0||n.y>H)n.vy*=-1;});requestAnimationFrame(draw);}
+  resize();initNodes(70);draw();window.addEventListener('resize',()=>{resize();initNodes(70);});
+  const nav=document.getElementById('navbar');window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>40));
+  const reveals=document.querySelectorAll('.reveal');const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}}),{threshold:0.1});reveals.forEach(el=>obs.observe(el));
+
+  // FORM SUBMIT
+  const form=document.getElementById('contactForm'),successMsg=document.getElementById('formSuccess'),submitBtn=document.getElementById('submitBtn');
+  form.addEventListener('submit',async(e)=>{
+    e.preventDefault();submitBtn.disabled=true;submitBtn.textContent='Sending…';
+    const data=new FormData(form);
+    try{
+      const res=await fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(data).toString()});
+      if(res.ok){form.style.display='none';successMsg.style.display='block';}else throw new Error();
+    }catch{
+      submitBtn.disabled=false;submitBtn.innerHTML='Send Message <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      alert('Something went wrong. Please email us at cascapitals26@gmail.com');
+    }
+  });
+</script>
 </body>
 </html>
