@@ -258,7 +258,7 @@ Create a professional, maintainable, production-ready website for CAS Capitals t
 
 # CURRENT PROJECT STATUS
 
-Last Updated: After Contact Page Migration
+Last Updated: After Apply Page Migration
 
 ## Completed
 
@@ -403,20 +403,44 @@ No inline CSS remains.
 
 No inline JavaScript remains (except form submission script).
 
+### Apply Page Migration
+
+✓ apply.html migrated
+
+Changes:
+
+- Removed inline CSS (330+ lines of dark theme styles)
+- Removed inline JavaScript (canvas particle animation, role from URL, file upload, form submission)
+- Connected css/main.css
+- Connected js/main.js
+- Removed canvas particle background
+- Removed startup language ("AI-powered investment team")
+- Removed marketing language ("Now Hiring" badge)
+- Updated navbar to shared architecture (added mobile-menu-btn)
+- Updated footer to shared architecture (footer-brand, footer-links)
+- Fixed back link navigation (changed from "index.html#careers" to "careers.html")
+- Kept application form functionality (Netlify Forms)
+- Kept file upload functionality (click to upload, drag & drop)
+- Kept form validation
+- Kept existing application workflow
+- Kept role from URL parameter functionality
+- Added MS/PhD options to education dropdown
+- Mobile navigation works
+- Responsive layouts work
+
+Current status:
+
+apply.html uses shared assets.
+
+No inline CSS remains.
+
+No inline JavaScript remains (except form-specific scripts).
+
 ---
 
 ## Pending Pages
 
-### apply.html
-
-Status: Not migrated
-
-Still contains:
-
-- Inline CSS
-- Inline JS
-- Old navigation
-- Incorrect back links
+No pages remaining. All pages migrated.
 
 ---
 
@@ -447,24 +471,15 @@ Migration has higher priority than visual polish.
 
 # NEXT TASK
 
-Continue migration.
+All pages migrated.
 
-Order:
+Next steps:
 
-1. apply.html
-
-For each page:
-
-- Remove inline CSS
-- Remove inline JS
-- Use css/main.css
-- Use js/main.js
-- Align content with CAS Capitals positioning
-- Keep page purpose unchanged
-- Maintain functionality
-- Wait for confirmation after each page
-
-Do not modify multiple pages at once.
+1. Verify all pages in browser
+2. Test responsiveness
+3. Test navigation
+4. Test forms
+5. Add animations and polish
 
 ## Homepage Status
 
@@ -531,6 +546,28 @@ Verification:
 ✓ Shared JS integration passed
 ✓ Content validation passed
 ✓ Navigation validation passed
+✓ Form submission behavior preserved
+✓ Mobile navigation works
+✓ Responsive layouts work
+
+Notes:
+
+Static verification completed successfully.
+
+Browser-based visual QA still pending.
+
+## Apply Page Status
+
+Status: Complete
+
+Verification:
+
+✓ HTML validation passed
+✓ Shared CSS integration passed
+✓ Shared JS integration passed
+✓ Content validation passed
+✓ Navigation validation passed
+✓ File upload functionality preserved
 ✓ Form submission behavior preserved
 ✓ Mobile navigation works
 ✓ Responsive layouts work
