@@ -20,7 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initContactForm();
   initApplyForm();
   initLiveDashboard();
-  initNavbarHoverEffect();
 });
 
 /* ------------------------------------------------------
@@ -446,64 +445,4 @@ function initLiveDashboard() {
   }
 }
 
-/* ------------------------------------------------------
-   Sliding Hover Backdrop Capsule Navbar Effect
-   ------------------------------------------------------ */
-function initNavbarHoverEffect() {
-  const navLinksContainer = document.querySelector('.nav-links');
-  if (!navLinksContainer) return;
 
-  const backdrop = document.createElement('div');
-  backdrop.className = 'nav-hover-backdrop';
-  navLinksContainer.appendChild(backdrop);
-
-  const links = navLinksContainer.querySelectorAll('a:not(.nav-cta)');
-  const activeLink = navLinksContainer.querySelector('a.active') || navLinksContainer.querySelector('a[aria-current="page"]');
-
-  const updateBackdropPosition = (targetElement) => {
-    if (!targetElement || window.innerWidth <= 900) {
-      backdrop.style.opacity = '0';
-      return;
-    }
-    backdrop.style.left = `${targetElement.offsetLeft}px`;
-    backdrop.style.top = `${targetElement.offsetTop}px`;
-    backdrop.style.width = `${targetElement.offsetWidth}px`;
-    backdrop.style.height = `${targetElement.offsetHeight}px`;
-    backdrop.style.opacity = '1';
-  };
-
-  if (activeLink) {
-    setTimeout(() => updateBackdropPosition(activeLink), 150);
-  }
-
-  links.forEach(link => {
-    link.addEventListener('mouseenter', () => {
-      updateBackdropPosition(link);
-    });
-    link.addEventListener('focus-visible', () => {
-      updateBackdropPosition(link);
-    });
-  });
-
-  navLinksContainer.addEventListener('mouseleave', () => {
-    if (activeLink) {
-      updateBackdropPosition(activeLink);
-    } else {
-      backdrop.style.opacity = '0';
-    }
-  });
-
-  navLinksContainer.addEventListener('focusout', (e) => {
-    if (!navLinksContainer.contains(e.relatedTarget) && activeLink) {
-      updateBackdropPosition(activeLink);
-    }
-  });
-
-  window.addEventListener('resize', debounce(() => {
-    if (window.innerWidth <= 900) {
-      backdrop.style.opacity = '0';
-    } else if (activeLink) {
-      updateBackdropPosition(activeLink);
-    }
-  }, 150));
-}
