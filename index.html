@@ -4,18 +4,45 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CAS Capitals — Proprietary Investment Research</title>
+  <title>CAS Capitals — Proprietary Investment Research, Software Development, AI &amp; Infrastructure</title>
   <meta name="description"
-    content="CAS Capitals is a private investment and financial research firm focused on proprietary investing, quantitative research, data analytics, and AI/ML for Indian financial markets." />
+    content="CAS Capitals is a private investment and financial research firm with over 10 years of expertise in proprietary investing, software development, AI &amp; digital transformation, and infrastructure &amp; construction." />
+  <meta property="og:title" content="CAS Capitals — Proprietary Investment Research, Software Development, AI &amp; Infrastructure" />
+  <meta property="og:description" content="CAS Capitals is a private investment and financial research firm with over 10 years of expertise in proprietary investing, software development, AI &amp; digital transformation, and infrastructure &amp; construction." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://cascapitals.com" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="CAS Capitals — Proprietary Investment Research, Software Development, AI &amp; Infrastructure" />
+  <meta name="twitter:description" content="CAS Capitals is a private investment and financial research firm with over 10 years of expertise in proprietary investing, software development, AI &amp; digital transformation, and infrastructure &amp; construction." />
+  <link rel="canonical" href="https://cascapitals.com" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
     rel="stylesheet" />
   <link rel="stylesheet" href="css/main.css?v=4" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "CAS Capitals",
+    "url": "https://cascapitals.com",
+    "description": "A private investment and financial research firm with over 10 years of expertise in proprietary investing, software development, AI & digital transformation, and infrastructure & construction.",
+    "foundingDate": "2015",
+    "knowsAbout": [
+      "Proprietary Investment Research",
+      "Software Development",
+      "Artificial Intelligence",
+      "Digital Transformation",
+      "Infrastructure & Construction"
+    ]
+  }
+  </script>
 </head>
 
 <body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
   <!-- NAV -->
   <nav class="navbar">
     <div class="container navbar-inner">
@@ -32,13 +59,14 @@
     </div>
   </nav>
 
+  <main id="main-content">
   <!-- HERO -->
   <section class="hero">
     <div class="container">
       <div class="hero-grid">
         <div class="hero-content">
           <div class="badge hero-badge reveal">
-            <span class="badge-dot"></span>Private investment research firm
+            <span class="badge-dot"></span>10+ Years of Expertise
           </div>
           <h1 class="hero-title reveal reveal-d1">
             Research-led investing for <em>Indian financial markets.</em>
@@ -47,7 +75,10 @@
             CAS Capitals is a privately held investment and financial research
             firm. The firm uses quantitative research, financial analysis,
             data analytics, and AI/ML to support its own proprietary
-            investment activities.
+            investment activities. With over a decade of experience in
+            software development, AI &amp; digital transformation, and
+            infrastructure, the firm brings a uniquely broad base of
+            expertise to every engagement.
           </p>
           <div class="hero-actions reveal reveal-d3">
             <a href="about.html" class="btn btn-primary">Learn About the Firm</a>
@@ -81,11 +112,11 @@
                 </div>
                 <h3 class="dashboard-index-name">NIFTY 50 INDEX</h3>
               </div>
-              <div class="dashboard-tabs">
-                <span class="tab active">1D</span>
-                <span class="tab">1W</span>
-                <span class="tab">1M</span>
-                <span class="tab">Live</span>
+              <div class="dashboard-tabs" role="tablist">
+                <button type="button" class="tab active" role="tab" aria-selected="true">1D</button>
+                <button type="button" class="tab" role="tab" aria-selected="false">1W</button>
+                <button type="button" class="tab" role="tab" aria-selected="false">1M</button>
+                <button type="button" class="tab" role="tab" aria-selected="false">Live</button>
               </div>
             </div>
 
@@ -115,7 +146,7 @@
 
             <!-- Main SVG Area Chart (Dual-Neon Lines) -->
             <div class="chart-container">
-              <svg class="main-chart-svg" viewBox="0 0 400 160">
+              <svg class="main-chart-svg" viewBox="0 0 400 160" role="img" aria-label="NIFTY 50 index price chart showing upward trend with model prediction overlay and risk gauge indicator">
                 <defs>
                   <linearGradient id="cyan-gradient" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.2"/>
@@ -211,7 +242,7 @@
                 <span>Algo Model Execution Log</span>
                 <span class="terminal-status">Online</span>
               </div>
-              <div class="terminal-log-rows" id="terminal-logs">
+              <div class="terminal-log-rows" id="terminal-logs" aria-live="polite">
                 <div class="log-row">
                   <span class="log-time">14:26:02</span>
                   <span class="log-tag tag-success">Trade</span>
@@ -235,6 +266,28 @@
     </div>
   </section>
 
+  <!-- STATS STRIP -->
+  <div class="stats-strip">
+    <div class="container">
+      <div class="stats-strip-inner">
+        <div class="stat-item">
+          <div class="stat-value">10+</div>
+          <div class="stat-label">Years of Experience</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <div class="stat-value">3</div>
+          <div class="stat-label">Areas of Expertise</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <div class="stat-value">India</div>
+          <div class="stat-label">Market Focus</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- MARQUEE -->
   <div class="marquee-section">
     <div class="marquee-track">
@@ -246,6 +299,9 @@
       <span class="marquee-item"><span class="dot">•</span> Indian Equity Markets</span>
       <span class="marquee-item"><span class="dot">•</span> Derivatives Research</span>
       <span class="marquee-item"><span class="dot">•</span> Systematic Analysis</span>
+      <span class="marquee-item"><span class="dot">•</span> Software Development</span>
+      <span class="marquee-item"><span class="dot">•</span> AI &amp; Digital Transformation</span>
+      <span class="marquee-item"><span class="dot">•</span> Infrastructure &amp; Construction</span>
       <span class="marquee-item"><span class="dot">•</span> Quantitative Research</span>
       <span class="marquee-item"><span class="dot">•</span> Financial Markets</span>
       <span class="marquee-item"><span class="dot">•</span> Data Analytics</span>
@@ -254,8 +310,70 @@
       <span class="marquee-item"><span class="dot">•</span> Indian Equity Markets</span>
       <span class="marquee-item"><span class="dot">•</span> Derivatives Research</span>
       <span class="marquee-item"><span class="dot">•</span> Systematic Analysis</span>
+      <span class="marquee-item"><span class="dot">•</span> Software Development</span>
+      <span class="marquee-item"><span class="dot">•</span> AI &amp; Digital Transformation</span>
+      <span class="marquee-item"><span class="dot">•</span> Infrastructure &amp; Construction</span>
     </div>
   </div>
+
+  <!-- EXPERTISE -->
+  <section class="section section-alt" id="expertise">
+    <div class="container">
+      <div class="section-header center">
+        <div class="section-label reveal">Our Expertise</div>
+        <h2 class="section-title reveal reveal-d1">
+          Multi-domain capabilities built over <em>a decade of experience.</em>
+        </h2>
+        <p class="section-sub reveal reveal-d2">
+          Beyond investment research, CAS Capitals brings deep hands-on
+          expertise in software engineering, artificial intelligence, and
+          large-scale infrastructure.
+        </p>
+      </div>
+      <div class="features-grid">
+        <div class="capability-card card-pi reveal reveal-d1">
+          <div class="capability-card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="16 18 22 12 16 6"/>
+              <polyline points="8 6 2 12 8 18"/>
+            </svg>
+          </div>
+          <h3 class="capability-card-title">Software Development</h3>
+          <p class="capability-card-text">
+            Building robust, scalable platforms and data pipelines that
+            power research, analytics, and operational systems.
+          </p>
+        </div>
+        <div class="capability-card card-ml reveal reveal-d2">
+          <div class="capability-card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 2v20"/>
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+            </svg>
+          </div>
+          <h3 class="capability-card-title">AI &amp; Digital Transformation</h3>
+          <p class="capability-card-text">
+            Applying machine learning, automation, and digital strategies
+            to improve research, decision-making, and business operations.
+          </p>
+        </div>
+        <div class="capability-card card-da reveal reveal-d3">
+          <div class="capability-card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <path d="M3 9h18"/>
+              <path d="M9 21V9"/>
+            </svg>
+          </div>
+          <h3 class="capability-card-title">Infrastructure &amp; Construction</h3>
+          <p class="capability-card-text">
+            Delivering expertise in physical and digital infrastructure
+            projects, from planning through execution and management.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- ABOUT -->
   <section class="section" id="about">
@@ -549,6 +667,8 @@
     </div>
   </section>
 
+  </main>
+
   <!-- FOOTER -->
   <footer class="footer">
     <div class="container">
@@ -568,6 +688,15 @@
           <li><a href="careers.html">Careers</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
+        <div class="footer-verticals">
+          <span class="footer-verticals-title">Business Verticals</span>
+          <ul class="footer-verticals-list">
+            <li>Investment Research</li>
+            <li>Software Development</li>
+            <li>AI &amp; Digital Transformation</li>
+            <li>Infrastructure &amp; Construction</li>
+          </ul>
+        </div>
       </div>
     </div>
   </footer>

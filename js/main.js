@@ -2,6 +2,17 @@
    CAS Capitals — Shared Scripts
    ===================================================== */
 
+/* ------------------------------------------------------
+   Utility: debounce
+   ------------------------------------------------------ */
+function debounce(fn, delay) {
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn(...args), delay);
+  };
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initNavbar();
   initMobileNav();
@@ -72,9 +83,9 @@ function initMobileNav() {
     if (e.key === 'Escape') closeMenu();
   });
 
-  window.addEventListener('resize', () => {
+  window.addEventListener('resize', debounce(() => {
     if (window.innerWidth > 900) closeMenu();
-  });
+  }, 150));
 }
 
 function getMenuIcon() {
@@ -140,7 +151,10 @@ function initContactForm() {
 
       if (res.ok) {
         form.style.display = 'none';
-        if (successMsg) successMsg.style.display = 'block';
+        if (successMsg) {
+          successMsg.style.display = 'block';
+          successMsg.focus();
+        }
       } else {
         throw new Error('Network response was not ok');
       }
@@ -237,7 +251,10 @@ function initApplyForm() {
 
       if (res.ok) {
         form.style.display = 'none';
-        if (successMsg) successMsg.style.display = 'block';
+        if (successMsg) {
+          successMsg.style.display = 'block';
+          successMsg.focus();
+        }
       } else {
         throw new Error('Network response was not ok');
       }
@@ -275,8 +292,12 @@ function initLiveDashboard() {
   const tabs = document.querySelectorAll('.dashboard-tabs .tab');
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('active'));
+      tabs.forEach(t => {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+      });
       tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
     });
   });
 
@@ -380,30 +401,46 @@ function initLiveDashboard() {
     
     logsContainer.appendChild(row);
     
-    const currentRows = logsContainer.querySelectorAll('.log-row');
-    if (currentRows.length > 3) {
-      currentRows[0].remove();
+    if (existingRows.length > 2) {
+      existingRows[0].remove();
     }
   }, 5000);
 
-  // 3D Parallax Tilt Effect
+  // 3D Parallax Tilt Effect (RAF-optimized)
   const card = document.querySelector('.market-dashboard');
   if (card) {
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-      
-      const rotateX = ((centerY - y) / centerY) * 8; 
+    let ticking = false;
+    let lastX = 0;
+    let lastY = 0;
+    const rectCache = { left: 0, top: 0, width: 0, height: 0 };
+
+    const updateTilt = () => {
+      const x = lastX - rectCache.left;
+      const y = lastY - rectCache.top;
+      const centerX = rectCache.width / 2;
+      const centerY = rectCache.height / 2;
+      const rotateX = ((centerY - y) / centerY) * 8;
       const rotateY = ((x - centerX) / centerX) * 8;
-      
       card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`;
+      ticking = false;
+    };
+
+    card.addEventListener('mousemove', (e) => {
+      lastX = e.clientX;
+      lastY = e.clientY;
+      if (!ticking) {
+        const rect = card.getBoundingClientRect();
+        rectCache.left = rect.left;
+        rectCache.top = rect.top;
+        rectCache.width = rect.width;
+        rectCache.height = rect.height;
+        requestAnimationFrame(updateTilt);
+        ticking = true;
+      }
     });
 
     card.addEventListener('mouseleave', () => {
+      ticking = false;
       card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
     });
   }
@@ -443,6 +480,9 @@ function initNavbarHoverEffect() {
     link.addEventListener('mouseenter', () => {
       updateBackdropPosition(link);
     });
+    link.addEventListener('focus-visible', () => {
+      updateBackdropPosition(link);
+    });
   });
 
   navLinksContainer.addEventListener('mouseleave', () => {
@@ -453,11 +493,17 @@ function initNavbarHoverEffect() {
     }
   });
 
-  window.addEventListener('resize', () => {
+  navLinksContainer.addEventListener('focusout', (e) => {
+    if (!navLinksContainer.contains(e.relatedTarget) && activeLink) {
+      updateBackdropPosition(activeLink);
+    }
+  });
+
+  window.addEventListener('resize', debounce(() => {
     if (window.innerWidth <= 900) {
       backdrop.style.opacity = '0';
     } else if (activeLink) {
       updateBackdropPosition(activeLink);
     }
-  });
+  }, 150));
 }
