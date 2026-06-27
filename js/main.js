@@ -20,6 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initContactForm();
   initApplyForm();
   initLiveDashboard();
+  initBackToTop();
+  initCounters();
 });
 
 /* ------------------------------------------------------
@@ -263,6 +265,65 @@ function initApplyForm() {
       alert('Something went wrong. Please email your application to cascapitals26@gmail.com');
     }
   });
+}
+
+/* ------------------------------------------------------
+   Back to Top button
+   ------------------------------------------------------ */
+function initBackToTop() {
+  const btn = document.querySelector('.back-to-top');
+  if (!btn) return;
+
+  const onScroll = () => {
+    btn.classList.toggle('visible', window.scrollY > 500);
+  };
+
+  btn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+}
+
+/* ------------------------------------------------------
+   Number counter animation (stats strip)
+   ------------------------------------------------------ */
+function initCounters() {
+  const counters = document.querySelectorAll('.stats-strip .stat-value');
+  if (!counters.length) return;
+  if (!('IntersectionObserver' in window)) return;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const text = el.textContent.trim();
+          const match = text.match(/^(\d+)(\+)?/);
+          if (!match) return;
+
+          const target = parseInt(match[1]);
+          const suffix = match[2] || '';
+          const duration = 1500;
+          const start = performance.now();
+
+          const animate = (now) => {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const current = Math.round(eased * target);
+            el.textContent = current + suffix;
+            if (progress < 1) requestAnimationFrame(animate);
+          };
+
+          requestAnimationFrame(animate);
+          observer.unobserve(el);
+        }
+      });
+    },
+    { threshold: 0.5 }
+  );
+
+  counters.forEach((el) => observer.observe(el));
 }
 
 /* ------------------------------------------------------

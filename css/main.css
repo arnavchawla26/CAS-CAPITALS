@@ -189,6 +189,14 @@ select {
   background-color: #f5f7fa;
 }
 
+section[id] {
+  scroll-margin-top: 80px;
+}
+
+.section-alt + .section-alt {
+  border-top: 1px solid var(--color-border-light);
+}
+
 .section-header {
   max-width: 640px;
   margin-bottom: var(--space-16);
@@ -229,8 +237,8 @@ select {
   font-family: var(--font-display);
   font-size: clamp(1.875rem, 3.5vw, 2.75rem);
   font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: -0.03em;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
   color: var(--color-text);
   margin-bottom: var(--space-4);
 }
@@ -487,14 +495,33 @@ select {
 }
 
 .footer-links a {
+  position: relative;
   font-size: var(--text-sm);
   font-weight: 500;
   color: var(--color-text-secondary);
   transition: color var(--transition-fast);
 }
 
+.footer-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--transition-fast);
+}
+
 .footer-links a:hover {
   color: var(--color-accent);
+}
+
+.footer-links a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
 }
 
 .footer-verticals {
@@ -641,8 +668,14 @@ select:focus-visible {
 
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: var(--shadow-card-hover);
+  box-shadow: 0 4px 8px rgba(15, 23, 42, 0.04), 0 20px 40px rgba(15, 23, 42, 0.09), 0 0 0 1px rgba(37, 99, 235, 0.06);
   border-color: var(--color-accent-light);
+}
+
+.card:hover .card-icon {
+  background: var(--color-accent-light);
+  border-color: var(--color-accent-light);
+  color: var(--color-accent);
 }
 
 .card-icon {
@@ -2375,5 +2408,64 @@ select:focus-visible {
   .marquee-track {
     animation-duration: 30s !important;
     animation-iteration-count: infinite !important;
+  }
+}
+
+/* ------------------------------------------------------
+   22. Back to Top
+   ------------------------------------------------------ */
+.back-to-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 99;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-button);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s, transform 0.3s, background-color 0.2s;
+  pointer-events: none;
+}
+
+.back-to-top.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.back-to-top:hover {
+  background: var(--color-accent-hover);
+  box-shadow: var(--shadow-button-hover);
+}
+
+/* ------------------------------------------------------
+   23. Hero Decoration (standalone)
+   ------------------------------------------------------ */
+.hero > .hero-decoration {
+  position: absolute;
+  top: -80px;
+  right: -80px;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.07) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+@media (max-width: 768px) {
+  .hero > .hero-decoration {
+    width: 250px;
+    height: 250px;
+    top: -40px;
+    right: -40px;
   }
 }
