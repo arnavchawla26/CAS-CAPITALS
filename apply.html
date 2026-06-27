@@ -8,6 +8,16 @@
       name="description"
       content="Apply for a position at CAS Capitals. Join our research team."
     />
+    <meta property="og:title" content="Apply — CAS Capitals" />
+    <meta property="og:description" content="Apply for a position at CAS Capitals. Join our research team." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://cascapitals.com/apply" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Apply — CAS Capitals" />
+    <meta name="twitter:description" content="Apply for a position at CAS Capitals. Join our research team." />
+    <meta property="og:image" content="https://cascapitals.com/og-image.png" />
+    <meta name="twitter:image" content="https://cascapitals.com/og-image.png" />
+    <link rel="canonical" href="https://cascapitals.com/apply" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -18,6 +28,8 @@
     <link rel="stylesheet" href="css/apply.css" />
   </head>
   <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
     <!-- NAV -->
     <nav class="navbar">
       <div class="container navbar-inner">
@@ -33,11 +45,13 @@
           <li><a href="index.html#how">How It Works</a></li>
           <li><a href="about.html#team">Team</a></li>
           <li><a href="careers.html">Careers</a></li>
+          <li><a href="faq.html">FAQ</a></li>
           <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
         </ul>
       </div>
     </nav>
 
+    <main id="main-content">
     <!-- APPLY PAGE -->
     <section class="apply-page">
       <div class="badge hero-badge reveal">
@@ -79,7 +93,7 @@
           <input type="hidden" name="role" id="roleInput" value="" />
 
           <!-- Personal Info -->
-          <div class="form-section-label">Personal Information</div>
+          <h2 class="form-section-label">Personal Information</h2>
 
           <div class="form-row">
             <div class="form-field">
@@ -145,7 +159,7 @@
           <div class="form-divider"></div>
 
           <!-- Experience -->
-          <div class="form-section-label">Experience</div>
+          <h2 class="form-section-label">Experience</h2>
 
           <div class="form-row">
             <div class="form-field">
@@ -196,10 +210,10 @@
           <div class="form-divider"></div>
 
           <!-- Resume -->
-          <div class="form-section-label">Resume / CV</div>
+          <h2 class="form-section-label">Resume / CV</h2>
 
           <div class="form-field">
-            <label>Upload Resume *</label>
+            <label for="resumeFile">Upload Resume *</label>
             <div class="upload-area" id="uploadArea">
               <input
                 type="file"
@@ -208,7 +222,7 @@
                 accept=".pdf,.doc,.docx"
                 required
               />
-              <div class="upload-icon">📎</div>
+              <div class="upload-icon" role="img" aria-label="Attach file">📎</div>
               <div class="upload-text">Click to upload or drag & drop</div>
               <div class="upload-hint">PDF, DOC, or DOCX · Max 5MB</div>
               <div class="upload-filename" id="uploadFilename"></div>
@@ -218,7 +232,7 @@
           <div class="form-divider"></div>
 
           <!-- Cover note -->
-          <div class="form-section-label">Cover Note</div>
+          <h2 class="form-section-label">Cover Note</h2>
 
           <div class="form-field">
             <label for="cover">Why CAS Capitals?</label>
@@ -243,8 +257,8 @@
           </button>
         </form>
 
-        <div class="form-success" id="formSuccess">
-          <div class="success-icon"><span>🎉</span></div>
+        <div class="form-success" id="formSuccess" tabindex="-1" role="status">
+          <div class="success-icon"><span role="img" aria-label="Success">🎉</span></div>
           <h3>Application Submitted!</h3>
           <p>
             Thanks for applying to CAS Capitals. Our team will review your
@@ -254,6 +268,8 @@
         </div>
       </div>
     </section>
+
+    </main>
 
     <!-- FOOTER -->
     <footer class="footer">
@@ -271,13 +287,28 @@
           <ul class="footer-links">
             <li><a href="about.html">About</a></li>
             <li><a href="about.html#team">Team</a></li>
-            <li><a href="careers.html" class="active">Careers</a></li>
+            <li><a href="careers.html">Careers</a></li>
+            <li><a href="faq.html">FAQ</a></li>
             <li><a href="contact.html">Contact</a></li>
           </ul>
+          <div class="footer-verticals">
+            <span class="footer-verticals-title">Business Verticals</span>
+            <ul class="footer-verticals-list">
+              <li>Investment Research</li>
+              <li>Software Development</li>
+              <li>AI &amp; Digital Transformation</li>
+              <li>Infrastructure &amp; Construction</li>
+            </ul>
+          </div>
         </div>
       </div>
     </footer>
 
+    <button class="back-to-top" type="button" aria-label="Back to top">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 15l-6-6-6 6"/>
+      </svg>
+    </button>
     <script src="js/main.js"></script>
   </body>
 </html>

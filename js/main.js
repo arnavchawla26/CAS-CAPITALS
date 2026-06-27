@@ -2,6 +2,17 @@
    CAS Capitals — Shared Scripts
    ===================================================== */
 
+/* ------------------------------------------------------
+   Utility: debounce
+   ------------------------------------------------------ */
+function debounce(fn, delay) {
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn(...args), delay);
+  };
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initNavbar();
   initMobileNav();
@@ -9,7 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initContactForm();
   initApplyForm();
   initLiveDashboard();
-  initNavbarHoverEffect();
+  initBackToTop();
+  initCounters();
 });
 
 /* ------------------------------------------------------
@@ -72,9 +84,9 @@ function initMobileNav() {
     if (e.key === 'Escape') closeMenu();
   });
 
-  window.addEventListener('resize', () => {
+  window.addEventListener('resize', debounce(() => {
     if (window.innerWidth > 900) closeMenu();
-  });
+  }, 150));
 }
 
 function getMenuIcon() {
@@ -140,7 +152,10 @@ function initContactForm() {
 
       if (res.ok) {
         form.style.display = 'none';
-        if (successMsg) successMsg.style.display = 'block';
+        if (successMsg) {
+          successMsg.style.display = 'block';
+          successMsg.focus();
+        }
       } else {
         throw new Error('Network response was not ok');
       }
@@ -237,7 +252,10 @@ function initApplyForm() {
 
       if (res.ok) {
         form.style.display = 'none';
-        if (successMsg) successMsg.style.display = 'block';
+        if (successMsg) {
+          successMsg.style.display = 'block';
+          successMsg.focus();
+        }
       } else {
         throw new Error('Network response was not ok');
       }
@@ -247,6 +265,65 @@ function initApplyForm() {
       alert('Something went wrong. Please email your application to cascapitals26@gmail.com');
     }
   });
+}
+
+/* ------------------------------------------------------
+   Back to Top button
+   ------------------------------------------------------ */
+function initBackToTop() {
+  const btn = document.querySelector('.back-to-top');
+  if (!btn) return;
+
+  const onScroll = () => {
+    btn.classList.toggle('visible', window.scrollY > 500);
+  };
+
+  btn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+}
+
+/* ------------------------------------------------------
+   Number counter animation (stats strip)
+   ------------------------------------------------------ */
+function initCounters() {
+  const counters = document.querySelectorAll('.stats-strip .stat-value');
+  if (!counters.length) return;
+  if (!('IntersectionObserver' in window)) return;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const text = el.textContent.trim();
+          const match = text.match(/^(\d+)(\+)?/);
+          if (!match) return;
+
+          const target = parseInt(match[1]);
+          const suffix = match[2] || '';
+          const duration = 1500;
+          const start = performance.now();
+
+          const animate = (now) => {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const current = Math.round(eased * target);
+            el.textContent = current + suffix;
+            if (progress < 1) requestAnimationFrame(animate);
+          };
+
+          requestAnimationFrame(animate);
+          observer.unobserve(el);
+        }
+      });
+    },
+    { threshold: 0.5 }
+  );
+
+  counters.forEach((el) => observer.observe(el));
 }
 
 /* ------------------------------------------------------
@@ -275,8 +352,12 @@ function initLiveDashboard() {
   const tabs = document.querySelectorAll('.dashboard-tabs .tab');
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('active'));
+      tabs.forEach(t => {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+      });
       tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
     });
   });
 
@@ -380,84 +461,49 @@ function initLiveDashboard() {
     
     logsContainer.appendChild(row);
     
-    const currentRows = logsContainer.querySelectorAll('.log-row');
-    if (currentRows.length > 3) {
-      currentRows[0].remove();
+    if (existingRows.length > 2) {
+      existingRows[0].remove();
     }
   }, 5000);
 
-  // 3D Parallax Tilt Effect
+  // 3D Parallax Tilt Effect (RAF-optimized)
   const card = document.querySelector('.market-dashboard');
   if (card) {
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-      
-      const rotateX = ((centerY - y) / centerY) * 8; 
+    let ticking = false;
+    let lastX = 0;
+    let lastY = 0;
+    const rectCache = { left: 0, top: 0, width: 0, height: 0 };
+
+    const updateTilt = () => {
+      const x = lastX - rectCache.left;
+      const y = lastY - rectCache.top;
+      const centerX = rectCache.width / 2;
+      const centerY = rectCache.height / 2;
+      const rotateX = ((centerY - y) / centerY) * 8;
       const rotateY = ((x - centerX) / centerX) * 8;
-      
       card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`;
+      ticking = false;
+    };
+
+    card.addEventListener('mousemove', (e) => {
+      lastX = e.clientX;
+      lastY = e.clientY;
+      if (!ticking) {
+        const rect = card.getBoundingClientRect();
+        rectCache.left = rect.left;
+        rectCache.top = rect.top;
+        rectCache.width = rect.width;
+        rectCache.height = rect.height;
+        requestAnimationFrame(updateTilt);
+        ticking = true;
+      }
     });
 
     card.addEventListener('mouseleave', () => {
+      ticking = false;
       card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
     });
   }
 }
 
-/* ------------------------------------------------------
-   Sliding Hover Backdrop Capsule Navbar Effect
-   ------------------------------------------------------ */
-function initNavbarHoverEffect() {
-  const navLinksContainer = document.querySelector('.nav-links');
-  if (!navLinksContainer) return;
 
-  const backdrop = document.createElement('div');
-  backdrop.className = 'nav-hover-backdrop';
-  navLinksContainer.appendChild(backdrop);
-
-  const links = navLinksContainer.querySelectorAll('a:not(.nav-cta)');
-  const activeLink = navLinksContainer.querySelector('a.active') || navLinksContainer.querySelector('a[aria-current="page"]');
-
-  const updateBackdropPosition = (targetElement) => {
-    if (!targetElement || window.innerWidth <= 900) {
-      backdrop.style.opacity = '0';
-      return;
-    }
-    backdrop.style.left = `${targetElement.offsetLeft}px`;
-    backdrop.style.top = `${targetElement.offsetTop}px`;
-    backdrop.style.width = `${targetElement.offsetWidth}px`;
-    backdrop.style.height = `${targetElement.offsetHeight}px`;
-    backdrop.style.opacity = '1';
-  };
-
-  if (activeLink) {
-    setTimeout(() => updateBackdropPosition(activeLink), 150);
-  }
-
-  links.forEach(link => {
-    link.addEventListener('mouseenter', () => {
-      updateBackdropPosition(link);
-    });
-  });
-
-  navLinksContainer.addEventListener('mouseleave', () => {
-    if (activeLink) {
-      updateBackdropPosition(activeLink);
-    } else {
-      backdrop.style.opacity = '0';
-    }
-  });
-
-  window.addEventListener('resize', () => {
-    if (window.innerWidth <= 900) {
-      backdrop.style.opacity = '0';
-    } else if (activeLink) {
-      updateBackdropPosition(activeLink);
-    }
-  });
-}
