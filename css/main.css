@@ -1680,6 +1680,119 @@ select:focus-visible {
   .hero-title {
     font-size: clamp(1.75rem, 7vw, 2.5rem);
   }
+
+  .algo-terminal {
+    padding: 8px 10px;
+  }
+
+  .log-row {
+    white-space: normal;
+    flex-wrap: wrap;
+    gap: 4px 6px;
+  }
+
+  .log-msg {
+    width: 100%;
+    padding-left: 0;
+  }
+
+  .terminal-log-rows {
+    max-height: 60px;
+  }
+
+  .hero-stats {
+    gap: var(--space-6);
+  }
+
+  .stat-value {
+    font-size: var(--text-2xl);
+  }
+
+  .stat-label {
+    font-size: 10px;
+  }
+
+  .market-dashboard {
+    padding: var(--space-3);
+    gap: var(--space-3);
+  }
+
+  .dashboard-metrics-container {
+    gap: var(--space-3);
+  }
+
+  .chart-container {
+    padding: 4px;
+  }
+}
+
+@media (max-width: 380px) {
+  .dashboard-metrics-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+
+  .chart-container {
+    display: none;
+  }
+
+  .dashboard-risk-gauge {
+    display: none;
+  }
+
+  .algo-terminal {
+    padding: 6px 8px;
+    font-size: 10px;
+  }
+
+  .log-row {
+    font-size: 10px;
+  }
+
+  .log-tag {
+    font-size: 7px;
+    padding: 1px 3px;
+  }
+
+  .terminal-title-bar {
+    font-size: 8px;
+  }
+
+  .terminal-log-rows {
+    max-height: 44px;
+    gap: 3px;
+  }
+
+  .hero-stats {
+    gap: var(--space-4);
+    justify-content: flex-start;
+  }
+
+  .stat-value {
+    font-size: var(--text-xl);
+  }
+
+  .hero-actions {
+    gap: var(--space-3);
+  }
+
+  .hero {
+    padding-top: calc(56px + clamp(2rem, 5vw, 3rem));
+    padding-bottom: clamp(2.5rem, 6vw, 4rem);
+  }
+
+  .hero-grid {
+    gap: var(--space-6);
+  }
+
+  .hero-sub {
+    margin-bottom: var(--space-6);
+  }
+
+  .hero-actions {
+    margin-bottom: var(--space-10);
+  }
 }
 
 /* ------------------------------------------------------
